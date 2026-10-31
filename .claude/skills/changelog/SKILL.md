@@ -50,10 +50,6 @@ check governs is whether that output is usable, not whether it is fetched.
 > skills — the game repo *is* the framework repo, so stopping on them would fire
 > on virtually every real project. The harm is those commits becoming release copy,
 > and excluding them prevents that precisely.
->
-> This rule is kept identical to `/patch-notes`' on purpose — the two read the
-> same history for different audiences, and they must not disagree about whose
-> history it is. Change both together.
 
 The genuine wrong-history signal is different: Game commits naming a product that
 `design/` and the code root (`src/`, `Assets/` or `Source/`) never mention. If you
@@ -250,7 +246,6 @@ If the user declines: Verdict: **COMPLETE** — changelog generated.
 
 ## Phase 7: Next Steps
 
-- Use `/patch-notes [version]` to generate a styled, saved version for public release.
 - Use `/release-checklist` before publishing the changelog externally.
 
 ### Guidelines

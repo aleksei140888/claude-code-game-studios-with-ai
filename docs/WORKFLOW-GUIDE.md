@@ -3,7 +3,7 @@
 > **How to go from zero to a shipped game using the Agent Architecture.**
 >
 > This guide walks you through every phase of game development using the
-> 49-agent system, 74 slash commands, and 15 automated hooks. It assumes you
+> 25-agent system, 68 slash commands, and 15 automated hooks. It assumes you
 > have Claude Code installed and are working from the project root.
 >
 > The pipeline has 7 phases. At `rigor: standard` and `full`, each phase has
@@ -104,7 +104,7 @@ OPTIONAL opportunities.
 Directories are created as needed. The system expects this layout:
 
 ```
-src/                  # Game source code (Godot; Unity: Assets/, Unreal: Source/<Module>/)
+src/                  # Game source code (Godot)
   core/               # Engine/framework code
   gameplay/           # Gameplay systems
   ai/                 # AI systems
@@ -143,8 +143,7 @@ production/           # Sprint plans, milestones, releases
 > reach the phase that needs them. The important thing is to follow this
 > structure when you do create them, because the **rules system** enforces
 > standards based on file paths. Code in `src/gameplay/` gets gameplay rules,
-> code in `src/ai/` gets AI rules, and so on — and the same for C# and C++ in
-> Unity and Unreal `Gameplay/` and `AI/` folders.
+> code in `src/ai/` gets AI rules, and so on.
 
 ---
 
@@ -275,7 +274,7 @@ Or with a specific engine:
 
 **Why this matters:** Once you set the engine, the system knows which
 engine-specialist agents to use. If you pick Godot, agents like
-`godot-specialist`, `godot-gdscript-specialist`, and `godot-shader-specialist`
+`godot-specialist` and `godot-gdscript-specialist`
 become your go-to experts.
 
 ### Step 1.4: Decompose Your Concept Into Systems
@@ -463,7 +462,7 @@ This reads ALL GDDs simultaneously and runs two analysis phases:
 
 If your game has story, lore, or dialogue, this is when you build it:
 
-1. **World-building** -- Use `world-builder` to define factions, history,
+1. **World-building** -- Use `narrative-director` to define factions, history,
    geography, and rules of your world
 2. **Story structure** -- Use `narrative-director` to design story arcs,
    character arcs, and narrative beats
@@ -881,11 +880,12 @@ scope clarity. Verdict: READY / NEEDS WORK / BLOCKED / NOT ASSESSED.
 **2. Implementation:** Work with the appropriate agents:
 
 - `gameplay-programmer` for gameplay systems
-- `engine-programmer` for core engine work
+- `godot-specialist` for client engine work
+- `world-simulation-engineer` for the world server simulation
+- `llm-agent-architect` for LLM NPC minds
 - `ai-programmer` for AI behavior
 - `network-programmer` for multiplayer
 - `ui-programmer` for UI code
-- `tools-programmer` for dev tools
 
 All agents follow the collaborative protocol: they read the design doc, ask
 clarifying questions, present architectural options, get your approval, then
@@ -957,7 +957,6 @@ For features spanning multiple domains, use team skills:
 /team-narrative "Act 2 story content"
 /team-ui "inventory screen redesign"
 /team-level "forest dungeon level"
-/team-audio "combat audio pass"
 ```
 
 Each team skill coordinates a 6-phase collaborative workflow:
@@ -1045,9 +1044,8 @@ performance, balance, accessibility, audio, visual polish, and playtesting.
   prioritize       performance + art +
   debt items       audio + UX + QA
 
-  /security-audit  -->  /localize qa  -->  /release-checklist  -->  /changelog
-                        (per language)                           + /patch-notes
-  Release readiness: the Polish -> Release gate checks all four.
+  /security-audit  -->  /release-checklist  -->  /changelog
+  Release readiness: the Polish -> Release gate checks all three.
 ```
 
 ### Step 6.1: Performance Profiling
@@ -1105,24 +1103,16 @@ missing tests, and outdated dependencies. Each item categorized and prioritized.
 /team-polish "combat system"
 ```
 
-Coordinates 4 specialists in parallel:
+Coordinates specialists in parallel:
 1. Performance optimization (performance-analyst lists the optimisations; a
    programmer in the active set implements them — at `team.size: individual`,
    where none is active, the list is handed to `/dev-story`)
-2. Visual polish (technical-artist)
-3. Audio polish (sound-designer)
-4. Feel/juice (gameplay-programmer + technical-artist)
+2. Visual polish (godot-specialist)
+3. Feel/juice (gameplay-programmer + godot-specialist)
 
 You set priorities; the team executes with your approval at each step.
 
-### Step 6.7: Localization and Accessibility
-
-```
-/localize scan
-```
-
-Scans for hardcoded strings, concatenation that breaks translation, text that
-does not account for expansion, and missing locale files.
+### Step 6.7: Accessibility
 
 Accessibility is audited against the tier committed in Phase 3's accessibility
 requirements document.
@@ -1137,16 +1127,7 @@ Required for the release gate at `standard` and `full`: the newest report must
 have no open CRITICAL or HIGH finding. A report whose recommendation is NOT
 ASSESSED leaves the gate's security item NOT ASSESSED.
 
-### Step 6.9: Localization QA
-
-```
-/localize qa
-```
-
-Run it for every language you ship. At `full` the release gate needs a PASS (or
-PASS WITH CONDITIONS) for each; a locale nobody has checked is NOT ASSESSED.
-
-### Step 6.10: Release Checklist
+### Step 6.9: Release Checklist
 
 ```
 /release-checklist all
@@ -1163,14 +1144,7 @@ Generates a comprehensive pre-release checklist covering:
 - Save game compatibility
 - Analytics verification
 
-### Step 6.11: Changelog and Patch Notes
-
-```
-/patch-notes v1.0.0
-```
-
-Generates player-friendly patch notes from git history and sprint data.
-Translates developer language into player language.
+### Step 6.10: Changelog
 
 ```
 /changelog v1.0.0
@@ -1178,8 +1152,7 @@ Translates developer language into player language.
 
 Generates an internal changelog (more technical, for the team).
 
-The release gate needs the changelog or the patch notes drafted, so write them
-now; `/team-release` publishes them once the release is a GO.
+The release gate needs the changelog drafted, so write it now.
 
 ### Phase 6 Gate
 
@@ -1193,10 +1166,10 @@ now; `/team-release` publishes them once the release is a GO.
 - A QA test plan and a QA sign-off, and every Must Have story's test evidence
   (UI: retained screenshots; Visual/Feel: screenshots plus lead sign-off)
 - Smoke check PASS on the release candidate, and the test suite passing
-- `/balance-check` run, the release checklist completed, and the changelog or
-  patch notes drafted
-- No open S1–S3 bugs, the newest `/security-audit` with no open CRITICAL or
-  HIGH finding, and a `/localize qa` pass for every locale you ship
+- `/balance-check` run, the release checklist completed, and the changelog
+  drafted
+- No open S1–S3 bugs, and the newest `/security-audit` with no open CRITICAL or
+  HIGH finding
 
 This is the `full` list. `standard` and `minimal` drop items; the gate's own
 file, `.claude/skills/gate-check/references/gate-release.md`, has the full
@@ -1213,15 +1186,15 @@ Your game is polished, tested, and ready. Now you ship it.
 ### Phase 7 Pipeline
 
 ```
-/launch-checklist  -->  /team-release
-        |                      |
-        v                      v
-  Full cross-department    Coordinate:
-  validation (Go/No-Go     build, QA sign-off,
-  per department)          deployment, launch
+/launch-checklist
+        |
+        v
+  Full cross-department
+  validation (Go/No-Go
+  per department)
 
-  The release checklist, security audit and patch notes are done in Polish,
-  before /gate-check release.   Also: /hotfix, /day-one-patch
+  The release checklist, security audit and changelog are done in Polish,
+  before /gate-check release.   Also: /hotfix
 ```
 
 ### Step 7.1: Launch Readiness (Full Validation)
@@ -1256,16 +1229,8 @@ READY (a blocking item failed).
 
 ### Step 7.2: Coordinate the Release
 
-```
-/team-release
-```
-
-Coordinates release-manager, QA, and DevOps through:
-1. Pre-release validation
-2. Build management
-3. Final QA sign-off
-4. Deployment preparation
-5. Go/No-Go decision
+Ask `producer` to coordinate the release: final QA sign-off (`qa-lead`),
+deployment preparation, and the Go/No-Go decision.
 
 ### Step 7.3: Ship
 
@@ -1367,25 +1332,15 @@ discovery questions or simple yes/no confirmations.
 Tier 1 (Directors):    creative-director, technical-director, producer
                                           |
 Tier 2 (Leads):        game-designer, lead-programmer, art-director,
-                       audio-director, narrative-director, qa-lead,
-                       release-manager, localization-lead
+                       narrative-director, narrative-director-ai, qa-lead
                                           |
-Tier 3 (Specialists):  gameplay-programmer, engine-programmer,
-                       ai-programmer, network-programmer, ui-programmer,
-                       tools-programmer, systems-designer, level-designer,
-                       economy-designer, world-builder, writer,
-                       technical-artist, sound-designer, ux-designer,
-                       qa-tester, performance-analyst, devops-engineer,
-                       analytics-engineer, accessibility-specialist,
-                       live-ops-designer, prototyper, security-engineer,
-                       community-manager, godot-specialist,
-                       godot-gdscript-specialist, godot-shader-specialist,
-                       godot-csharp-specialist, godot-gdextension-specialist,
-                       unity-specialist, unity-dots-specialist,
-                       unity-shader-specialist, unity-addressables-specialist,
-                       unity-ui-specialist, unreal-specialist,
-                       ue-blueprint-specialist, ue-gas-specialist,
-                       ue-replication-specialist, ue-umg-specialist
+Tier 3 (Specialists):  gameplay-programmer, ai-programmer,
+                       network-programmer, ui-programmer,
+                       systems-designer, economy-designer, writer,
+                       ux-designer, qa-tester, performance-analyst,
+                       prototyper, security-engineer,
+                       llm-agent-architect, world-simulation-engineer,
+                       godot-specialist, godot-gdscript-specialist
 ```
 
 **Coordination rules:**
@@ -1519,67 +1474,50 @@ Reads existing code and generates GDD-format design documentation from it.
 | Come up with a game idea | `/brainstorm` skill | -- |
 | Design a game mechanic | `game-designer` | 2 |
 | Design specific formulas/numbers | `systems-designer` | 3 |
-| Design a game level | `level-designer` | 3 |
+| Design a game level | `game-designer` | 2 |
 | Design loot tables / economy | `economy-designer` | 3 |
-| Build world lore | `world-builder` | 3 |
+| Build world lore | `narrative-director` | 2 |
 | Write dialogue | `writer` | 3 |
 | Plan the story | `narrative-director` | 2 |
 | Plan a sprint | `producer` | 1 |
 | Make a creative decision | `creative-director` | 1 |
 | Make a technical decision | `technical-director` | 1 |
 | Implement gameplay code | `gameplay-programmer` | 3 |
-| Implement core engine systems | `engine-programmer` | 3 |
 | Implement AI behavior | `ai-programmer` | 3 |
 | Implement multiplayer | `network-programmer` | 3 |
 | Implement UI | `ui-programmer` | 3 |
-| Build dev tools | `tools-programmer` | 3 |
+| Build dev tools | `lead-programmer` | 2 |
 | Review code architecture | `lead-programmer` | 2 |
-| Create shaders / VFX | `technical-artist` | 3 |
+| Create shaders / VFX | `godot-specialist` | 3 |
 | Define visual style | `art-director` | 2 |
-| Define audio style | `audio-director` | 2 |
-| Design sound effects | `sound-designer` | 3 |
 | Design UX flows | `ux-designer` | 3 |
 | Write test cases | `qa-tester` | 3 |
 | Plan test strategy | `qa-lead` | 2 |
 | Profile performance | `performance-analyst` | 3 |
-| Set up CI/CD | `devops-engineer` | 3 |
-| Design analytics | `analytics-engineer` | 3 |
-| Check accessibility | `accessibility-specialist` | 3 |
-| Plan live operations | `live-ops-designer` | 3 |
-| Manage a release | `release-manager` | 2 |
-| Manage localization | `localization-lead` | 2 |
+| Check accessibility | `ux-designer` | 3 |
+| Manage a release | `producer` | 1 |
 | Prototype quickly | `prototyper` | 3 |
 | Audit security | `security-engineer` | 3 |
-| Communicate with players | `community-manager` | 3 |
 | Godot-specific help | `godot-specialist` | 3 |
 | GDScript-specific help | `godot-gdscript-specialist` | 3 |
-| Godot shader help | `godot-shader-specialist` | 3 |
-| GDExtension modules | `godot-gdextension-specialist` | 3 |
-| Unity-specific help | `unity-specialist` | 3 |
-| Unity DOTS/ECS | `unity-dots-specialist` | 3 |
-| Unity shaders/VFX | `unity-shader-specialist` | 3 |
-| Unity Addressables | `unity-addressables-specialist` | 3 |
-| Unity UI Toolkit | `unity-ui-specialist` | 3 |
-| Unreal-specific help | `unreal-specialist` | 3 |
-| Unreal GAS | `ue-gas-specialist` | 3 |
-| Unreal Blueprints | `ue-blueprint-specialist` | 3 |
-| Unreal replication | `ue-replication-specialist` | 3 |
-| Unreal UMG/CommonUI | `ue-umg-specialist` | 3 |
+| Design LLM NPC minds / memory / intent tools | `llm-agent-architect` | 3 |
+| Build the world tick, economy, persistence | `world-simulation-engineer` | 3 |
+| Design the AI director | `narrative-director-ai` | 2 |
 
 ### Agent Hierarchy
 
 ```
                     creative-director / technical-director / producer
                                          |
-          ---------------------------------------------------------------
-          |            |           |           |          |        |       |
-    game-designer  lead-prog  art-dir  audio-dir  narr-dir  qa-lead  release-mgr
-          |            |           |           |          |        |        |
-     specialists  programmers  tech-art  snd-design  writer   qa-tester  devops
-     (systems,    (gameplay,             (sound)     (world-  (perf,     (analytics,
-      economy,     engine,                           builder)  access.)   security)
-      level)       ai, net,
-                   ui, tools)
+          ------------------------------------------------------
+          |            |            |           |              |
+    game-designer  lead-prog     art-dir    narr-dir       qa-lead
+          |            |            |       narr-dir-ai        |
+     specialists  programmers    godot-        |           qa-tester
+     (systems,    (gameplay,     specialist  writer        (perf,
+      economy)     ai, net, ui,                             security)
+                   llm-agent-architect,
+                   world-sim-engineer)
 ```
 
 **Escalation rule:** If two agents disagree, go up. Design conflicts go to
@@ -1590,7 +1528,7 @@ conflicts go to `producer`.
 
 ## Appendix B: Slash Command Quick-Reference
 
-### All 74 Commands by Category
+### All 68 Commands by Category
 
 #### Onboarding and Navigation (7)
 
@@ -1687,27 +1625,24 @@ conflicts go to `producer`.
 | `/playtest-report` | Structured playtest session report | 4-6 |
 | `/onboard` | Onboard a new team member | Any |
 
-#### Release (6)
+#### Release (4)
 
 | Command | Purpose | Phase |
 |---------|---------|-------|
 | `/release-checklist` | Pre-release validation | 6 |
 | `/launch-checklist` | Full cross-department launch readiness | 7 |
 | `/changelog` | Auto-generate internal changelog | 6 |
-| `/patch-notes` | Player-facing patch notes | 6 |
 | `/hotfix` | Emergency fix workflow | 7+ |
-| `/day-one-patch` | Scoped patch for issues found after gold master | 7+ |
 
-#### Creative (4)
+#### Creative (3)
 
 | Command | Purpose | Phase |
 |---------|---------|-------|
 | `/prototype` | Concept prototype — validate core idea before GDDs | 1 |
 | `/art-bible` | Guided Art Bible authoring — visual identity spec | 1-4 |
 | `/vertical-slice` | Production-quality end-to-end build before Production | 4 |
-| `/localize` | String extraction and validation | 6-7 |
 
-#### Team Orchestration (9)
+#### Team Orchestration (6)
 
 | Command | Purpose | Phase |
 |---------|---------|-------|
@@ -1715,10 +1650,7 @@ conflicts go to `producer`.
 | `/team-narrative` | Narrative content: structure through dialogue | 5 |
 | `/team-ui` | UI feature: UX spec through polished implementation | 5 |
 | `/team-level` | Level: layout through dressed encounters | 5 |
-| `/team-audio` | Audio: direction through implemented events | 5-6 |
-| `/team-polish` | Coordinated polish: perf + art + audio + QA | 6 |
-| `/team-release` | Release coordination: build + QA + deployment | 7 |
-| `/team-live-ops` | Live-ops planning: seasonal events, battle pass, retention | 7+ |
+| `/team-polish` | Coordinated polish: perf + art + QA | 6 |
 | `/team-qa` | Full QA cycle: strategy, execution, coverage, sign-off | 6-7 |
 
 ---
@@ -1807,15 +1739,14 @@ conflicts go to `producer`.
 ```
 1. /tech-debt (decide what's acceptable at launch)
 2. /security-audit (the release gate reads the newest report)
-3. /localize qa for every language you ship
-4. /release-checklist all
-5. /changelog and /patch-notes (drafts; /team-release finalizes them)
-6. /gate-check release (verify Polish is complete and the game is ready to release)
-7. /launch-checklist (full cross-department validation)
-8. /team-release (coordinate the release)
-9. Ship!
-10. /hotfix if anything breaks post-launch
-11. Post-mortem after launch stabilizes
+3. /release-checklist all
+4. /changelog (draft)
+5. /gate-check release (verify Polish is complete and the game is ready to release)
+6. /launch-checklist (full cross-department validation)
+7. producer coordinates the release
+8. Ship!
+9. /hotfix if anything breaks post-launch
+10. Post-mortem after launch stabilizes
 ```
 
 ### Workflow 8: "I'm lost / don't know what to do next"

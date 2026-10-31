@@ -251,5 +251,5 @@ Use `AskUserQuestion`:
 - Prompt: "Hotfix complete. What's the next step?"
 - Options:
   - `[A] Run /smoke-check to verify the fix`
-  - `[B] Run /patch-notes to document this hotfix`
+  - `[B] Run /changelog to document this hotfix`
   - `[C] Stop here`

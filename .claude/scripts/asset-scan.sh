@@ -88,7 +88,7 @@
 # many. A path with % or * or ? is a built name (DYNAMIC pattern) and covers
 # nothing. A reference to a file under assets/ that does not exist is MISSING,
 # with the first place it appears and how many places name it. Both need at
-# least one .gd, .cs or .gdshader file under src/ (the skill: no code to
+# least one .gd, .cs or .gdshader file under client/ (the skill: no code to
 # search means not assessed), and run only on godot: on unity and unreal most
 # references live in scenes, prefabs and other assets, and no reference syntax
 # for them is defined here.
@@ -307,8 +307,8 @@ command -v file >/dev/null 2>&1 && HAVEFILE=1
 # The files orphans and missing search: godot only, and only when src/ holds
 # code, as the skill says.
 SRCN=0; CORPUS=""; NCORP=0
-if [ "$ENG" = godot ] && [ -d src ]; then
-  SRCN=$(find src -type f \( -name '*.gd' -o -name '*.cs' -o -name '*.gdshader' \) 2>/dev/null | wc -l | tr -d ' ')
+if [ "$ENG" = godot ] && [ -d client ]; then
+  SRCN=$(find client -type f \( -name '*.gd' -o -name '*.cs' -o -name '*.gdshader' \) 2>/dev/null | wc -l | tr -d ' ')
   if [ "$SRCN" -gt 0 ]; then
     CORPUS=$(find . -type f \( -name '*.gd' -o -name '*.cs' -o -name '*.gdshader' -o -name '*.gdshaderinc' \
       -o -name '*.tscn' -o -name '*.tres' -o -name 'project.godot' \) \
@@ -510,10 +510,10 @@ fi
     else { ratest = "ran"; rated = (nra > 0) ? ("file -b; allowed " ENVIRON["RATES"]) : "file -b; no --sample-rates flag given, none compared" }
     if (nodata != "") { orphst = "not_run"; orphd = nodata }
     else if (eng != "godot") { orphst = "not_run"; orphd = "references live in scenes, prefabs and other assets, not in code" }
-    else if (srcn == 0) { orphst = "not_run"; orphd = "no source files under src/" }
+    else if (srcn == 0) { orphst = "not_run"; orphd = "no source files under client/" }
     else { orphst = "ran"; orphd = ncorp " files searched for res:// paths" }
     if (eng != "godot") { missst = "not_run"; missd = "no reference syntax is defined for " eng }
-    else if (srcn == 0) { missst = "not_run"; missd = "no source files under src/" }
+    else if (srcn == 0) { missst = "not_run"; missd = "no source files under client/" }
     else { missst = "ran"; missd = ncorp " files searched for res:// paths" }
 
     printf "check\tnaming\t%s\t%s\n", namingst, namingd

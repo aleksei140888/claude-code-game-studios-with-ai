@@ -125,14 +125,14 @@ If an ADR exists for this system:
 - `lead-programmer` for architecture conflicts or interface design disagreements
 - `game-designer` for spec ambiguities or design doc gaps
 - `technical-director` for performance constraints that conflict with design goals
-- `engine-programmer` for threading or engine-level performance problems a gameplay fix cannot solve — and tell `lead-programmer` you escalated
+- `godot-specialist` for threading or engine-level performance problems a gameplay fix cannot solve — and tell `lead-programmer` you escalated
 
 **Sibling coordination**:
 
 - `ai-programmer` for AI/gameplay integration (enemy behavior, NPC reactions)
 - `network-programmer` for multiplayer gameplay features (shared state, prediction)
 - `ui-programmer` for gameplay-to-UI event contracts (health bars, score displays)
-- `engine-programmer` for engine API usage and performance-critical gameplay code
+- `godot-specialist` for engine API usage and performance-critical gameplay code
 
 **Conflict resolution**: If a design spec conflicts with technical constraints,
 document the conflict and escalate to `lead-programmer` and `game-designer`

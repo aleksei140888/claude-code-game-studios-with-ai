@@ -235,17 +235,6 @@ skills:
     priority: medium
     category: team
 
-  - name: team-audio
-    spec: studio-tests/skills/team/team-audio.md
-    last_static: ""
-    last_static_result: ""
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    priority: medium
-    category: team
-
   - name: team-level
     spec: studio-tests/skills/team/team-level.md
     last_static: ""
@@ -259,28 +248,6 @@ skills:
 
   - name: team-polish
     spec: studio-tests/skills/team/team-polish.md
-    last_static: ""
-    last_static_result: ""
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    priority: medium
-    category: team
-
-  - name: team-release
-    spec: studio-tests/skills/team/team-release.md
-    last_static: ""
-    last_static_result: ""
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    priority: medium
-    category: team
-
-  - name: team-live-ops
-    spec: studio-tests/skills/team/team-live-ops.md
     last_static: ""
     last_static_result: ""
     last_spec: ""
@@ -643,30 +610,8 @@ skills:
     priority: low
     category: sprint
 
-  - name: patch-notes
-    spec: studio-tests/skills/sprint/patch-notes.md
-    last_static: ""
-    last_static_result: ""
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    priority: low
-    category: sprint
-
   - name: onboard
     spec: studio-tests/skills/utility/onboard.md
-    last_static: ""
-    last_static_result: ""
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    priority: low
-    category: utility
-
-  - name: localize
-    spec: studio-tests/skills/utility/localize.md
     last_static: ""
     last_static_result: ""
     last_spec: ""
@@ -797,17 +742,6 @@ skills:
     priority: low
     category: utility
 
-  - name: day-one-patch
-    spec: studio-tests/skills/utility/day-one-patch.md
-    last_static: ""
-    last_static_result: ""
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    priority: low
-    category: utility
-
   - name: settings
     spec: studio-tests/skills/utility/settings.md
     last_static: ""
@@ -870,16 +804,16 @@ agents:
     last_category_result: ""
     category: lead
 
-  - name: narrative-director
-    spec: studio-tests/agents/leads/narrative-director.md
+  - name: narrative-director-ai
+    spec: studio-tests/agents/leads/narrative-director-ai.md
     last_spec: ""
     last_spec_result: ""
     last_category: ""
     last_category_result: ""
     category: lead
 
-  - name: audio-director
-    spec: studio-tests/agents/leads/audio-director.md
+  - name: narrative-director
+    spec: studio-tests/agents/leads/narrative-director.md
     last_spec: ""
     last_spec_result: ""
     last_category: ""
@@ -902,14 +836,6 @@ agents:
     last_category_result: ""
     category: lead
 
-  - name: level-designer
-    spec: studio-tests/agents/leads/level-designer.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: lead
-
   # Core Specialists
   - name: gameplay-programmer
     spec: studio-tests/agents/specialists/gameplay-programmer.md
@@ -919,40 +845,24 @@ agents:
     last_category_result: ""
     category: specialist
 
+  - name: llm-agent-architect
+    spec: studio-tests/agents/specialists/llm-agent-architect.md
+    last_spec: ""
+    last_spec_result: ""
+    last_category: ""
+    last_category_result: ""
+    category: specialist
+
+  - name: world-simulation-engineer
+    spec: studio-tests/agents/specialists/world-simulation-engineer.md
+    last_spec: ""
+    last_spec_result: ""
+    last_category: ""
+    last_category_result: ""
+    category: specialist
+
   - name: ai-programmer
     spec: studio-tests/agents/specialists/ai-programmer.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: specialist
-
-  - name: technical-artist
-    spec: studio-tests/agents/specialists/technical-artist.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: specialist
-
-  - name: sound-designer
-    spec: studio-tests/agents/specialists/sound-designer.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: specialist
-
-  - name: engine-programmer
-    spec: studio-tests/agents/specialists/engine-programmer.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: specialist
-
-  - name: tools-programmer
-    spec: studio-tests/agents/specialists/tools-programmer.md
     last_spec: ""
     last_spec_result: ""
     last_category: ""
@@ -969,14 +879,6 @@ agents:
 
   - name: security-engineer
     spec: studio-tests/agents/qa/security-engineer.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: specialist
-
-  - name: accessibility-specialist
-    spec: studio-tests/agents/qa/accessibility-specialist.md
     last_spec: ""
     last_spec_result: ""
     last_category: ""
@@ -1024,163 +926,11 @@ agents:
     last_category_result: ""
     category: engine
 
-  - name: godot-csharp-specialist
-    spec: studio-tests/agents/engine/godot/godot-csharp-specialist.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: engine
-
-  - name: godot-shader-specialist
-    spec: studio-tests/agents/engine/godot/godot-shader-specialist.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: engine
-
-  - name: godot-gdextension-specialist
-    spec: studio-tests/agents/engine/godot/godot-gdextension-specialist.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: engine
-
   # Engine Specialists — Unity
-  - name: unity-specialist
-    spec: studio-tests/agents/engine/unity/unity-specialist.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: engine
-
-  - name: unity-ui-specialist
-    spec: studio-tests/agents/engine/unity/unity-ui-specialist.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: engine
-
-  - name: unity-shader-specialist
-    spec: studio-tests/agents/engine/unity/unity-shader-specialist.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: engine
-
-  - name: unity-dots-specialist
-    spec: studio-tests/agents/engine/unity/unity-dots-specialist.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: engine
-
-  - name: unity-addressables-specialist
-    spec: studio-tests/agents/engine/unity/unity-addressables-specialist.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: engine
-
   # Engine Specialists — Unreal
-  - name: unreal-specialist
-    spec: studio-tests/agents/engine/unreal/unreal-specialist.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: engine
-
-  - name: ue-blueprint-specialist
-    spec: studio-tests/agents/engine/unreal/ue-blueprint-specialist.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: engine
-
-  - name: ue-gas-specialist
-    spec: studio-tests/agents/engine/unreal/ue-gas-specialist.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: engine
-
-  - name: ue-umg-specialist
-    spec: studio-tests/agents/engine/unreal/ue-umg-specialist.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: engine
-
-  - name: ue-replication-specialist
-    spec: studio-tests/agents/engine/unreal/ue-replication-specialist.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: engine
-
   # Operations
-  - name: devops-engineer
-    spec: studio-tests/agents/operations/devops-engineer.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: operations
-
-  - name: release-manager
-    spec: studio-tests/agents/operations/release-manager.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: operations
-
-  - name: live-ops-designer
-    spec: studio-tests/agents/operations/live-ops-designer.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: operations
-
-  - name: community-manager
-    spec: studio-tests/agents/operations/community-manager.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: operations
-
-  - name: analytics-engineer
-    spec: studio-tests/agents/operations/analytics-engineer.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: operations
-
   - name: economy-designer
     spec: studio-tests/agents/operations/economy-designer.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: operations
-
-  - name: localization-lead
-    spec: studio-tests/agents/operations/localization-lead.md
     last_spec: ""
     last_spec_result: ""
     last_category: ""
@@ -1206,14 +956,6 @@ agents:
 
   - name: writer
     spec: studio-tests/agents/specialists/writer.md
-    last_spec: ""
-    last_spec_result: ""
-    last_category: ""
-    last_category_result: ""
-    category: specialist
-
-  - name: world-builder
-    spec: studio-tests/agents/specialists/world-builder.md
     last_spec: ""
     last_spec_result: ""
     last_category: ""

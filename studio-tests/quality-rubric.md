@@ -125,8 +125,8 @@ analysis and must ask before recommending any file writes.
 
 ### `team`
 
-**Skills**: team-combat, team-narrative, team-audio, team-level, team-ui, team-qa,
-team-release, team-polish, team-live-ops
+**Skills**: team-combat, team-narrative, team-level, team-ui, team-qa,
+team-polish
 
 Team skills orchestrate multiple specialist agents for a department. They must
 spawn the right agents, run independent ones in parallel, and surface blocks immediately.
@@ -143,7 +143,7 @@ spawn the right agents, run independent ones in parallel, and surface blocks imm
 
 ### `sprint`
 
-**Skills**: sprint-plan, sprint-status, milestone-review, retrospective, changelog, patch-notes
+**Skills**: sprint-plan, sprint-status, milestone-review, retrospective, changelog
 
 Sprint skills read production state and produce reports or planning artifacts.
 They have a PR-SPRINT or PR-MILESTONE gate at specific mode thresholds.
@@ -159,11 +159,11 @@ They have a PR-SPRINT or PR-MILESTONE gate at specific mode thresholds.
 
 ### `utility`
 
-**Skills**: start, help, brainstorm, onboard, adopt, hotfix, prototype, localize,
+**Skills**: start, help, brainstorm, onboard, adopt, hotfix, prototype,
 launch-checklist, release-checklist, smoke-check, soak-test, test-setup, test-helpers,
 regression-suite, qa-plan, bug-triage, bug-report, playtest-report, asset-spec,
 reverse-document, project-stage-detect, setup-engine, skill-test, skill-improve,
-day-one-patch, and any other skills not in categories above
+and any other skills not in categories above
 
 Utility skills pass the 7 standard static checks. If they happen to spawn director
 gates, the gate mode logic must also be correct.
@@ -195,8 +195,8 @@ and its spec in `agents/` asserts that alias; see `.claude/docs/model-tiers.md`.
 
 ### `lead`
 
-**Agents**: lead-programmer, qa-lead, narrative-director, audio-director, game-designer,
-systems-designer, level-designer
+**Agents**: lead-programmer, qa-lead, narrative-director, game-designer,
+systems-designer
 
 | Metric | PASS criteria |
 |---|---|
@@ -205,10 +205,8 @@ systems-designer, level-designer
 
 ### `specialist`
 
-**Agents**: gameplay-programmer, ai-programmer, technical-artist, sound-designer,
-engine-programmer, tools-programmer, network-programmer, security-engineer,
-accessibility-specialist, ux-designer, ui-programmer, performance-analyst, prototyper,
-writer, world-builder
+**Agents**: gameplay-programmer, ai-programmer, network-programmer, security-engineer,
+ux-designer, ui-programmer, performance-analyst, prototyper, writer
 
 | Metric | PASS criteria |
 |---|---|
@@ -218,17 +216,13 @@ writer, world-builder
 
 ### `engine`
 
-**Agents**: godot-specialist, godot-gdscript-specialist, godot-csharp-specialist,
-godot-shader-specialist, godot-gdextension-specialist, unity-specialist, unity-ui-specialist,
-unity-shader-specialist, unity-dots-specialist, unity-addressables-specialist,
-unreal-specialist, ue-blueprint-specialist, ue-gas-specialist, ue-umg-specialist,
-ue-replication-specialist
+**Agents**: godot-specialist, godot-gdscript-specialist
 
 | Metric | PASS criteria |
 |---|---|
 | **E1 — Version-aware** | References engine version from `docs/engine-reference/` before suggesting API calls; flags post-cutoff risk |
-| **E2 — File routing** | Routes file types to the correct sub-specialist (e.g., `.gdshader` → godot-shader-specialist, not godot-gdscript-specialist) |
-| **E3 — Engine-specific patterns** | Enforces engine-specific idioms (e.g., GDScript static typing, C# attribute exports, Blueprint function libraries) |
+| **E2 — File routing** | Routes file types to the correct sub-specialist (e.g., `.gdshader` → godot-specialist, not godot-gdscript-specialist) |
+| **E3 — Engine-specific patterns** | Enforces engine-specific idioms (e.g., GDScript static typing, typed signals, scene composition) |
 
 ### `qa`
 
@@ -242,8 +236,7 @@ ue-replication-specialist
 
 ### `operations`
 
-**Agents**: devops-engineer, release-manager, live-ops-designer, community-manager,
-analytics-engineer, economy-designer, localization-lead
+**Agents**: economy-designer
 
 | Metric | PASS criteria |
 |---|---|

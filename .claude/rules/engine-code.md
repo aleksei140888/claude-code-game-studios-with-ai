@@ -1,8 +1,6 @@
 ---
 paths:
-  - "src/core/**"
-  - "Assets/**/{Core,core}/**/*.cs"
-  - "Source/**/{Core,core}/**/*.{h,cpp}"
+  - "client/core/**"
 ---
 
 # Engine Code Rules

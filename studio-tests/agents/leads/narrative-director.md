@@ -31,10 +31,10 @@ Verified by reading the agent's `.claude/agents/narrative-director.md` frontmatt
 
 ### Case 2: Out-of-domain request — redirects or escalates
 **Scenario:** A developer asks narrative-director to review and optimize the shader code used for the "ancient glow" visual effect on Archive artifacts.
-**Expected:** Agent declines to evaluate the shader code. It names `technical-artist` — the owner of shader, VFX and rendering code in its own "must not" list — as who reviews and optimizes it; naming `art-director`, who owns how the effect should look, as well is fine. Any narrative input it adds is the mood the effect should carry.
+**Expected:** Agent declines to evaluate the shader code. It names `godot-specialist` — the owner of shader, VFX and rendering code in its own "must not" list — as who reviews and optimizes it; naming `art-director`, who owns how the effect should look, as well is fine. Any narrative input it adds is the mood the effect should carry.
 **Assertions:**
 - [ ] Does not review, rewrite, or optimize the shader code, and makes no binding decision about visual implementation
-- [ ] Names `technical-artist` (or the engine's shader specialist) as the owner of the shader code, per its "Review or change shader, VFX or rendering code (technical-artist owns it; art-director owns how it should look)" limit — naming `art-director` too is acceptable, naming only art-director is not
+- [ ] Names `godot-specialist` as the owner of the shader code, per its "Review or change shader, VFX or rendering code (godot-specialist owns it; art-director owns how it should look)" limit — naming `art-director` too is acceptable, naming only art-director is not
 - [ ] Any narrative input it gives (e.g., "should feel ancient and sacred, not technological") is framed as input for the visual owners, not as a visual or technical decision
 
 ### Case 3: Gate verdict — correct vocabulary
@@ -44,15 +44,15 @@ Verified by reading the agent's `.claude/agents/narrative-director.md` frontmatt
 - [ ] Verdict is exactly one of APPROVE / CONCERNS / REJECT — not freeform text; here REJECT, because the contradicted facts are load-bearing for the whole backstory (a contradiction it found takes the gate's word, so it is not NOT ASSESSED even though no character profile is passed)
 - [ ] The verdict carries both contradictions specifically, in the gate's `REJECT [contradictions ...]` form — not just "doesn't match lore"
 - [ ] References the world-bible as the authoritative source for the established facts
-- [ ] Does not write a replacement backstory itself — the rewrite belongs to the content author (lore entries are delegated to `writer` / `world-builder` in its Delegation Map)
+- [ ] Does not write a replacement backstory itself — the rewrite belongs to the content author (lore entries are delegated to `writer` in its Delegation Map)
 
 ### Case 4: Conflict escalation — correct parent
-**Scenario:** A writer has established in their latest dialogue that the ancient civilization "spoke only in song." The world-builder's existing lore entries describe the same civilization communicating through written glyphs. Both report to narrative-director, and the two disagree on which is canonical.
-**Expected:** narrative-director resolves the conflict at its own tier — it is the shared parent of writer and world-builder, so it does not escalate to creative-director. Following its collaboration protocol, it presents reconciliation options with a recommended canonical ruling (e.g., "glyph-writing is the canonical primary communication; song is ritual/ceremonial"), leaves the final call to the user, and then directs both writer and world-builder to align their work to the confirmed ruling.
+**Scenario:** A writer has established in their latest dialogue that the ancient civilization "spoke only in song." The established lore entries in the world-building documentation, which narrative-director owns, describe the same civilization communicating through written glyphs. The writer reports to narrative-director, and the dialogue and the lore disagree on which is canonical.
+**Expected:** narrative-director resolves the conflict at its own tier — it owns the lore and is the writer's parent, so it does not escalate to creative-director. Following its collaboration protocol, it presents reconciliation options with a recommended canonical ruling (e.g., "glyph-writing is the canonical primary communication; song is ritual/ceremonial"), leaves the final call to the user, and then directs the writer to align the dialogue and updates the lore entry to the confirmed ruling.
 **Assertions:**
-- [ ] Resolves the conflict itself as the shared parent — does not defer this intra-narrative conflict to creative-director
+- [ ] Resolves the conflict itself as the lore owner and the writer's parent — does not defer this intra-narrative conflict to creative-director
 - [ ] Presents reconciliation options with a clearly stated recommended ruling, and leaves the final canon decision to the user
-- [ ] Directs both parties to update their documents to the ruling: writer revises the dialogue, world-builder updates the lore entry
+- [ ] Brings both documents in line with the ruling: writer revises the dialogue, and the lore entry is updated
 - [ ] Proposes recording the ruling as a canonical fact in the world-building documentation, so later lore can be checked against it
 
 ### Case 5: Context pass — uses provided context

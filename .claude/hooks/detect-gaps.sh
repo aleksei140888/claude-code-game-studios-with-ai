@@ -84,7 +84,7 @@ fi
 # Tested directly rather than through resolve_code_root: this check runs before
 # the config helper is guaranteed to be sourced, and "is there any code at all"
 # does not need the engine to be known.
-for _root in src Assets Source; do
+for _root in client server src Assets Source; do
   [ -d "$_root" ] || continue
   SRC_CHECK=$(find "$_root" -type f \( -name "*.gd" -o -name "*.cs" -o -name "*.cpp" -o -name "*.c" -o -name "*.h" -o -name "*.hpp" -o -name "*.rs" -o -name "*.py" -o -name "*.js" -o -name "*.ts" \) 2>/dev/null | head -1)
   if [ -n "$SRC_CHECK" ]; then
@@ -186,7 +186,7 @@ fi
 # .claude/rules/skill-authoring.md). Announce it, once, and only when the checks
 # would otherwise have had somewhere to look.
 if [ "$DOC_CHECKS" = true ] && [ -z "$CODE_ROOT" ]; then
-  if [ -d src ] || [ -d Assets ] || [ -d Source ]; then
+  if [ -d client ] || [ -d src ] || [ -d Assets ] || [ -d Source ]; then
     echo "ℹ️  NOT CHECKED: code exists but the code root is ambiguous (engine.name unset, and the tree does not name one unambiguously)."
     echo "    Checks 1, 3 and 4 (design and architecture docs for existing code) did NOT run."
     echo "    Suggested action: /setup-engine, or set engine.name in project.yaml"

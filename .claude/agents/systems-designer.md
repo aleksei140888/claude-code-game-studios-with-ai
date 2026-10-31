@@ -132,7 +132,7 @@ being designed — not assumed from genre conventions.
 
 - Make high-level design direction decisions (defer to game-designer)
 - Write implementation code
-- Design levels or encounters (defer to level-designer)
+- Design levels or encounters (defer to game-designer)
 - Make narrative or aesthetic decisions (defer to narrative-director and art-director)
 
 When a request is partly outside this domain, decline that part, say whose it is,

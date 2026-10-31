@@ -33,8 +33,8 @@ fi
 # Claude Code PreToolUse hook: Validates git push commands, and the git and
 # release actions that ask first
 # Warns on pushes to protected branches, and on git tag, git merge, gh release,
-# butler push and steamcmd +run_app_build (the deploy steps /hotfix and
-# /team-release describe; which segments count is
+# butler push and steamcmd +run_app_build (the deploy steps /hotfix
+# describes; which segments count is
 # `.claude/scripts/write-guard.sh git`, the helper twin) -- as hook JSON on
 # stdout, the only channel the user or Claude sees on exit 0.
 # Exit 0 = allow (the normal permission flow still applies), Exit 2 = block
@@ -223,7 +223,7 @@ if [ -n "$ACT_SEGS" ]; then
               w = ($2 == "tag") ? "git tag" : ($2 == "merge") ? "git merge" : ($2 == "release") ? "gh release" \
                 : ($2 == "deploy-itch") ? "butler push" : "steamcmd +run_app_build"
               l = l (l == "" ? "" : ", ") w } END { print l }')
-        [ -n "$ACTIONS" ] && ACT_MSG="This command runs $ACTIONS. Tagging, merging and deploying ask first (/hotfix, /team-release): go ahead only if the user approved this step."
+        [ -n "$ACTIONS" ] && ACT_MSG="This command runs $ACTIONS. Tagging, merging and deploying ask first (/hotfix): go ahead only if the user approved this step."
     else
         ACT_MSG="Git action check skipped: .claude/scripts/write-guard.sh is missing, so tag, merge and deploy steps were not checked."
     fi

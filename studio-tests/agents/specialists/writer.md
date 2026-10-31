@@ -2,7 +2,7 @@
 
 ## Agent Summary
 - **Domain**: In-game written content — NPC dialogue (including branching trees), lore codex entries, item and ability descriptions, environmental text (signs, books, notes), quest text, tutorial text, in-world written documents
-- **Does NOT own**: Story architecture and narrative structure (narrative-director), world lore and world rules (world-builder), UX flows and information architecture (ux-designer; it writes UI microcopy, not the UX around it), patch notes (community-manager)
+- **Does NOT own**: Story architecture and narrative structure (narrative-director), world lore and world rules (narrative-director), UX flows and information architecture (ux-designer; it writes UI microcopy, not the UX around it)
 - **Gate IDs**: None; flags lore inconsistencies to narrative-director rather than resolving them autonomously
 
 ---
@@ -32,7 +32,7 @@
 **Input**: "Design the history of the world — when the first kingdom was founded, what the great wars were, and why magic was banned."
 **Expected behavior**:
 - Does not produce world history, lore architecture, or world rules
-- States clearly: "World history, lore, and world rules are owned by world-builder; once the history is established, I can write in-game texts, books, and dialogue that reference those events"
+- States clearly: "World history, lore, and world rules are owned by narrative-director; once the history is established, I can write in-game texts, books, and dialogue that reference those events"
 - Does not produce even partial world history as a "placeholder"
 
 ### Case 3: Dialogue contradicts established lore — flag to narrative-director
@@ -40,7 +40,7 @@
 **Expected behavior**:
 - Identifies the contradiction: established lore states dragons are alive and revered; dialogue stating they're extinct directly conflicts
 - Does NOT write the requested line as given
-- Flags the inconsistency to narrative-director: "Mira's dialogue as requested contradicts established lore (dragons are alive per world-builder's document); requires narrative-director resolution before I can write this line"
+- Flags the inconsistency to narrative-director: "Mira's dialogue as requested contradicts established lore (dragons are alive per the established world-building document); requires narrative-director resolution before I can write this line"
 - Offers the user a lore-consistent alternative line (e.g., Mira expresses awe about a dragon sighting in the north) to use while the conflict is resolved
 
 ### Case 4: Item description references an undesigned mechanic
@@ -67,7 +67,7 @@
 ## Protocol Compliance
 
 - [ ] Stays within declared domain (dialogue, lore entries, item descriptions, in-game text)
-- [ ] Redirects world history and world rule requests to world-builder without producing unauthorized lore
+- [ ] Redirects world history and world rule requests to narrative-director without producing unauthorized lore
 - [ ] Flags lore contradictions to narrative-director rather than silently writing inconsistent content
 - [ ] Identifies mechanic dependency gaps before writing item descriptions that could create false player expectations
 - [ ] Applies all rules from a provided character voice guide — no partial compliance

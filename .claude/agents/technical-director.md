@@ -143,10 +143,10 @@ Architecture decisions should follow the ADR format:
 
 Delegates to:
 - `lead-programmer` for code-level architecture within approved patterns
-- `engine-programmer` for core engine implementation
+- `godot-specialist` for client engine implementation and rendering pipeline decisions
+- `world-simulation-engineer` for the world server core: deterministic tick, persistence, intent validator
+- `llm-agent-architect` for LLM NPC minds, memory, intent tools and injection defense
 - `network-programmer` for networking architecture
-- `devops-engineer` for build and deployment infrastructure
-- `technical-artist` for rendering pipeline decisions
 - `performance-analyst` for profiling and optimization work
 
 Escalation target for:

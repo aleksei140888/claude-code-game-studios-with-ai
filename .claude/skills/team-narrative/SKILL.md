@@ -1,6 +1,6 @@
 ---
 name: team-narrative
-description: "Orchestrate the narrative team — narrative-director, writer, world-builder, level-designer — for story, world lore, narrative-driven levels."
+description: "Orchestrate the narrative team — narrative-director, writer, art-director, game-designer — for story, world lore, narrative-driven levels."
 argument-hint: "[narrative content description] [--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Agent, AskUserQuestion, TaskCreate, TaskGet, TaskList, TaskUpdate, Bash(bash "*/.claude/skills/team-narrative/../../hooks/yaml-helper.sh" resolve_config *)
@@ -44,8 +44,8 @@ still decides who runs it — see Phase 4).
 
 **`team.size`**: which agents are active (orthogonal to review_mode gate-depth and workflow docs).
 - **`individual`** (default): `writer` only; `narrative-director` invoked only on an explicit pillar conflict. Other agents consulted via the writer, not spawned separately.
-- **`small`**: `narrative-director` + `writer`, plus `localization-lead` and `world-builder` when `review_mode` is `full` (at `lean` and `solo` they are consulted through the writer).
-- **`studio`**: all six Team Composition agents, whatever the `review_mode` (the full pipeline as documented).
+- **`small`**: `narrative-director` + `writer`, whatever the `review_mode`.
+- **`studio`**: all four Team Composition agents, whatever the `review_mode` (the full pipeline as documented).
 A non-core agent needed at `individual` routes through the nearest active core agent with an informational note. **"Phase gate" means any phase that ends in an `AskUserQuestion` decision point this pipeline itself lists** — a transition under Decision Points above, or a **Gate** step written into the pipeline below — **whatever the `automation` mode.** `guided` and `autonomous` change how a gate is passed (it auto-advances, or is recorded with `log_decision`), not whether it is one, so bounded-exception condition (3) below holds at it in every mode. An agent restricted to "phase gates only" is spawned at those points and no others. This active-set scoping applies throughout the pipeline below: any phase that names an agent outside the active set routes through the nearest core agent rather than spawning it.
 
 **Announce the active set before Phase 1 — never let the collapse be silent.**
@@ -61,8 +61,8 @@ Fill it from the `team.size` list directly above and the agents this file's own
 pipeline names — not from an example. Both sets differ per orchestrator.
 
 The pipeline below reads as a multi-agent fan-out and at the shipped default it
-is one or two agents — `team-release` names ten and runs one, `team-narrative`
-names six across five phases and runs `writer` alone. **The collapse is correct**:
+is one or two agents — `team-narrative` names several
+agents across its phases and runs `writer` alone. **The collapse is correct**:
 `team.size` is rigor-fronted and the narrow default is the token lever.
 Without saying so, a reader cannot
 distinguish a correctly-collapsed run from a broken pipeline, and the per-agent
@@ -74,22 +74,18 @@ indistinguishable, to the person reading the output, from one that was never
 enforced.**
 
 ## Team Composition
-- **narrative-director** — Story arcs, character design, dialogue strategy, narrative vision
-- **writer** — Dialogue writing, lore entries, item descriptions, in-game text
-- **world-builder** — World rules, faction design, history, geography, environmental storytelling
+- **narrative-director** — Story arcs, character design, dialogue strategy, narrative vision; world rules, faction design, history, geography (lore canon)
+- **writer** — Dialogue writing, lore entries, item descriptions, in-game text; localization readiness of its own text (non-localizable strings, cultural assumptions, i18n gaps)
 - **art-director** — Character visual design, environmental visual storytelling, cutscene/cinematic tone
-- **level-designer** — Level layouts that serve the narrative, pacing, environmental storytelling beats
-- **localization-lead** — Localization readiness — flags non-localizable strings, cultural assumptions, and i18n gaps
+- **game-designer** — Level layouts that serve the narrative, pacing, environmental storytelling beats
 
 ## How to Delegate
 
 Use the `Agent` tool to spawn each team member as a subagent:
-- `subagent_type: narrative-director` — Story arcs, character design, narrative vision
-- `subagent_type: writer` — Dialogue writing, lore entries, in-game text
-- `subagent_type: world-builder` — World rules, faction design, history, geography
+- `subagent_type: narrative-director` — Story arcs, character design, narrative vision, world rules and lore canon
+- `subagent_type: writer` — Dialogue writing, lore entries, in-game text, localization readiness
 - `subagent_type: art-director` — Character visual profiles, environmental visual storytelling, cinematic tone
-- `subagent_type: level-designer` — Level layouts that serve the narrative, pacing
-- `subagent_type: localization-lead` — Localization readiness — flags non-localizable strings, cultural assumptions, and i18n gaps
+- `subagent_type: game-designer` — Level layouts that serve the narrative, pacing
 
 **Read the canon first.** Before Phase 1, read the shared inputs that exist — the narrative bible or tone guide, the character and faction files under `design/narrative/`, and the world rules. Never tell an agent to invent canon: if none exists, say so and ask the user before any drafting.
 
@@ -105,16 +101,16 @@ cover, so **you** write those after one approval (see "Write the finals"):
 | Agent | Drafts to (`[path]`) | Final document (you write it) |
 |---|---|---|
 | narrative-director | `production/narrative/[content-slug]/brief.md` | `design/narrative/[content-slug]-brief.md` |
-| world-builder | `production/narrative/[content-slug]/lore-[topic].md` | `design/narrative/lore/[topic].md` |
+| narrative-director (Phase 2 lore) | `production/narrative/[content-slug]/lore-[topic].md` | `design/narrative/lore/[topic].md` |
 | writer | `production/narrative/[content-slug]/dialogue-[scene-slug].md` | `design/narrative/dialogue/[scene-slug].md` |
 | art-director | `production/narrative/[content-slug]/visual-direction.md` | `design/narrative/[content-slug]-visual-direction.md` |
-| level-designer | `production/narrative/[content-slug]/level-integration.md` | `design/narrative/[content-slug]-level-integration.md` |
-| localization-lead | `production/narrative/[content-slug]/i18n-review.md` | stays in `production/` — a review, not a design document |
+| game-designer | `production/narrative/[content-slug]/level-integration.md` | `design/narrative/[content-slug]-level-integration.md` |
+| writer (Phase 5 i18n check) | `production/narrative/[content-slug]/i18n-review.md` | stays in `production/` — a review, not a design document |
 
 > **The final destination is not a free choice.** `design/narrative/` is read by
-> `/asset-spec`, `/design-review`, `/localize`, `/onboard`,
+> `/asset-spec`, `/design-review`, `/onboard`,
 > `/project-stage-detect`, `/team-level` and the `cd-narrative` director gate.
-> An artifact written anywhere else is invisible to all seven.
+> An artifact written anywhere else is invisible to all six.
 >
 > The `[path]` contract above has a precondition: the path is one *you* named. A
 > skill that states the contract but names no concrete destination leaves every
@@ -137,7 +133,7 @@ Delegate to **narrative-director**:
 
 ### Phase 2: World Foundation (parallel)
 Delegate in parallel — issue all three `Agent` calls simultaneously before waiting for any result:
-- **world-builder**: Create or update lore entries for factions, locations, and history relevant to this content. Cross-reference against existing lore for contradictions. Set canon level for new entries.
+- **narrative-director**: Create or update lore entries for factions, locations, and history relevant to this content. Cross-reference against existing lore for contradictions. Set canon level for new entries.
 - **writer**: Draft character dialogue using voice profiles. Ensure all lines are under 120 characters, use named placeholders for variables, and are localization-ready.
 - **art-director**: Define character visual design direction for key characters appearing in this content (silhouette, visual archetype, distinguishing features). Specify environmental visual storytelling elements for each key space (prop composition, lighting notes, spatial arrangement). Define tone palette and cinematic direction for any cutscenes or scripted sequences.
 
@@ -148,7 +144,7 @@ summaries and capture approval via `AskUserQuestion` in `collaborative` mode
 `autonomous`).
 
 ### Phase 3: Level Narrative Integration
-Delegate to **level-designer**:
+Delegate to **game-designer**:
 - Review the narrative brief and lore foundation
 - Design environmental storytelling elements in the level
 - Place narrative triggers, dialogue zones, and discovery points
@@ -180,9 +176,8 @@ self-check is not the gate's verdict, and the report must not present it as one.
 
 ### Phase 5: Polish (parallel)
 Delegate in parallel — issue every `Agent` call before waiting for any result:
-- **writer**: Final self-review — verify no line exceeds dialogue box constraints, all text uses string keys (not raw strings), placeholder variable names are consistent
-- **localization-lead**: Validate i18n compliance — check string key naming conventions, flag any strings with hardcoded formatting that won't survive translation, verify character limit headroom for languages that expand (German/Finnish typically +30%), confirm no cultural assumptions in text that would need locale-specific variants
-- **world-builder**: Finalize canon levels for all new lore entries
+- **writer**: Final self-review — verify no line exceeds dialogue box constraints, all text uses string keys (not raw strings), placeholder variable names are consistent. Then validate i18n compliance — check string key naming conventions, flag any strings with hardcoded formatting that won't survive translation, verify character limit headroom for languages that expand (German/Finnish typically +30%), confirm no cultural assumptions in text that would need locale-specific variants
+- **narrative-director**: Finalize canon levels for all new lore entries
 
 ### Write the finals
 You hold every draft. List the final documents from the table above, then ask once
@@ -239,5 +234,4 @@ Verdict: **BLOCKED** — [reason]
 ## Next Steps
 
 - Run `/design-review` on the narrative documents for consistency validation.
-- Run `/localize extract` to extract new strings for translation after dialogue is finalized.
 - Run `/dev-story` to implement dialogue triggers and narrative events in-engine.

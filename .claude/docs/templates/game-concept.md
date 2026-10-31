@@ -236,7 +236,7 @@ the medium.]
 
 | Consideration | Assessment |
 | ---- | ---- |
-| **Recommended Engine** | [Godot / Unity / Unreal and why — consider scope, team expertise, platform targets] |
+| **Recommended Engine** | [Godot 4 — the only engine this fork supports; note version and why it fits] |
 | **Key Technical Challenges** | [What's technically hard about this game?] |
 | **Art Style** | [Pixel / 2D / 2.5D / 3D stylized / 3D realistic] |
 | **Art Pipeline Complexity** | [Low (asset store + modifications) / Medium (custom 2D) / High (custom 3D)] |

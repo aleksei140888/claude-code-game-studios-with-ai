@@ -63,18 +63,18 @@ If two rows fit, spawn the union of their Primary agents and say why.
 
 | System type | Primary Agent | Supporting Agent(s) |
 |----------------|---------------|---------------------|
-| **Foundation/Infrastructure** (event bus, save/load, scene mgmt, service locator) | `systems-designer` | `gameplay-programmer` (feasibility), `engine-programmer` (engine integration) |
+| **Foundation/Infrastructure** (event bus, save/load, scene mgmt, service locator) | `systems-designer` | `gameplay-programmer` (feasibility), `godot-specialist` (engine integration) |
 | Combat, damage, health | `game-designer` | `systems-designer` (formulas), `ai-programmer` (enemy AI), `art-director` (hit feedback visual direction, VFX intent) |
 | Economy, loot, crafting | `economy-designer` | `systems-designer` (curves), `game-designer` (loops) |
 | Progression, XP, skills | `game-designer` | `systems-designer` (curves), `economy-designer` (sinks) |
 | Dialogue, quests, lore | `game-designer` | `narrative-director` (story), `writer` (content), `art-director` (character visual profiles, cinematic tone) |
-| UI systems (HUD, menus) | `game-designer` | `ux-designer` (flows), `ui-programmer` (feasibility), `art-director` (visual style direction), `technical-artist` (render/shader constraints) |
-| Audio systems | `game-designer` | `audio-director` (direction), `sound-designer` (specs) |
+| UI systems (HUD, menus) | `game-designer` | `ux-designer` (flows), `ui-programmer` (feasibility), `art-director` (visual style direction), `godot-specialist` (render/shader constraints) |
+| Audio systems | `game-designer` | none — audio is out of scope for the prototype |
 | AI, pathfinding, behavior | `game-designer` | `ai-programmer` (implementation), `systems-designer` (scoring) |
-| Level/world systems | `game-designer` | `level-designer` (spatial), `world-builder` (lore) |
+| Level/world systems | `game-designer` | `narrative-director` (lore) |
 | Camera, input, controls | `game-designer` | `ux-designer` (feel), `gameplay-programmer` (feasibility) |
-| Animation, character movement | `game-designer` | `art-director` (animation style, pose language), `technical-artist` (rig/blend constraints), `gameplay-programmer` (feel) |
-| Visual effects, particles, shaders | `game-designer` | `art-director` (VFX visual direction), `technical-artist` (performance budget, shader complexity), `systems-designer` (trigger/state integration) |
+| Animation, character movement | `game-designer` | `art-director` (animation style, pose language), `godot-specialist` (rig/blend constraints), `gameplay-programmer` (feel) |
+| Visual effects, particles, shaders | `game-designer` | `art-director` (VFX visual direction), `godot-specialist` (performance budget, shader complexity), `systems-designer` (trigger/state integration) |
 | Character systems (stats, archetypes) | `game-designer` | `art-director` (character visual archetype), `narrative-director` (character arc alignment), `systems-designer` (stat formulas) |
 
 **When delegating via the `Agent` tool**:

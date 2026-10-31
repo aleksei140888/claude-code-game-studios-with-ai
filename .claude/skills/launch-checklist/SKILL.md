@@ -386,4 +386,4 @@ If yes, write the file; the write creates the directory with it.
 ## Phase 6: Next Steps
 
 - If `project.stage` is not `Release` (`Polish`, an earlier stage, or unset), run `/gate-check release` first — it is the readiness gate before launch.
-- Coordinate sign-offs and the deployment via `/team-release`.
+- Coordinate sign-offs and the deployment with the `producer` agent.

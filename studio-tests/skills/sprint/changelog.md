@@ -29,7 +29,7 @@ Checked against the SKILL.md by `/skill-test spec` — no fixture needed.
 - [ ] Has ≥2 phase headings
 - [ ] Contains verdict keywords: CHANGELOG WRITTEN, COMPLETE, BLOCKED
 - [ ] Contains "May I write" language (skill writes changelog)
-- [ ] Has a next-step handoff (`/patch-notes` for a player-facing release, `/release-checklist`)
+- [ ] Has a next-step handoff (`/release-checklist`)
 
 ---
 
@@ -259,5 +259,3 @@ Fixture defaults.
   instead of widening the range) is not tested.
 - Merge commits vs. squash commits are not explicitly differentiated in
   these tests; implementation detail of the git log parsing phase.
-- The `/patch-notes` skill should be run after `/changelog` for player-facing
-  output; that handoff is verified in the patch-notes spec.

@@ -3,13 +3,13 @@
 ## Skill Summary
 
 Orchestrates the UI team through the full UX pipeline for a single UI feature.
-Coordinates ux-designer, ui-programmer, art-director, the engine UI specialist,
-and accessibility-specialist through five structured phases: Context Gathering +
+Coordinates ux-designer (which also owns the accessibility audit), ui-programmer,
+art-director and the engine UI specialist through five structured phases: Context Gathering +
 UX Spec (Phase 1a/1b) → UX Review Gate (Phase 1c) → Visual Design (Phase 2) →
 Implementation (Phase 3) → Review in parallel (Phase 4) → Polish (Phase 5).
 Phase 0 resolves `review_mode`, `automation` and `team.size` and the skill announces
 the active set before any spawn — the default `individual` spawns ui-programmer +
-ux-designer, `small` adds accessibility-specialist + art-director, `studio` adds the
+ux-designer, `small` adds art-director, `studio` adds the
 engine UI specialist and an adversarial Phase 4 review. Phase 1a reports each of its five inputs as present or ABSENT,
 and a missing `design/accessibility-requirements.md` is carried forward as
 `Accessibility: NOT ASSESSED`. Uses `AskUserQuestion` at each phase transition.
@@ -31,9 +31,9 @@ handoffs to `/ux-review`, `/code-review`, `/team-polish`.
 - [ ] Error Recovery Protocol section is present: verify a named artifact is on disk, surface BLOCKED immediately, always produce a partial report, full procedure (surface → assess → options → partial report) in `.claude/docs/error-recovery-protocol.md`
 - [ ] Uses `AskUserQuestion` at phase transitions for user approval before proceeding (`collaborative` mode)
 - [ ] Phase 0 resolves `team.size`, and the skill requires a one-line active-set announcement before any spawn
-- [ ] Phase 4 is explicitly marked as parallel (ux-designer, art-director, accessibility-specialist)
+- [ ] Phase 4 is explicitly marked as parallel (ux-designer with the accessibility audit, art-director)
 - [ ] UX Review Gate (Phase 1c) is defined as a blocking gate — skill must not proceed to Phase 2 without APPROVED verdict, except by an explicit user override of NEEDS REVISION or NOT ASSESSED, which the final report records
-- [ ] Team Composition lists all five roles (ux-designer, ui-programmer, art-director, engine UI specialist, accessibility-specialist)
+- [ ] Team Composition lists all four roles (ux-designer, ui-programmer, art-director, engine UI specialist), with the Phase 4 accessibility audit owned by ux-designer
 - [ ] Engine UI specialist is read from `specialists.ui` in `project.yaml` (falling back to `.claude/docs/technical-preferences.md`), and `specialists.ui: null` is treated as unset
 - [ ] References the interaction pattern library (`design/ux/interaction-patterns.md`) — ui-programmer must use existing patterns
 - [ ] Phase 1a reads `design/accessibility-requirements.md` before design begins
@@ -70,7 +70,7 @@ Fixture defaults.
 4. Phase 1c — `/ux-review design/ux/inventory-screen.md` invoked; returns APPROVED; gate passed, proceed to Phase 2
 5. Phase 2 — art-director spawned; reviews full UX spec (not only wireframes); applies visual treatment; verifies color contrast; produces visual design spec with asset manifest; `AskUserQuestion` confirms before Phase 3
 6. Phase 3 — `godot-specialist` (from `specialists.ui`) spawned first; produces implementation notes for ui-programmer; ui-programmer spawned with UX spec + visual spec + engine notes; implementation produced; interaction-patterns.md updated if new patterns introduced
-7. Phase 4 — ux-designer, art-director, accessibility-specialist spawned in parallel, each told to find where the implementation fails its spec rather than confirm it matches (the `studio` adversarial pass); all three return results before Phase 5
+7. Phase 4 — ux-designer (review + accessibility audit) and art-director spawned in parallel, each told to find where the implementation fails its spec rather than confirm it matches (the `studio` adversarial pass); both return results before Phase 5
 8. Phase 5 — review feedback addressed; animations verified skippable; UI sounds confirmed through audio event system; interaction-patterns.md final check
 9. Summary report: UX spec status, UX review verdict, visual design status, implementation status, accessibility compliance, input method support, pattern library status; verdict: COMPLETE
 
@@ -81,7 +81,7 @@ Fixture defaults.
 - [ ] Art-director in Phase 2 reviews full spec, not just wireframe images
 - [ ] Engine UI specialist is taken from `specialists.ui` and spawned before ui-programmer in Phase 3
 - [ ] ui-programmer lists the files it will create or change, and writes none before the one ask for that set is answered yes
-- [ ] Phase 4 agents launched simultaneously (ux-designer, art-director, accessibility-specialist)
+- [ ] Phase 4 agents launched simultaneously (ux-designer, art-director)
 - [ ] At `team.size: studio`, Phase 4's prompts are adversarial and the summary report says the adversarial pass ran
 - [ ] All file writes delegated to sub-agents and sub-skills
 - [ ] Verdict COMPLETE in final summary report
@@ -151,7 +151,7 @@ Fixture defaults.
 
 ---
 
-### Case 4: Accessibility Parallel Review — Phase 4 runs three streams simultaneously
+### Case 4: Accessibility Parallel Review — Phase 4 runs two streams simultaneously
 
 **Fixture:**
 - Resolved config block: `review_mode: full`, `team.size: small`, `automation: collaborative`
@@ -164,20 +164,19 @@ Fixture defaults.
 
 **Expected behavior:**
 1. Phase 4 begins after implementation is confirmed complete
-2. Three Agent calls issued simultaneously: ux-designer, art-director, accessibility-specialist
+2. Two Agent calls issued simultaneously: ux-designer, art-director
 3. Each stream operates independently:
-   - ux-designer: verifies implementation matches wireframes, tests keyboard-only and gamepad-only navigation, checks accessibility features function
+   - ux-designer: verifies implementation matches wireframes, tests keyboard-only and gamepad-only navigation, checks accessibility features function, then audits against the Standard accessibility tier in `design/accessibility-requirements.md`; any violation flagged as a blocker
    - art-director: verifies visual consistency with art bible at minimum and maximum supported resolutions
-   - accessibility-specialist: audits against the Standard accessibility tier in `design/accessibility-requirements.md`; any violation flagged as a blocker
-4. Skill waits for all three results before proceeding to Phase 5
-5. `AskUserQuestion` presents all three review results before Phase 5 begins
+4. Skill waits for both results before proceeding to Phase 5
+5. `AskUserQuestion` presents both review results before Phase 5 begins
 
 **Assertions:**
-- [ ] All three Agent calls issued before any result is awaited (parallel, not sequential)
-- [ ] Phase 5 does NOT begin until all three Phase 4 agents have returned
-- [ ] Accessibility-specialist explicitly reads `design/accessibility-requirements.md` for the committed tier
+- [ ] Both Agent calls issued before either result is awaited (parallel, not sequential)
+- [ ] Phase 5 does NOT begin until both Phase 4 agents have returned
+- [ ] ux-designer's accessibility audit explicitly reads `design/accessibility-requirements.md` for the committed tier
 - [ ] Accessibility violations flagged as BLOCKING (not merely advisory)
-- [ ] `AskUserQuestion` shows all three review streams' results together before Phase 5 approval
+- [ ] `AskUserQuestion` shows both review streams' results together before Phase 5 approval
 - [ ] No Phase 4 agent's output is used as input for another Phase 4 agent
 
 ---
@@ -215,8 +214,8 @@ Fixture defaults.
 
 **Fixture:**
 - `project.yaml`: `team.size: small` for Runs A–C, `team.size: individual` for Run D
-  (pinned: `small` is the smallest size that includes art-director and
-  accessibility-specialist); `modes.review_mode` is not set, so each run's `--review`
+  (pinned: `small` is the smallest size that includes art-director);
+  `modes.review_mode` is not set, so each run's `--review`
   value decides
 - `design/gdd/game-concept.md`, `design/player-journey.md`,
   `design/ux/interaction-patterns.md` and `design/accessibility-requirements.md`
@@ -226,19 +225,19 @@ Fixture defaults.
 
 **Expected behavior:**
 1. Runs A–C open with the same active-set line for `team.size: small`:
-   ui-programmer + ux-designer + accessibility-specialist + art-director
+   ui-programmer + ux-designer + art-director
 2. In all three, art-director is spawned for Phase 2 (visual design) and for the
-   Phase 4 review, and accessibility-specialist for Phase 4 — the review mode does
-   not skip a team member
+   Phase 4 review, and ux-designer for the Phase 4 review and accessibility audit —
+   the review mode does not skip a team member
 3. No run spawns a CD-, TD-, PR- or AD-PHASE-GATE at any phase: "no phase below
    spawns CD-, TD-, PR- or AD-PHASE-GATE, at any `review_mode`"
-4. Run D (`individual`) names art-director and accessibility-specialist under `Not
+4. Run D (`individual`) names art-director under `Not
    spawned this run:`; their work is consulted through ui-programmer and ux-designer.
    The size caused that, not `lean`
 
 **Assertions:**
 - [ ] art-director is spawned in Phase 2 and Phase 4 in Run A (`full`), Run B (`lean`) and Run C (`solo`)
-- [ ] The Phase 4 review spawns the same three agents in all three runs, in parallel
+- [ ] The Phase 4 review spawns the same two agents in all three runs, in parallel
 - [ ] No director gate (CD-, TD-, PR- or AD-PHASE-GATE) is spawned in any run
 - [ ] Runs A–C show the same active set, phases and asks
 - [ ] In Run D art-director is not spawned, and the output attributes that to `team.size: individual`, not to `lean`
@@ -247,7 +246,7 @@ Fixture defaults.
 
 ## Protocol Compliance
 
-- [ ] At the default `team.size: individual`, the run opens with an `Active set (team.size: individual): ui-programmer + ux-designer` line and a `Not spawned this run:` line naming art-director, accessibility-specialist and the engine UI specialist — before any agent is spawned
+- [ ] At the default `team.size: individual`, the run opens with an `Active set (team.size: individual): ui-programmer + ux-designer` line and a `Not spawned this run:` line naming art-director and the engine UI specialist — before any agent is spawned
 - [ ] In `collaborative` mode, `AskUserQuestion` used at each phase transition — user approves before pipeline advances
 - [ ] UX Review Gate (Phase 1c) is blocking — Phase 2 cannot begin without APPROVED, or an explicit user override of a NEEDS REVISION or NOT ASSESSED verdict that the final report records
 - [ ] When `design/accessibility-requirements.md` is absent, Phase 4 reports `Accessibility: NOT ASSESSED — no committed tier (design/accessibility-requirements.md absent)` and never reports the accessibility gate as passed

@@ -1,18 +1,20 @@
 # Claude Code Game Studios -- Game Studio Agent Architecture
 
-Indie game development managed through 49 coordinated Claude Code subagents.
-Each agent owns a specific domain, enforcing separation of concerns and quality.
+Solo development of a persistent online world with LLM-driven NPCs, managed
+through 25 coordinated Claude Code subagents. Each agent owns a specific domain,
+enforcing separation of concerns and quality.
 
 ## Technology Stack
 
-- **Engine**: [CHOOSE: Godot 4 / Unity / Unreal Engine 5]
-- **Language**: [CHOOSE: GDScript / C# / C++ / Blueprint]
+- **Client**: Godot 4.7, GDScript — code in `client/`
+- **World server**: Python + Agno, Postgres/pgvector — code in `server/`
 - **Version Control**: Git with trunk-based development
-- **Build System**: [SPECIFY after choosing engine]
-- **Asset Pipeline**: [SPECIFY after choosing engine]
+- **Architecture**: `docs/architecture/adr-0001-server-client-llm-intent.md`
 
-> **Note**: Engine-specialist agents exist for Godot, Unity, and Unreal with
-> dedicated sub-specialists. Use the set matching your engine.
+> **Invariant (ADR-0001)**: LLM → intent (tool call) → validator → state change.
+> The LLM never writes world state. `server/sim/` is deterministic and never
+> calls an LLM; LLM-client code lives only in `server/ai/` (the commit hook
+> blocks it elsewhere).
 
 ## Project Structure
 

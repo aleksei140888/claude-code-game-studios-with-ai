@@ -2,7 +2,7 @@
 
 ## Agent Summary
 **Domain owned:** Combat formulas, progression curves, crafting recipes, status effect interaction matrices, feedback loop analysis, tuning documentation, simulation specs.
-**Does NOT own:** High-level design direction (game-designer — direct collaboration partner), level and encounter design (level-designer), narrative and aesthetic decisions, code implementation.
+**Does NOT own:** High-level design direction (game-designer — direct collaboration partner), level and encounter design (game-designer), narrative and aesthetic decisions, code implementation.
 **Gate IDs handled:** None. Formula reviews return findings and options; design-review verdicts come from the `/design-review` skill, which spawns systems-designer as a specialist.
 
 ---

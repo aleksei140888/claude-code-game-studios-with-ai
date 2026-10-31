@@ -3,7 +3,7 @@
 ## Trigger
 
 Runs before any commit that modifies files under the code root — `src/`
-(Godot), `Assets/` (Unity) or `Source/` (Unreal); see
+(Godot); see
 `.claude/docs/code-root-resolution.md`.
 
 ## Purpose
@@ -51,8 +51,6 @@ if [ -n "$CODE_FILES" ]; then
 
         # Run language-specific linter (uncomment appropriate line)
         # For GDScript: gdlint "$file" || EXIT_CODE=1
-        # For C#: dotnet format --check "$file" || EXIT_CODE=1
-        # For C++: clang-format --dry-run -Werror "$file" || EXIT_CODE=1
     done
 
     # Run unit tests for modified systems

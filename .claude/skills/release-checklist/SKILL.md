@@ -317,6 +317,6 @@ If yes, write the file, creating the directory if needed.
 
 ## Phase 6: Next Steps
 
-- Draft the changelog or patch notes (`/changelog`, `/patch-notes`) if not done — the release gate checks them.
+- Draft the changelog (`/changelog`) if not done — the release gate checks it.
 - Run `/gate-check release` — the Polish → Release gate reads this checklist.
-- After a PASS: `/launch-checklist`, then coordinate the release via `/team-release`.
+- After a PASS: `/launch-checklist`, then coordinate the release with the `producer` agent.

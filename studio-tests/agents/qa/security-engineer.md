@@ -2,7 +2,7 @@
 
 ## Agent Summary
 Domain: Anti-cheat systems, save data security, network security, vulnerability assessment, and data privacy compliance. Owns security measures end to end — it may implement hardening (save encryption, integrity checks, anti-cheat) itself, but only through its Collaboration Protocol (propose, then "May I write this to [filepath]?").
-Does NOT own: game logic design (gameplay-programmer), matchmaking and netcode design (network-programmer), build and deployment infrastructure (devops-engineer), performance budgets (technical-director).
+Does NOT own: game logic design (gameplay-programmer), matchmaking and netcode design (network-programmer), build and deployment infrastructure (technical-director), performance budgets (technical-director).
 No gate IDs assigned. Escalates critical vulnerabilities to technical-director.
 
 ---

@@ -166,7 +166,7 @@ engine_name() {
 }
 ENGINE=$(engine_name | tr 'A-Z' 'a-z')
 case "$ENGINE" in
-  godot) ROOTS="src" ;;
+  godot) ROOTS="client" ;;
   unity) ROOTS="Assets" ;;
   unreal) ROOTS="Source" ;;
   # Unset or unknown: the three roots, so no rule is skipped for want of one.
@@ -357,8 +357,8 @@ FREEZE_FILE=production/localization/freeze-status.md
 rule_freeze() {
   case "$1" in assets/data/strings/*) applied freeze ;; *) return 0 ;; esac
   [ -f "$FREEZE_FILE" ] || return 0
-  # /localize writes **Status**: ACTIVE or LIFTED; "Active" is spelled both
-  # ways in the skill, so the match ignores case.
+  # The freeze file records **Status**: ACTIVE or LIFTED; "Active" may be
+  # spelled either way, so the match ignores case.
   _c=$(awk 'BEGIN { BINMODE = 3 }
     { l = $0; sub(/\r$/, "", l); u = toupper(l) }
     u ~ /^\*\*STATUS\*\*:[ \t]*ACTIVE([ \t]|$)/ || u ~ /^STATUS:[ \t]*ACTIVE([ \t]|$)/ { act = 1 }

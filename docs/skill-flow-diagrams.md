@@ -104,7 +104,7 @@ PHASE 5: PRODUCTION (repeating sprint loop)
   /bug-triage ─────────────────────────────────────────────────► bugs re-prioritized + assigned
 
   [Team skills for feature areas — spawn when working a full feature]
-  /team-combat / /team-narrative / /team-ui / /team-level / /team-audio
+  /team-combat / /team-narrative / /team-ui / /team-level
 
   [QA cycle per sprint]
   /qa-plan ────────────────────────────────────────────────────► production/qa/qa-plan-[sprint-slug]-[date].md
@@ -131,20 +131,16 @@ PHASE 6: POLISH
   /team-polish ────────────────────────────────────────────────► polish sprint orchestrated
   /team-qa ────────────────────────────────────────────────────► full QA cycle sign-off
   /security-audit ─────────────────────────────────────────────► production/security/security-audit-[date]-[scope].md
-  /localize qa ────────────────────────────────────────────────► production/localization/loc-qa-[locale]-[date].md
   /release-checklist ──────────────────────────────────────────► production/releases/release-checklist-[version].md
   /changelog ──────────────────────────────────────────────────► docs/CHANGELOG.md
-  /patch-notes ────────────────────────────────────────────────► docs/patch-notes/[version].md (draft)
   /gate-check ─────────────────────────────────────────────────► PASS → advance to release
         │
         ▼
 PHASE 7: RELEASE
   /launch-checklist ───────────────────────────────────────────► launch readiness report
-  /team-release ───────────────────────────────────────────────► release pipeline orchestrated
         │
         ▼ (post-launch, ongoing)
   /hotfix ─────────────────────────────────────────────────────► emergency fix with audit trail
-  /team-live-ops ──────────────────────────────────────────────► live-ops content plan
 ```
 
 ---
@@ -214,7 +210,7 @@ design/player-journey.md (emotional arc, if authored)
                 ├── Phase 1: /ux-design (if any specs still missing) + /ux-review
                 ├── Phase 2: visual design (art-director)
                 ├── Phase 3: layout implementation (ui-programmer)
-                ├── Phase 4: accessibility audit (accessibility-specialist)
+                ├── Phase 4: accessibility audit (ux-designer)
                 └── Phase 5: final review
 
 Note: /ux-design accessibility and /ux-design patterns belong in Phase 3
@@ -240,7 +236,7 @@ How a story moves from backlog to closed:
         /dev-story [story]
                 │
                 ├── Reads: story file, linked GDD requirement, ADR decisions, control manifest
-                ├── Routes to: gameplay-programmer / engine-programmer / ui-programmer / etc.
+                ├── Routes to: gameplay-programmer / godot-specialist / ui-programmer / etc.
                 │
                 └── Implementation begins
                         │

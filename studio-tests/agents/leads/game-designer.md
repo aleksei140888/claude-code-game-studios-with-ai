@@ -2,7 +2,7 @@
 
 ## Agent Summary
 **Domain owned:** Core loop design, progression systems, combat mechanics rules, economy design, player-facing rules and interactions, mechanic GDDs in `design/gdd/`.
-**Does NOT own:** Code implementation (lead-programmer / gameplay-programmer), art and audio direction (art-director / audio-director), final narrative content (narrative-director — coordinates with), detailed formula math (systems-designer — delegates to).
+**Does NOT own:** Code implementation (lead-programmer / gameplay-programmer), art direction (art-director), final narrative content (narrative-director — coordinates with), detailed formula math (systems-designer — delegates to).
 **Gate IDs handled:** None. Design-review verdicts come from the `/design-review` skill (APPROVED / NEEDS REVISION / MAJOR REVISION NEEDED / NOT ASSESSED); when that skill spawns game-designer as a specialist, the agent returns findings.
 
 ---

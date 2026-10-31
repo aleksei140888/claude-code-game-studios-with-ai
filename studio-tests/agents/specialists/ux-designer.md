@@ -50,7 +50,7 @@ No gate IDs assigned.
 **Expected behavior:**
 - Identifies the conflict: an auto-advancing prompt takes timing out of the player's control
 - Does NOT keep the auto-advance to preserve pace — accessibility requirements are not overridden for aesthetics
-- Coordinates with `accessibility-specialist`, which owns the WCAG criterion that applies (SC 2.2.1 Timing Adjustable), to agree on a compliant solution
+- Names the WCAG criterion that applies (SC 2.2.1 Timing Adjustable) from the accessibility standards it records and audits against
 - Presents alternatives as options with pros/cons — player-advanced prompt, skip or pause control, a setting to disable auto-advance — and shows how each keeps the onboarding's information pacing
 
 ### Case 5: Context pass — player mental model research
@@ -68,7 +68,7 @@ No gate IDs assigned.
 - [ ] Stays within declared domain (UX flows, interaction design, IA, onboarding)
 - [ ] Redirects code implementation to ui-programmer, visual style to art-director
 - [ ] Presents 2-4 options with pros/cons and a recommendation before drafting, and defers the decision to the user
-- [ ] Coordinates with accessibility-specialist when a flow conflicts with an accessibility requirement
+- [ ] Audits flows against the recorded accessibility standards and names the criterion a conflicting flow breaks
 - [ ] Grounds recommendations in provided player research when it is given, citing it in the rationale, rather than in assumed behavior
 - [ ] Documents rationale for flow decisions against user goals
 - [ ] Asks "May I write this to [filepath]?" before writing

@@ -25,3 +25,31 @@ framework:
 # here. `/settings --local <key>=<value>` writes there; `/settings <key>=<value>`
 # edits this file. See `.claude/docs/config-resolution.md` for the full
 # precedence order.
+
+# FOUN-1: rigor minimal (which already yields review_mode solo — do not seed
+# review_mode, see note above). Upstream's own run had `standard` lose to `minimal`.
+modes:
+  rigor: minimal
+
+# Client only. The world server (Python + Agno + Postgres/pgvector) lives in
+# server/ and is outside the engine config — see docs/architecture/adr-001.
+engine:
+  name: "Godot"
+  version: "4.7"
+  language: "GDScript"
+  rendering: "[TO BE CONFIGURED]"
+  physics: "[TO BE CONFIGURED]"
+
+specialists:
+  code: "godot-gdscript-specialist"
+  shader: "godot-specialist"
+  ui: "godot-specialist"
+  additional: []
+
+naming:
+  classes: PascalCase
+  variables: snake_case
+  constants: SCREAMING_SNAKE
+  signals: past_tense
+  files: snake_case
+  scenes: snake_case

@@ -1,8 +1,6 @@
 ---
 paths:
   - "tests/**"
-  - "Assets/Tests/**/*.cs"
-  - "Source/**/Tests/**/*.{h,cpp}"
 ---
 
 # Test Standards

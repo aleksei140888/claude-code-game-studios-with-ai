@@ -33,7 +33,7 @@ named) → `CONDITIONAL` (any conditional item) → `READY`. Unless the argument
 `production/releases/launch-checklist-[date].md`?" and creates nothing — not
 even the directory — before the answer. Next steps: `/gate-check release` first
 if `project.stage` is not `Release` (`Polish`, an earlier stage, or unset), then
-`/team-release`. No director gates are spawned.
+the `producer` agent. No director gates are spawned.
 
 ---
 
@@ -47,7 +47,7 @@ Checked against the SKILL.md by `/skill-test spec` — no fixture needed.
 - [ ] Contains verdict keywords: READY, CONDITIONAL, NOT ASSESSED, NOT READY (Overall Status, first match NOT READY → NOT ASSESSED → CONDITIONAL → READY), and NOT ASSESSED for unassessable scans and cert tier
 - [ ] Contains "May I write" language before writing the checklist, and creates no file or directory before the answer
 - [ ] Has a Phase 4b that asks one `AskUserQuestion` per section, answers yes / no / not yet / N/A, with no / not yet a failed item and N/A excluded
-- [ ] Has a next-step handoff (`/gate-check release` only when `project.stage` is not `Release`, and `/team-release`)
+- [ ] Has a next-step handoff (`/gate-check release` only when `project.stage` is not `Release`, and `producer`)
 
 ---
 
@@ -56,7 +56,7 @@ Checked against the SKILL.md by `/skill-test spec` — no fixture needed.
 None. `/launch-checklist` has no `Agent` tool and spawns no director. The
 "Sign-Offs Required" list (Creative Director, Technical Director, QA Lead,
 Producer, Release Manager) is checklist text for humans, coordinated later via
-`/team-release`; the formal gate verdict comes from `/gate-check`.
+`producer`; the formal gate verdict comes from `/gate-check`.
 
 ---
 
@@ -102,7 +102,7 @@ Fixture defaults.
    count, conditional count, not-assessed count, departments with incomplete sections)
 8. Asks "May I write this to `production/releases/launch-checklist-[date].md`?";
    `production/releases/` is not created before the answer
-9. Next steps: `/team-release` — the stage already reads `Release`, so `/gate-check`
+9. Next steps: `producer` — the stage already reads `Release`, so `/gate-check`
    is not offered
 
 **Assertions:**
@@ -113,7 +113,7 @@ Fixture defaults.
 - [ ] Overall Status is READY — every item is ticked on evidence or on a Phase 4b answer, or marked N/A
 - [ ] The summary gives total, blocking, conditional and not-assessed counts
 - [ ] "May I write" names `production/releases/launch-checklist-[date].md`, and no directory exists before the user answers it
-- [ ] Next steps name `/team-release` and do not offer `/gate-check`
+- [ ] Next steps name `producer` and do not offer `/gate-check`
 
 ---
 
@@ -209,14 +209,14 @@ Fixture defaults.
    unconfirmed, so the Overall Status is NOT ASSESSED
 4. The checklist is presented but no "May I write" ask is made and no file is written
 5. No director or other agent is spawned; no gate IDs appear
-6. Next steps name `/team-release`; the stage reads `Release`, so `/gate-check` is not offered
+6. Next steps name `producer`; the stage reads `Release`, so `/gate-check` is not offered
 
 **Assertions:**
 - [ ] The "omitted — cert_tier is 'none'" line appears and no certification rows are emitted
 - [ ] No Phase 4b question is asked in dry-run, the skip is stated, and the Overall Status is NOT ASSESSED
 - [ ] No "May I write" ask and no file written in dry-run mode
 - [ ] No director gate is invoked and no gate skip messages appear
-- [ ] Next steps name `/team-release` and do not offer `/gate-check`
+- [ ] Next steps name `producer` and do not offer `/gate-check`
 
 ---
 
@@ -241,14 +241,14 @@ Fixture defaults.
 3. Variant B: the Legal items stay unconfirmed and are named; Overall Status is
    NOT ASSESSED (it outranks CONDITIONAL)
 4. Next steps: run `/gate-check release` first — the stage still reads `Polish` —
-   then `/team-release`
+   then `producer`
 
 **Assertions:**
 - [ ] A `not yet` answer is never ticked; with an accepted risk it is listed under Conditional Items
 - [ ] Variant A's Overall Status is CONDITIONAL
 - [ ] Variant B's Overall Status is NOT ASSESSED and names the unanswered Legal items
 - [ ] No "documented exception" is offered for an S2 or S3 at `workflow: full`
-- [ ] Next steps name `/gate-check release` before `/team-release`
+- [ ] Next steps name `/gate-check release` before `producer`
 
 ---
 

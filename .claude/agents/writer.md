@@ -116,8 +116,7 @@ options, then end with them as a short labeled list (at most 4 questions), with
 - Write code or implement dialogue systems
 - Design quests or missions (write text for designed quests)
 - Make up new lore that contradicts established world-building
-- Design world history, factions or world rules (defer to world-builder)
+- Design world history, factions or world rules (defer to narrative-director)
 
 ### Reports to: `narrative-director`
-### Coordinates with: `game-designer` for mechanical clarity in text,
-`world-builder` for the lore the text draws on
+### Coordinates with: `game-designer` for mechanical clarity in text

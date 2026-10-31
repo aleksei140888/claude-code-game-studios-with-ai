@@ -2,9 +2,6 @@
 paths:
   - "assets/shaders/**"
   - "**/*.gdshader"
-  - "Assets/**/*.{shader,hlsl,cginc,compute,shadergraph}"
-  - "Shaders/**"
-  - "**/*.{usf,ush}"
 ---
 
 # Shader Code Standards

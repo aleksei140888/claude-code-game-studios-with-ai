@@ -308,39 +308,6 @@ The `full` column of the file-check table has its own STOP rule, so the
 
 ---
 
-### Case 6: Unity — code under `Assets/`, capture script asked for
-
-**Fixture:**
-- `project.yaml`: `engine.name: Unity`, `specialists.code: unity-specialist`,
-  `specialists.ui: unity-ui-specialist`, `commands.smoke` and `commands.run` set,
-  `modes.workflow: minimal`, `qa.level: minimal`
-- Story Type UI (an inventory screen) with `Requirement: Brief MVP feature 3` and
-  ADR fields `N/A (minimal — no ADRs)`
-- The project has `Assets/` and no `src/`; no `ScreenshotOnArg.cs` exists under `Assets/`
-- `docs/engine-reference/unity/VERSION.md` rates the pinned version HIGH risk
-
-**Input:** `/dev-story production/epics/[slug]/story-003-[slug].md`
-
-**Expected behavior:**
-1. Spawns `ui-programmer` with `unity-specialist` (`specialists.code`) and
-   `unity-ui-specialist` (`specialists.ui`, for a UI story)
-2. The brief sends the code to `Assets/Scripts/<System>/`, the Unity code root
-3. Verification runs `commands.smoke` and reports its exit code
-4. Before launching, globs `Assets/**/ScreenshotOnArg.cs`, finds none and asks
-   "May I write `Assets/Scripts/ScreenshotOnArg.cs`?"; on yes writes the script
-   verbatim from `.claude/docs/run-and-observe.md`
-5. Launches the built player with `--scene`/`--screenshot` and prints
-   `Run result: OBSERVED — …` with the retained path
-
-**Assertions:**
-- [ ] No file is written under `src/` — the Godot row is not a default
-- [ ] Both specialists come from the `specialists` block, not the roster table
-- [ ] `ScreenshotOnArg.cs` is written only after its ask, at `Assets/Scripts/`, exactly as run-and-observe.md gives it
-- [ ] If the user declines that ask, the result is `Run result: NOT VERIFIED — ScreenshotOnArg.cs not written`, not an observation
-- [ ] Verification names `commands.smoke` and its exit code
-
----
-
 ### Case 7: Engine unset — the code root is unresolved, nothing is written
 
 **Fixture:**
@@ -482,9 +449,8 @@ The `full` column of the file-check table has its own STOP rule, so the
 
 ## Coverage Notes
 
-- The code root is covered for Godot (`src/`) and Unity (`Assets/`, Case 6) and for
-  an unresolved engine (Case 7). Unreal (`Source/<Module>/<System>/`, with the
-  editor-target build as the parse check) is not given a fixture.
+- The code root is covered for Godot (`src/`) and for an unresolved engine (Case 7).
+  Godot is the only supported engine; Case 6 (Unity) was removed with Unity support.
 - The INCOMPLETE path is Case 9; `parse NOT VERIFIED` when the engine binary is
   unavailable is not given a fixture.
 - The Manifest Version mismatch prompt (`[A]` update / `[B]` keep old rules, which
