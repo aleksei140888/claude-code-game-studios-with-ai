@@ -564,8 +564,8 @@ For each agent in catalog's `agents:` section:
 === Skill Test Coverage Audit ===
 Date: [date]
 
-SKILLS (74 total)
-Specs written: 73 (99%) | Never static tested: 74 | Never category tested: 74
+SKILLS (68 total)
+Specs written: 67 (99%) | Never static tested: 68 | Never category tested: 68
 
 Skill                  | Cat      | Has Spec | Last Static | S.Result | Last Cat | C.Result | Priority
 -----------------------|----------|----------|-------------|----------|----------|----------|----------
@@ -573,8 +573,8 @@ gate-check             | gate     | YES      | never       | —        | never 
 design-review          | review   | YES      | never       | —        | never    | —        | critical
 ...
 
-AGENTS (49 total)
-Agent specs written: 49 (100%)
+AGENTS (25 total)
+Agent specs written: 25 (100%)
 
 Agent                  | Category   | Has Spec | Last Spec   | Result | Last Cat | C.Result
 -----------------------|------------|----------|-------------|--------|----------|----------
@@ -585,8 +585,8 @@ technical-director     | director   | YES      | never       | —      | never 
 Top 5 Priority Gaps (skills with no spec, critical/high priority):
 (none if all specs are written)
 
-Skill coverage:  73/74 specs (99%)
-Agent coverage:  49/49 specs (100%)
+Skill coverage:  67/68 specs (99%)
+Agent coverage:  25/25 specs (100%)
 ```
 
 No file writes in audit mode.

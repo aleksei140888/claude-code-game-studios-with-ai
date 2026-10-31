@@ -134,7 +134,8 @@ I write [data file]?", and edit it. Go to Phase 6.
 
 | Story | Programmer agent |
 |---|---|
-| Foundation layer, any type | `engine-programmer` |
+| Foundation layer, client | `godot-specialist` |
+| Foundation layer, world server | `world-simulation-engineer` |
 | Type UI | `ui-programmer` |
 | Type Visual/Feel | `gameplay-programmer` |
 | Core or Feature, gameplay | `gameplay-programmer` |

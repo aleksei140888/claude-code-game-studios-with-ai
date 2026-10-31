@@ -356,7 +356,7 @@ printf '%s\n' "$LIST" | ENG="$ENG" SHOWFILES="$SHOWFILES" awk '
     # The first folder to look in: under assets/ only below assets/data/.
     first = 2; datalock = 0
     if (root == "assets") { datalock = 1; first = (n >= 3 && tolower(seg[2]) == "data") ? 3 : n }
-    srcroot = (eng == "godot" && root == "src")
+    srcroot = (eng == "godot" && root == "client")
     for (gi = 1; gi <= ng; gi++) {
       g = G[gi]; hit = 0; nh = 0
       if (g == "levels") {

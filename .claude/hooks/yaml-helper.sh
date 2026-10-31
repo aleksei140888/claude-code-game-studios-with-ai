@@ -1472,7 +1472,7 @@ resolve_code_root() {
   fi
 
   case "$(printf '%s' "$ename" | tr '[:upper:]' '[:lower:]')" in
-    godot)   root="src" ;;
+    godot)   root="client" ;;
     unity)   root="Assets" ;;
     unreal*) root="Source" ;;
     *)       root="" ;;
@@ -1486,7 +1486,7 @@ resolve_code_root() {
   if [ -z "$root" ]; then
     for d in "$_YH_ROOT"/*/; do
       d="${d%/}"; d="${d##*/}"
-      case "$d" in src|Assets|Source) found="$d"; n=$((n + 1)) ;; esac
+      case "$d" in client|src|Assets|Source) found="$d"; n=$((n + 1)) ;; esac
     done
     if [ "$n" = 1 ]; then root="$found"; src="detected"; else root=""; src=""; fi
   fi
@@ -1944,8 +1944,6 @@ EOF
   if _rc_named specialists; then
     case "$(printf '%s' "$ev_name" | tr '[:upper:]' '[:lower:]')" in
       godot)   sp_primary="godot-specialist" ;;
-      unity)   sp_primary="unity-specialist" ;;
-      unreal*) sp_primary="unreal-specialist" ;;
       *)       sp_primary="" ;;
     esac
     sp_psrc="engine.name"

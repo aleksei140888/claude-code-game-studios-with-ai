@@ -1,6 +1,6 @@
 ---
 name: team-combat
-description: "Orchestrate the combat team — game-designer, gameplay-programmer, ai-programmer, technical-artist, sound-designer, qa-tester — design through implement and validate."
+description: "Orchestrate the combat team — game-designer, gameplay-programmer, ai-programmer, godot-specialist, qa-tester — design through implement and validate."
 argument-hint: "[combat feature description] [--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Agent, AskUserQuestion, TaskCreate, TaskGet, TaskList, TaskUpdate, Bash(bash "*/.claude/skills/team-combat/../../hooks/yaml-helper.sh" resolve_config *)
@@ -49,7 +49,7 @@ those five sections and tell the user it is optional at this workflow level.
 **`team.size`**: which agents are active (orthogonal to review_mode gate-depth and workflow docs).
 - **`individual`** (default): `gameplay-programmer` runs the pipeline; escalate `ai-programmer` only if the feature flags AI work. Other Team Composition agents are consulted via the gameplay-programmer, not spawned separately.
 - **`small`**: the full Team Composition pipeline below, as documented.
-- **`studio`**: full pipeline + engine sub-specialists + an adversarial review pass. *Engine sub-specialists*: the primary engine specialist's prompt says it may hand parts of its review to the sub-specialists its `tools:` grant names (for example `ue-gas-specialist` for abilities); below `studio` it answers alone. *Adversarial review pass*: Phase 5's qa-tester is told "your job is not to confirm this works — find how it breaks", and the report says the pass ran.
+- **`studio`**: full pipeline + engine sub-specialists + an adversarial review pass. *Engine sub-specialists*: the primary engine specialist's prompt says it may hand parts of its review to the sub-specialists its `tools:` grant names (for example `godot-gdscript-specialist` for GDScript idioms); below `studio` it answers alone. *Adversarial review pass*: Phase 5's qa-tester is told "your job is not to confirm this works — find how it breaks", and the report says the pass ran.
 A non-core agent needed at `individual` routes through the nearest active core agent with an informational note. **"Phase gate" means any phase that ends in an `AskUserQuestion` decision point this pipeline itself lists** — a transition under Decision Points above, or a **Gate** step written into the pipeline below — **whatever the `automation` mode.** `guided` and `autonomous` change how a gate is passed (it auto-advances, or is recorded with `log_decision`), not whether it is one, so bounded-exception condition (3) below holds at it in every mode. An agent restricted to "phase gates only" is spawned at those points and no others. This active-set scoping applies throughout the pipeline below: any phase that names an agent outside the active set routes through the nearest core agent rather than spawning it.
 
 **Announce the active set before Phase 1 — never let the collapse be silent.**
@@ -65,8 +65,8 @@ Fill it from the `team.size` list directly above and the agents this file's own
 pipeline names — not from an example. Both sets differ per orchestrator.
 
 The pipeline below reads as a multi-agent fan-out and at the shipped default it
-is one or two agents — `team-release` names ten and runs one, `team-narrative`
-names six across five phases and runs `writer` alone. **The collapse is correct**:
+is one or two agents — `team-narrative` names several
+agents across its phases and runs `writer` alone. **The collapse is correct**:
 `team.size` is rigor-fronted and the narrow default is the token lever.
 Without saying so, a reader cannot
 distinguish a correctly-collapsed run from a broken pipeline, and the per-agent
@@ -81,9 +81,7 @@ enforced.**
 - **game-designer** — Design the mechanic, define formulas and edge cases
 - **gameplay-programmer** — Implement the core gameplay code
 - **ai-programmer** — Implement NPC/enemy AI behavior for the feature
-- **technical-artist** — Create VFX, shader effects, and visual feedback
-- **sound-designer** — Define audio events, impact sounds, and ambient combat audio
-- **engine specialist** (primary) — Validate architecture and implementation patterns are idiomatic for the engine (the primary specialist is `<engine>-specialist` from `engine.name` — Godot→`godot-specialist`, Unity→`unity-specialist`, Unreal→`unreal-specialist`; fall back to the Primary line of `## Engine Specialists` in `technical-preferences.md`)
+- **engine specialist** (primary) — Validate architecture and implementation patterns are idiomatic for the engine, and create VFX, shader effects and visual feedback in Phase 3 (the primary specialist is `godot-specialist`, derived from `engine.name` — Godot is the only supported engine; fall back to the Primary line of `## Engine Specialists` in `technical-preferences.md`)
 - **qa-tester** — Write test cases and validate the implementation
 
 ## How to Delegate
@@ -92,9 +90,7 @@ Use the `Agent` tool to spawn each team member as a subagent:
 - `subagent_type: game-designer` — Design the mechanic, define formulas and edge cases
 - `subagent_type: gameplay-programmer` — Implement the core gameplay code
 - `subagent_type: ai-programmer` — Implement NPC/enemy AI behavior
-- `subagent_type: technical-artist` — Create VFX, shader effects, visual feedback
-- `subagent_type: sound-designer` — Define audio events, impact sounds, ambient audio
-- `subagent_type: [primary engine specialist]` — Engine idiom validation for architecture and implementation
+- `subagent_type: [primary engine specialist]` — Engine idiom validation for architecture and implementation; VFX, shader effects, visual feedback
 - `subagent_type: qa-tester` — Write test cases and validate implementation
 
 **Brief each agent — do not dump context.** Read the shared inputs **once** and pass a distilled brief inline: the lines each agent actually needs, never a file path for a document you have already read (an agent handed a path re-reads the whole file). Pass a path only for a document you have not read and only that agent needs.
@@ -109,8 +105,7 @@ names one; most are fixed by the skill that already reads them:
 | 1 game-designer (draft) | `production/combat/[feature]-gdd-draft.md` | this skill — you write the final `design/gdd/[feature].md` (Phase 1) |
 | 2 gameplay-programmer | `docs/architecture/[feature]-sketch.md` | see note below |
 | 2 engine specialist | `docs/architecture/[feature]-engine-notes.md` | see note below |
-| 3 gameplay-programmer, ai-programmer, technical-artist | the code root and `assets/` — the files the Phase 3 approval lists | outside the bounded exception: asked once for the set (File Write Protocol) |
-| 3 sound-designer | `production/combat/[feature]-audio-events.md` | this skill |
+| 3 gameplay-programmer, ai-programmer, engine specialist | the code root and `assets/` — the files the Phase 3 approval lists | outside the bounded exception: asked once for the set (File Write Protocol) |
 | 5 qa-tester (test cases) | `production/qa/test-cases/[feature]-cases.md` | `/team-qa` Phase 4 |
 | 5 qa-tester (bugs) | `production/qa/bugs/BUG-[NNNN].md` | `/team-qa` Phase 5 |
 
@@ -152,7 +147,7 @@ Delegate to **gameplay-programmer** (with **ai-programmer** if AI is involved):
 - Output: architecture sketch with file list and interface definitions
 
 Then spawn the **primary engine specialist** to validate the proposed architecture:
-- Is the class/node/component structure idiomatic for the pinned engine? (e.g., Godot node hierarchy, Unity MonoBehaviour vs DOTS, Unreal Actor/Component design)
+- Is the class/node/component structure idiomatic for the pinned engine? (e.g., Godot node hierarchy, scene composition, signals)
 - Are there engine-native systems that should be used instead of custom implementations?
 - Any proposed APIs that are deprecated or changed in the pinned engine version?
 - Output: engine architecture notes — incorporate into the architecture before Phase 3 begins
@@ -162,7 +157,7 @@ If no engine is configured, skip the specialist spawn. **Record ``Engine validat
 Use `AskUserQuestion`:
 - Prompt: "Architecture sketch complete. Approve to proceed with parallel implementation."
 - Options:
-  - `[A] Proceed — spawn implementation agents (gameplay-programmer, ai-programmer, technical-artist, sound-designer)`
+  - `[A] Proceed — spawn implementation agents (gameplay-programmer, ai-programmer, godot-specialist)`
   - `[B] Revise the architecture first — I'll describe what needs to change`
   - `[C] Stop here — I'll continue later`
 
@@ -176,15 +171,14 @@ critical or irreversible decision, so it follows the standard pipeline rule.)
 Delegate in parallel:
 - **gameplay-programmer**: Implement core combat mechanic code
 - **ai-programmer**: Implement AI behaviors (if the feature involves NPC reactions)
-- **technical-artist**: Create VFX and shader effects
-- **sound-designer**: Define audio event list and mixing notes, drafted to `production/combat/[feature]-audio-events.md`
+- **godot-specialist** (primary engine specialist): Create VFX and shader effects
 
 The code, VFX and shader work is outside the bounded write exception: each of
 those agents first returns the files it will create or change, you ask once for
 the whole set, and they write only after a yes (File Write Protocol).
 
 ### Phase 4: Integration
-- Wire together gameplay code, AI, VFX, and audio
+- Wire together gameplay code, AI, and VFX
 - Ensure all tuning knobs are exposed and data-driven
 - Verify the feature works with existing combat systems
 
@@ -263,4 +257,4 @@ Verdict: **BLOCKED** — one or more phases could not complete, or an agent was 
 
 - Run `/code-review` on the implemented combat code before closing stories.
 - Run `/balance-check` to validate combat formulas and tuning values.
-- Run `/team-polish` if VFX, audio, or performance polish is needed.
+- Run `/team-polish` if VFX or performance polish is needed.

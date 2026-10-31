@@ -1,8 +1,6 @@
 ---
 paths:
-  - "src/gameplay/**"
-  - "Assets/**/{Gameplay,gameplay}/**/*.cs"
-  - "Source/**/{Gameplay,gameplay}/**/*.{h,cpp}"
+  - "client/gameplay/**"
 ---
 
 # Gameplay Code Rules

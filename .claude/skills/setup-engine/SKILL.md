@@ -1,6 +1,6 @@
 ---
 name: setup-engine
-description: "Configure engine and version. Pins it in CLAUDE.md; WebSearch fills reference docs when the version is beyond LLM training data."
+description: "Configure the Godot engine version (Godot 4 + GDScript is the only supported engine). Pins it in CLAUDE.md; WebSearch fills reference docs when the version is beyond LLM training data."
 argument-hint: "[engine] | [engine version] | refresh | upgrade [old-version] [new-version] | no args for guided selection"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, WebSearch, WebFetch, Agent, AskUserQuestion, Bash(bash "*/.claude/skills/setup-engine/../../hooks/yaml-helper.sh" resolve_config *), Bash(godot --version), Bash(godot --headless --path . --import), Bash(command -v godot), Bash(uname -s), Bash(bash .claude/scripts/project-coherence.sh*)
@@ -29,8 +29,11 @@ If the block did not render (shell preprocessing disabled), assume `minimal` (th
 Four modes:
 
 - **Full spec**: `/setup-engine godot 4.7` — engine and version provided
-- **Engine only**: `/setup-engine unity` — engine provided, version will be looked up
-- **No args**: `/setup-engine` — fully guided mode (engine recommendation + version)
+- **Engine only**: `/setup-engine godot` — engine provided, version will be looked up
+- **No args**: `/setup-engine` — guided mode (confirm Godot, fit check + version)
+
+Godot is the only supported engine. If the argument names any other engine, say
+so and offer to continue with Godot.
 - **Refresh**: `/setup-engine refresh` — update reference docs (see Section 10)
 - **Upgrade**: `/setup-engine upgrade [old-version] [new-version]` — migrate to a new engine version (see Section 11)
 
@@ -122,20 +125,20 @@ If invoked as `/setup-engine refresh`:
 - If reference docs already exist for a different engine, ask before replacing
 - Always show the user what you're about to change before making CLAUDE.md edits
 - If WebSearch returns ambiguous results, show the user and let them decide
-- When the user chose **GDScript**: copy the GDScript CLAUDE.md template from **A1** in `references/godot-language-config.md` exactly. NEVER add "C++ via GDExtension" to the Language field. GDScript projects may use GDExtension, but it is not a primary project language. The `godot-gdextension-specialist` in the routing table is available for when native extensions are needed — it does not make C++ a project language.
+- When the user chose **GDScript**: copy the GDScript CLAUDE.md template from **A1** in `references/godot-language-config.md` exactly. NEVER add "C++ via GDExtension" to the Language field. GDScript projects may use GDExtension, but it is not a primary project language.
 
 ---
 
 ## Appendix A — Godot Language Configuration
 
-Moved out of this file so it costs nothing on non-Godot runs.
+Moved out of this file to keep the skill body short.
 
 **When the chosen engine is Godot, read**
 `references/godot-language-config.md`
-and use the subsection for the chosen language:
+and use its GDScript subsections:
 
-- **A1** — CLAUDE.md Technology Stack templates (GDScript / C# / Both)
+- **A1** — CLAUDE.md Technology Stack template (GDScript)
 - **A2** — naming conventions
 - **A3** — engine specialist routing and file-extension tables
 
-**Load discipline.** On any engine other than Godot, **never load it** — nothing in Sections 4, 5 or 5.5 needs it, and reading it anyway spends the tokens the split exists to save. On Godot, read it once when you first reach Section 4 and keep using it for Sections 5 and 5.5; do not re-read it at each reference.
+**Load discipline.** Read it once when you first reach Section 4 and keep using it for Sections 5 and 5.5; do not re-read it at each reference.

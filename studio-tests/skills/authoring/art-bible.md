@@ -12,7 +12,7 @@ It first reads `design/gdd/game-concept.md` (or `design/game-brief.md` at
 frames the session: **Scope** (with the option the resolved `workflow` tier
 requires marked Recommended) and **References** (free text). Authoring is
 progressive: every section's draft comes from a spawned specialist
-(`art-director`; plus `ux-designer` for section 7 and `technical-artist` for
+(`art-director`; plus `ux-designer` for section 7 and `godot-specialist` for
 section 8), is presented to the user, approved, and written to the file
 immediately before the next section starts. Sections 2–4 share one
 `art-director` call, as do 5–6, but their approvals and writes stay one section
@@ -61,7 +61,7 @@ the brief's pitch and "what they feel" line as the pillars and fantasy, and its
 "Art & audio direction" line as the anchor.
 
 The section-drafting delegation to `art-director` (and to `ux-designer` /
-`technical-artist`) is not a gate: it is mandatory and runs in every review mode.
+`godot-specialist`) is not a gate: it is mandatory and runs in every review mode.
 
 ---
 
@@ -92,7 +92,7 @@ Fixture defaults.
 3. Section 1: `art-director` drafts it; the user picks from `[A] Lock this in and write it to design/art/art-bible.md` / `[B] Revise the one-liner` / `[C] Revise a supporting principle` / `[D] Describe my own direction`; after "May I create `design/art/art-bible.md` from the art bible template?", the file is created from `.claude/docs/templates/art-bible.md` and the approved section replaces Section 1's `[To be designed]` line
 4. Sections 2–4: one `art-director` call returns three labelled blocks; Section 2 is presented, approved with the option that names the write, and written before Section 3 is presented, and so on
 5. Sections 5–6: one `art-director` call; presented, approved and written one at a time
-6. Section 7: `art-director` and `ux-designer` spawn in parallel; Section 8: `art-director` and `technical-artist` spawn in parallel; Section 9: `art-director`
+6. Section 7: `art-director` and `ux-designer` spawn in parallel; Section 8: `art-director` and `godot-specialist` spawn in parallel; Section 9: `art-director`
 7. Phase 5: AD-ART-BIBLE spawns after the ninth section is written, with the art bible path, the pillars and core fantasy, the platform and performance constraints, and the visual identity anchor
 8. The status header records `> **Art Director Sign-Off (AD-ART-BIBLE)**: APPROVED [date]`
 9. Phase 6: `AskUserQuestion` of next steps that always includes `/create-architecture` and "Stop here"
@@ -224,7 +224,7 @@ Fixture defaults.
 - [ ] Each section is presented, approved and written one at a time — approvals and writes are never batched
 - [ ] The file is created only after the "May I create `design/art/art-bible.md`…" ask, and each section is written only after an approval option that names the write
 - [ ] Only the sections in the chosen scope are authored, and the close names every section left out and why
-- [ ] Conflicts between `art-director` and `ux-designer` or `technical-artist` are surfaced to the user, never silently resolved
+- [ ] Conflicts between `art-director` and `ux-designer` or `godot-specialist` are surfaced to the user, never silently resolved
 - [ ] AD-ART-BIBLE runs only in full mode, after the scoped sections are written; lean and solo print a skip note naming the gate and mode
 - [ ] Ends with an `AskUserQuestion` of next steps filtered by project state — at `standard`/`full` always including `/create-architecture` and "Stop here"; at `workflow: minimal`, `/create-stories` or `/dev-story [next story]` plus Stop here
 
@@ -240,7 +240,7 @@ Fixture defaults.
   stories exist. That condition is not fixture-tested; Case 3 covers only the
   `standard` scope recommendation.
 - The Section 7 (`art-director` vs `ux-designer`) and Section 8
-  (`art-director` vs `technical-artist`) conflict handling is covered only by
+  (`art-director` vs `godot-specialist`) conflict handling is covered only by
   Protocol Compliance, not by a dedicated fixture.
 - The "Asset standards only (section 8)" scope option is not fixture-tested
   (Case 4 covers "Resume").

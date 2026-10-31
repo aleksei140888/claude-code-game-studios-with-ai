@@ -3,8 +3,9 @@
 ## Skill Summary
 
 Orchestrates the full combat team pipeline end-to-end for a single combat feature.
-Coordinates game-designer, gameplay-programmer, ai-programmer, technical-artist,
-sound-designer, the primary engine specialist, and qa-tester through six structured
+Coordinates game-designer, gameplay-programmer, ai-programmer, the primary engine
+specialist (`godot-specialist`, which also owns Phase 3 VFX and shaders), and
+qa-tester through six structured
 phases: Design → Architecture (with engine specialist validation) → Implementation
 (parallel) → Integration → Validation → Sign-off. Phase 0 resolves `review_mode`,
 `automation`, `team.size` and `workflow` (which sizes the GDD); the full pipeline runs at `team.size: small` and above,
@@ -32,9 +33,9 @@ verdict COMPLETE / NEEDS WORK / BLOCKED and handoffs to `/code-review`,
 - [ ] Uses `AskUserQuestion` at phase transitions for user approval before proceeding (`collaborative` mode)
 - [ ] Phase 0 resolves `team.size`, and the skill requires a one-line active-set announcement before Phase 1
 - [ ] Phase 0 resolves `workflow`, and Phase 1 sizes the GDD by it: `## Summary` plus all 8 sections at `full`, the 5 standard sections plus Formulas for numeric rules at `standard`, optional at `minimal` (the game brief is the record)
-- [ ] Phase 3 is explicitly marked as parallel (gameplay-programmer, ai-programmer, technical-artist, sound-designer)
+- [ ] Phase 3 is explicitly marked as parallel (gameplay-programmer, ai-programmer, godot-specialist for VFX and shaders)
 - [ ] Phase 2 includes spawning the primary engine specialist, derived from `engine.name` in `project.yaml` (Godot → `godot-specialist`), falling back to the Primary line in `.claude/docs/technical-preferences.md`
-- [ ] Team Composition lists all seven roles (game-designer, gameplay-programmer, ai-programmer, technical-artist, sound-designer, engine specialist, qa-tester)
+- [ ] Team Composition lists all five roles (game-designer, gameplay-programmer, ai-programmer, engine specialist, qa-tester), with no audio role
 
 ---
 
@@ -65,7 +66,7 @@ Fixture defaults.
 2. Phase 1 — game-designer spawned; drafts the design to `production/combat/parry-riposte-gdd-draft.md` covering all 8 required sections (overview, player fantasy, rules, formulas, edge cases, dependencies, tuning knobs, acceptance criteria); `AskUserQuestion` presents the draft and asks "May I write the design document to `design/gdd/parry-riposte.md`?"; the orchestrator writes it on approval
 3. Phase 2 — gameplay-programmer + ai-programmer spawned; produce architecture sketch with class structure, interfaces, and file list (`docs/architecture/parry-riposte-sketch.md`); then `godot-specialist` is spawned to validate idioms (`docs/architecture/parry-riposte-engine-notes.md`); engine specialist output incorporated
 4. `AskUserQuestion` "Architecture sketch complete. Approve to proceed with parallel implementation." with options [A] Proceed / [B] Revise the architecture first / [C] Stop here — implementation agents spawn only on [A]
-5. Phase 3 — gameplay-programmer, ai-programmer, technical-artist, sound-designer spawned in parallel; the three implementing agents return the files they will create or change, one `AskUserQuestion` asks for the whole set, and they write only after a yes; sound-designer drafts its event list to `production/combat/parry-riposte-audio-events.md`; all four return before Phase 4 begins
+5. Phase 3 — gameplay-programmer, ai-programmer, godot-specialist (VFX and shaders) spawned in parallel; the three implementing agents return the files they will create or change, one `AskUserQuestion` asks for the whole set, and they write only after a yes; all three return before Phase 4 begins
 6. Phase 4 — integration wires together all Phase 3 outputs; tuning knobs verified as data-driven; `AskUserQuestion` confirms integration before Phase 5
 7. Phase 5 — qa-tester spawned; writes test cases from acceptance criteria to `production/qa/test-cases/parry-riposte-cases.md`; verifies edge cases; performance impact checked against budget
 8. Phase 6 — summary report produced: design status, implementation status per team member, test results, open issues; verdict: COMPLETE
@@ -75,7 +76,7 @@ Fixture defaults.
 - [ ] Active-set line naming `team.size: small` appears before the first agent is spawned
 - [ ] `AskUserQuestion` called at each phase transition (at minimum before Phase 3 and before Phase 5)
 - [ ] The pre-Phase 3 gate offers [A] Proceed / [B] Revise / [C] Stop, and no implementation agent is spawned unless [A] is chosen
-- [ ] Phase 3 agents launched simultaneously — no sequential dependency between gameplay-programmer, ai-programmer, technical-artist, sound-designer
+- [ ] Phase 3 agents launched simultaneously — no sequential dependency between gameplay-programmer, ai-programmer, godot-specialist
 - [ ] Engine specialist runs in Phase 2 before Phase 3 begins (output incorporated into architecture)
 - [ ] Each agent prompt names its destination from the path table; no sub-agent writes under `design/`
 - [ ] No implementation file (code root, `assets/`) is written before one ask covering the whole Phase 3 set
@@ -100,7 +101,7 @@ Fixture defaults.
 2. Phase 2 — gameplay-programmer completes architecture sketch; ai-programmer returns BLOCKED: "ADR for AI behavior system is Proposed — cannot implement until ADR is Accepted"
 3. Error Recovery Protocol triggered: "ai-programmer: BLOCKED — AI behavior ADR is Proposed"
 4. `AskUserQuestion` presented with options: (a) Skip ai-programmer and note the gap; (b) Retry with narrower scope; (c) Stop here and run `/architecture-decision` first
-5. If user chooses (a): Phase 3 proceeds with gameplay-programmer, technical-artist, sound-designer only; ai-programmer gap noted in partial report
+5. If user chooses (a): Phase 3 proceeds with gameplay-programmer and godot-specialist only; ai-programmer gap noted in partial report
 6. Final report produced: partial implementation documented, ai-programmer section marked BLOCKED, overall verdict: BLOCKED
 
 **Assertions:**
@@ -147,15 +148,15 @@ Fixture defaults.
 
 **Expected behavior:**
 1. Phase 3 begins after architecture approval
-2. All four Agent calls — gameplay-programmer, ai-programmer, technical-artist, sound-designer — are issued before any result is awaited
-3. Skill waits for all four agents to complete before proceeding to Phase 4
-4. If any single agent completes early, skill does not begin Phase 4 until all four have returned
+2. All three Agent calls — gameplay-programmer, ai-programmer, godot-specialist — are issued before any result is awaited
+3. Skill waits for all three agents to complete before proceeding to Phase 4
+4. If any single agent completes early, skill does not begin Phase 4 until all three have returned
 
 **Assertions:**
-- [ ] Four Agent calls issued in a single batch (no sequential waiting between them)
-- [ ] Phase 4 does not begin until all four Phase 3 agents have returned results
+- [ ] Three Agent calls issued in a single batch (no sequential waiting between them)
+- [ ] Phase 4 does not begin until all three Phase 3 agents have returned results
 - [ ] Skill does not pass one Phase 3 agent's output as input to another Phase 3 agent (they are independent)
-- [ ] All four Phase 3 agent results referenced in the Phase 4 integration step
+- [ ] All three Phase 3 agent results referenced in the Phase 4 integration step
 
 ---
 
@@ -199,7 +200,7 @@ Fixture defaults.
 
 ## Protocol Compliance
 
-- [ ] At the default `team.size: individual`, the run opens with an `Active set (team.size: individual): gameplay-programmer` line and a `Not spawned this run:` line naming game-designer, technical-artist, sound-designer, the engine specialist and qa-tester (ai-programmer too unless AI work is flagged) — before any agent is spawned
+- [ ] At the default `team.size: individual`, the run opens with an `Active set (team.size: individual): gameplay-programmer` line and a `Not spawned this run:` line naming game-designer, the engine specialist and qa-tester (ai-programmer too unless AI work is flagged) — before any agent is spawned
 - [ ] In `collaborative` mode, `AskUserQuestion` used at each phase transition — user approves before pipeline advances
 - [ ] Sub-agent writes are delegated via Agent — drafts and QA artifacts inside the bounded exception, implementation files only after one ask for the whole set; the orchestrator writes only `design/gdd/[feature].md`, after a "May I write" approval
 - [ ] Error Recovery Protocol followed: surface → assess → offer options → partial report
@@ -218,7 +219,7 @@ Fixture defaults.
   here; it follows the same error recovery and partial report protocol as Case 2.
 - "Retry with narrower scope" error recovery option is listed in assertions but its full
   recursive behavior (splitting via `/create-stories`) is covered by the `/create-stories` spec.
-- Phase 4 integration logic (wiring gameplay, AI, VFX, audio) is validated implicitly by
+- Phase 4 integration logic (wiring gameplay, AI, VFX) is validated implicitly by
   the Happy Path case; a dedicated integration test would require fixture code files.
 - Engine specialist unavailable (no engine configured) is covered by Case 5 variant B.
 - The `studio` additions (engine sub-specialists, adversarial review pass) are asserted in

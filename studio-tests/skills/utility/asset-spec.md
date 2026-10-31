@@ -16,7 +16,7 @@ project. A re-run for a target whose spec file exists updates that file in place
 (existing blocks and IDs kept, new assets appended) after "May I update".
 
 The resolved review mode decides who drafts: `full` spawns `art-director` and
-`technical-artist` in parallel, `lean` spawns `art-director` only, `solo` (the
+`godot-specialist` in parallel, `lean` spawns `art-director` only, `solo` (the
 default, via `modes.rigor: minimal`) spawns no agents; `full` is also what
 `modes.rigor: full` resolves to. Every skipped agent is announced by name in
 the output. These are drafting consultations, not gates. The skill produces an
@@ -42,8 +42,8 @@ Checked against the SKILL.md by `/skill-test spec` — no fixture needed.
 No gate IDs and no `/gate-check`. The review mode controls drafting agents only:
 
 - **Full mode** (what `modes.rigor: full` resolves to): `art-director` and
-  `technical-artist` spawned in parallel
-- **Lean mode**: `art-director` only; the output says "technical-artist skipped —
+  `godot-specialist` spawned in parallel
+- **Lean mode**: `art-director` only; the output says "godot-specialist skipped —
   Lean mode: technical constraints not validated."
 - **Solo mode** (default at `modes.rigor: minimal`): no agents; the main session
   derives specs from the art bible, and the output names both skipped agents and
@@ -79,7 +79,7 @@ Fixture defaults.
 3. Phase 2 identifies the character's assets (sprite sheets such as idle, walk,
    attack, death; portrait; ability VFX; UI icon), shows them grouped by category,
    and asks via `AskUserQuestion` before speccing
-4. Lean mode: spawns `art-director` only, and says so: "technical-artist skipped —
+4. Lean mode: spawns `art-director` only, and says so: "godot-specialist skipped —
    Lean mode: technical constraints not validated."
 5. Phase 4 presents one `ASSET-NNN` block per asset with the field table
    (Category, Dimensions, Format, Naming, Polycount, Texture Res), Visual
@@ -91,8 +91,8 @@ Fixture defaults.
 
 **Assertions:**
 - [ ] Asset list is confirmed with `AskUserQuestion` before any spec is generated
-- [ ] Only `art-director` is spawned (no `technical-artist` in lean mode)
-- [ ] The output names `technical-artist` as skipped and says technical constraints were not validated
+- [ ] Only `art-director` is spawned (no `godot-specialist` in lean mode)
+- [ ] The output names `godot-specialist` as skipped and says technical constraints were not validated
 - [ ] Each asset block has the field table, Art Bible Anchors (by section), a Generation Prompt and `Status: Needed`
 - [ ] "May I write" names `design/assets/specs/goblin-enemy-assets.md`
 - [ ] Manifest is created with a Progress Summary and IDs starting at `ASSET-001`
@@ -198,14 +198,14 @@ Fixture defaults.
 3. No profile found → `AskUserQuestion`: "No profile found for **hero**. Describe it
    briefly" with Describe / Skip / Stop options
 4. Solo mode: no `Agent` calls; the output announces "art-director and
-   technical-artist skipped — Solo mode: specs derived in this session; technical
+   godot-specialist skipped — Solo mode: specs derived in this session; technical
    constraints not validated."
 5. No gate IDs appear and `/gate-check` is not invoked
 
 **Assertions:**
 - [ ] Skill continues without an art bible and says the specs are anchored to the brief
 - [ ] Missing profile triggers the "Describe it briefly" question rather than a failure
-- [ ] No `art-director` or `technical-artist` is spawned
+- [ ] No `art-director` or `godot-specialist` is spawned
 - [ ] Both skipped agents are named in the output, which says technical constraints were not validated
 - [ ] If the spec is written, its header names `design/game-brief.md` as the art direction (no `> **Art Bible**:` line), each asset carries a `**Brief anchor:**` line instead of Art Bible Anchors, and no Art Bible section or §8 tier is cited
 - [ ] No gate IDs appear — the skip note names agents, not gates
@@ -246,7 +246,7 @@ Fixture defaults.
 - [ ] Reads the art bible, project config and source doc before asking the user anything
 - [ ] Never specs assets before the user confirms the asset list
 - [ ] Spawns agents strictly per the resolved review mode (`--review` overrides for one run), and names every skipped agent in the output
-- [ ] Surfaces any art-director / technical-artist conflict instead of silently resolving it
+- [ ] Surfaces any art-director / godot-specialist conflict instead of silently resolving it
 - [ ] Asks "May I write" before a new spec file, "May I update" before changing an existing one, and "May I update" before the manifest
 - [ ] Assigns asset IDs sequentially across the project, reading the manifest first
 
@@ -258,6 +258,6 @@ Fixture defaults.
   `design/assets/entity-inventory.md`, or build the inventory in Phase 0b) is not
   separately tested.
 - `level:` targets and full-mode parallel spawning with a surfaced
-  art-director / technical-artist conflict are not separately tested.
+  art-director / godot-specialist conflict are not separately tested.
 - Agent BLOCKED handling (Error Recovery Protocol: always produce a partial spec)
   is not separately tested.

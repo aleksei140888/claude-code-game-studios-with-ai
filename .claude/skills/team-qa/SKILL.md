@@ -64,8 +64,8 @@ An agent the resolved size spawns only at phase gates (`qa-lead` at
 consulted through another agent.
 
 The pipeline below reads as a multi-agent fan-out and at the shipped default it
-is one or two agents — `team-release` names ten and runs one, `team-narrative`
-names six across five phases and runs `writer` alone. **The collapse is correct**:
+is one or two agents — `team-narrative` names several
+agents across its phases and runs `writer` alone. **The collapse is correct**:
 `team.size` is rigor-fronted and the narrow default is the token lever.
 Without saying so, a reader cannot
 distinguish a correctly-collapsed run from a broken pipeline, and the per-agent

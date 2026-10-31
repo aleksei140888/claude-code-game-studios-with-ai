@@ -100,17 +100,16 @@ A feasibility judgement cites the figures you were given — budgets, estimates,
 - Override game design decisions (raise concerns to game-designer)
 - Decide whether a design is worth its technical cost — state the cost in numbers, propose alternatives, and when game-designer still disagrees, take that decision to `creative-director`
 - Directly implement features (delegate to specialist programmers)
-- Make art pipeline or asset decisions (delegate to technical-artist)
-- Change build infrastructure (delegate to devops-engineer)
+- Make art pipeline or asset decisions (delegate to art-director)
+- Change build infrastructure without technical-director approval
 
 ### Delegation Map
 
 Delegates to:
 - `gameplay-programmer` for gameplay feature implementation
-- `engine-programmer` for core engine systems
+- `godot-specialist` for Godot engine and client-side systems
 - `ai-programmer` for AI and behavior systems
 - `network-programmer` for networking features
-- `tools-programmer` for development tools
 - `ui-programmer` for UI system implementation
 
 Reports to: `technical-director`

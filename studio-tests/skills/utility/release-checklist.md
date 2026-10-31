@@ -40,7 +40,7 @@ Checked against the SKILL.md by `/skill-test spec` — no fixture needed.
 - [ ] Has ≥2 phase headings
 - [ ] Contains verdict keywords: READY, NOT READY, NOT ASSESSED
 - [ ] Contains "May I write" language before writing the checklist
-- [ ] Has a next-step handoff (`/gate-check` for the formal verdict, `/team-release` for sign-offs)
+- [ ] Has a next-step handoff (`/gate-check` for the formal verdict, `producer` for sign-offs)
 
 ---
 
@@ -85,7 +85,7 @@ Fixture defaults.
 5. Store / Distribution, Launch Readiness and the Go / No-Go line follow
 6. Skill presents total items and known blockers, then asks "May I write this
    to `production/releases/release-checklist-[version].md`?"; next steps name
-   `/gate-check` and `/team-release`
+   `/gate-check` and `producer`
 
 **Assertions:**
 - [ ] TODO/FIXME/HACK counts are reported with the number of files scanned
@@ -187,13 +187,13 @@ Fixture defaults.
    certification block
 2. The Sign-offs Required list appears as unchecked items
 3. No director or other agent is spawned; no gate IDs appear
-4. Next steps point to `/gate-check` and `/team-release`
+4. Next steps point to `/gate-check` and `producer`
 
 **Assertions:**
 - [ ] No director gate is invoked and no gate skip message appears
 - [ ] No subagent is spawned, although sign-offs are listed
 - [ ] The console certification block is the only certification block
-- [ ] Next steps name `/gate-check` and `/team-release`
+- [ ] Next steps name `/gate-check` and `producer`
 
 ---
 
@@ -279,7 +279,7 @@ Fixture defaults.
 - [ ] Reads open bugs from `production/qa/bugs/` and applies the release gate's thresholds for the resolved `workflow` (S1–S3 at `full`, S1 at `standard`/`minimal`); no bug files → `NOT ASSESSED — no bug records`
 - [ ] Go / No-Go takes the first match: NOT READY, then NOT ASSESSED, then READY
 - [ ] Presents totals and blockers before asking "May I write"
-- [ ] Ends with `/gate-check` and `/team-release` as next steps
+- [ ] Ends with `/gate-check` and `producer` as next steps
 
 ---
 

@@ -128,9 +128,9 @@ Before writing any code:
 
 **Delegates to**:
 - `godot-gdscript-specialist` for GDScript architecture, patterns, and optimization
-- `godot-csharp-specialist` for C#/.NET patterns, signal delegates, and typed node access
-- `godot-shader-specialist` for Godot shading language, visual shaders, and particles
-- `godot-gdextension-specialist` for C++/Rust native bindings and GDExtension modules
+
+**Owns directly** (no sub-specialist): Godot shading language, visual shaders,
+particles, and UI (Control nodes) implementation guidance.
 
 **Escalation targets**:
 - `technical-director` for engine version upgrades, addon/plugin decisions, major tech choices
@@ -138,9 +138,8 @@ Before writing any code:
 
 **Coordinates with**:
 - `gameplay-programmer` for gameplay framework patterns (state machines, ability systems)
-- `technical-artist` for shader optimization and visual effects
+- `art-director` for visual targets of shaders and visual effects
 - `performance-analyst` for Godot-specific profiling
-- `devops-engineer` for export templates and CI/CD with Godot
 
 ## What This Agent Must NOT Do
 
@@ -153,16 +152,13 @@ Before writing any code:
 ## Sub-Specialist Orchestration
 
 You have the `Agent` tool to delegate to your sub-specialists. Start only the
-four below: this is Coordination Rule #1 (Vertical Delegation), and keeping to
+one below: this is Coordination Rule #1 (Vertical Delegation), and keeping to
 it is up to you, because when you run as a subagent Claude Code lets the `Agent`
 tool start any agent. If you have no `Agent` tool (Claude Code withholds it at
 its subagent depth limit), do the work yourself or name the sub-specialist in
 your report so your caller can start it. Use it when a task requires deep expertise in a specific Godot subsystem:
 
 - `subagent_type: godot-gdscript-specialist` — GDScript architecture, static typing, signals, coroutines
-- `subagent_type: godot-csharp-specialist` — .NET patterns, `[Signal]` delegates, async, type-safe node access
-- `subagent_type: godot-shader-specialist` — Godot shading language, visual shaders, particles
-- `subagent_type: godot-gdextension-specialist` — C++/Rust bindings, native performance, custom nodes
 
 Provide full context in the prompt including relevant file paths, design constraints, and performance requirements. Launch independent sub-specialist tasks in parallel when possible.
 

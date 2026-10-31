@@ -2,7 +2,7 @@
 
 ## Agent Summary
 Domain: Multiplayer networking, state replication, lag compensation, matchmaking protocol design, and network message schemas.
-Does NOT own: gameplay logic (only the networking of it), server infrastructure and deployment (devops-engineer).
+Does NOT own: gameplay logic (only the networking of it), server infrastructure and deployment (technical-director).
 No gate IDs assigned.
 
 ---
@@ -33,8 +33,8 @@ No gate IDs assigned.
 **Input:** "Deploy our game server to AWS EC2 and set up auto-scaling."
 **Expected behavior:**
 - Does NOT produce server deployment configuration, Terraform, or AWS setup scripts
-- Explicitly states that server infrastructure belongs to `devops-engineer`
-- Redirects the request to `devops-engineer`
+- Explicitly states that server infrastructure is outside its domain and belongs to `technical-director`
+- Redirects the request to `technical-director`
 - If it offers any part, it is only the network-side contract the server build needs (protocol, message versioning, connection lifecycle) — no deployment, hosting or scaling configuration
 
 ### Case 3: State divergence — rollback/reconciliation
@@ -59,14 +59,14 @@ No gate IDs assigned.
 - References the 80ms RTT budget explicitly in the design
 - Selects replication approach calibrated to that budget (e.g., rollback netcode is preferred for fighting games at this latency)
 - Specifies input delay frames calculated from the 80ms budget (e.g., 2 frames at 60fps = 33ms buffer)
-- Flags that rollback netcode needs a deterministic, re-simulatable game state, and routes it to the roles its coordination line names: engine-programmer for physics and simulation determinism, gameplay-programmer for the gameplay code that rollback re-simulates
+- Flags that rollback netcode needs a deterministic, re-simulatable game state, and routes it to the roles its coordination line names: world-simulation-engineer for physics and simulation determinism, gameplay-programmer for the gameplay code that rollback re-simulates
 
 ---
 
 ## Protocol Compliance
 
 - [ ] Stays within declared domain (replication, lag compensation, protocol design, matchmaking)
-- [ ] Redirects server deployment to devops-engineer
+- [ ] Redirects server deployment to technical-director
 - [ ] Returns structured findings (sync strategies, protocol specs, bandwidth estimates)
 - [ ] Does not implement gameplay logic — only specifies the network contract for it
 - [ ] Coordinates with security-engineer on anti-cheat boundaries

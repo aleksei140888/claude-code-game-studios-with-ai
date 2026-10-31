@@ -80,5 +80,5 @@ exit $EXIT_CODE
 
 When this hook reports issues:
 1. For naming violations: fix manually or invoke `art-director` for guidance
-2. For size violations: invoke `technical-artist` for optimization advice
+2. For size violations: invoke `art-director` for optimization advice
 3. For a full audit: run `/asset-audit` skill

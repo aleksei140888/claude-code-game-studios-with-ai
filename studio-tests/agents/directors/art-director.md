@@ -2,7 +2,7 @@
 
 ## Agent Summary
 **Domain owned:** Visual identity, art bible authorship and enforcement, asset quality standards, UI/UX visual design, visual phase gate, concept art evaluation.
-**Does NOT own:** UX interaction flows and information architecture (ux-designer's domain), audio direction (audio-director), code implementation.
+**Does NOT own:** UX interaction flows and information architecture (ux-designer's domain), audio (out of scope for the prototype), code implementation.
 **Gate IDs handled:** AD-CONCEPT-VISUAL, AD-ART-BIBLE, AD-VISUAL, AD-PHASE-GATE.
 
 ---
@@ -31,10 +31,10 @@ Verified by reading the agent's `.claude/agents/art-director.md` frontmatter:
 
 ### Case 2: Out-of-domain request — redirects or escalates
 **Scenario:** Sound designer asks art-director to specify how ambient audio should layer and duck when the player enters a combat zone.
-**Expected:** Agent declines to define audio behavior and redirects to audio-director.
+**Expected:** Agent declines to define audio behavior and says audio is out of scope for the prototype.
 **Assertions:**
 - [ ] Does not make any binding decision about audio layering or ducking behavior
-- [ ] Explicitly names `audio-director` as the correct handler
+- [ ] Explicitly says audio decisions are out of scope (no audio owner exists for the prototype) rather than deciding them itself
 - [ ] Any comment it makes is about the zone's visual mood (e.g., "the audio should match the visual tension of the zone") — it specifies no layer, duck amount, fade time or trigger
 
 ### Case 3: Gate verdict — correct vocabulary

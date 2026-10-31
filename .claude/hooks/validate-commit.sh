@@ -593,6 +593,27 @@ sys.stdout.buffer.write(("CCGS-JSON-CHECKED\n" + "".join("B\t" + p + "\n" for p 
     fi
 fi
 
+# ---------------------------------------------------------------------------
+# BLOCKING: LLM calls outside server/ai/ (ADR-001, FOUN-1). The LLM may only
+# propose intents from server/ai/; the sim, the client and everything else must
+# not talk to a model. Flags an LLM-client import in Python or an LLM API host in
+# any source file. tests/server/ai/ may import them (mocks, fixtures).
+# Reads the working copy, like the code scans below.
+# ---------------------------------------------------------------------------
+LLM_SCAN=$(echo "$STAGED" \
+    | grep -vE '^(server/ai|tests/server/ai)/' \
+    | grep -vE '^(\.claude|docs|design|production|studio-tests)/|\.md$' \
+    | grep -iE '\.(py|gd|cs|js|ts)$')
+if [ -n "$LLM_SCAN" ]; then
+    LLM_HITS=$(printf '%s\n' "$LLM_SCAN" | while IFS= read -r f; do [ -f "$f" ] && printf '%s\0' "$f"; done \
+        | xargs -0 grep -nE '^[[:space:]]*(import|from)[[:space:]]+(agno|openai|anthropic|litellm|mistralai|cohere|ollama|langchain[a-z_]*|google\.(genai|generativeai))([[:space:].]|$)|api\.(openai|anthropic)\.com|generativelanguage\.googleapis\.com' 2>/dev/null || true)
+    if [ -n "$LLM_HITS" ]; then
+        echo "BLOCKED: LLM call outside server/ai/ (ADR-001: LLM -> intent -> validator -> state). Move it into server/ai/ and submit an intent instead:" >&2
+        printf '%s\n' "$LLM_HITS" >&2
+        exit 2
+    fi
+fi
+
 # Check design documents for the sections REQUIRED AT THIS PROJECT'S TIER.
 #
 # Demanding all 8 sections unconditionally would contradict

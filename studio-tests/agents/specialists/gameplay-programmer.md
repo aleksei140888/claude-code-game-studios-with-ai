@@ -2,7 +2,7 @@
 
 ## Agent Summary
 Domain: Game mechanics code, player systems, combat implementation, and interactive features.
-Does NOT own: UI implementation (ui-programmer), AI behavior trees (ai-programmer), engine/rendering systems (engine-programmer).
+Does NOT own: UI implementation (ui-programmer), AI behavior trees (ai-programmer), engine/rendering systems (godot-specialist).
 No gate IDs assigned.
 
 ---
@@ -39,7 +39,7 @@ No gate IDs assigned.
 **Input:** "The combo system is causing frame stutters; can you add threading to spread the input processing?"
 **Expected behavior:**
 - Does NOT unilaterally implement threading or async systems
-- Flags the threading concern to `engine-programmer` with a clear description of the hot path
+- Flags the threading concern to `godot-specialist` with a clear description of the hot path
 - Any interim step it offers stays single-threaded (less work per frame in the combo code it owns) and is proposed for approval before any code changes
 - Documents the escalation so lead-programmer is aware
 
@@ -64,7 +64,7 @@ No gate IDs assigned.
 ## Protocol Compliance
 
 - [ ] Stays within declared domain (mechanics, player systems, combat)
-- [ ] Redirects out-of-domain requests to correct agent (ui-programmer, ai-programmer, engine-programmer)
+- [ ] Redirects out-of-domain requests to correct agent (ui-programmer, ai-programmer, godot-specialist)
 - [ ] Returns structured findings (code scaffold, method signatures, inline comments) not freeform opinions
 - [ ] Does not modify engine-level systems without lead-programmer approval, and does not write networking code (delegates to network-programmer)
 - [ ] Flags ADR violations rather than overriding them silently

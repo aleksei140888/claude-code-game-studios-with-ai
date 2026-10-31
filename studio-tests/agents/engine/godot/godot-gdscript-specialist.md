@@ -2,7 +2,7 @@
 
 ## Agent Summary
 Domain: GDScript static typing, design patterns in GDScript, signal architecture, coroutine/await patterns, and GDScript performance.
-Does NOT own: shader code (godot-shader-specialist), GDExtension bindings (godot-gdextension-specialist).
+Does NOT own: shader code (godot-specialist), GDExtension language/runtime decisions (godot-specialist).
 No gate IDs assigned.
 
 ---
@@ -31,8 +31,8 @@ No gate IDs assigned.
 **Input:** "Write a vertex shader to distort the mesh in world space."
 **Expected behavior:**
 - Does NOT produce shader code in GDScript or in Godot's shading language
-- Explicitly states that shader authoring belongs to `godot-shader-specialist`
-- Redirects the request to `godot-shader-specialist`
+- Explicitly states that shader authoring belongs to `godot-specialist`
+- Redirects the request to `godot-specialist`
 - Any help it offers stays on the script side its redirect line says it owns (`set_shader_parameter()`, material assignment) — it writes no shader code
 
 ### Case 3: Async loading with coroutines
@@ -51,7 +51,7 @@ No gate IDs assigned.
 - Identifies that an untyped `Array` foregoes GDScript compiler optimizations
 - Recommends converting to a typed array (`Array[Node]` or the specific type) so the compiler can use typed code paths
 - Produces the typed array refactor as the immediate fix
-- Notes that if profiling still shows the loop as a bottleneck, the next step is moving the hot path to GDExtension (C++/Rust) with godot-gdextension-specialist, per its GDScript/GDExtension boundary
+- Notes that if profiling still shows the loop as a bottleneck, the next step is moving the hot path to GDExtension (C++/Rust), raised with godot-specialist, per its GDScript/GDExtension boundary
 - Does NOT recommend moving the loop, or the codebase, out of GDScript without profiler evidence
 
 ### Case 5: Context pass — Godot 4.6 with post-cutoff features
@@ -68,8 +68,7 @@ No gate IDs assigned.
 ## Protocol Compliance
 
 - [ ] Stays within declared domain (GDScript — typing, patterns, signals, coroutines, performance)
-- [ ] Redirects shader requests to godot-shader-specialist
-- [ ] Redirects GDExtension requests to godot-gdextension-specialist
+- [ ] Redirects shader requests and GDExtension decisions to godot-specialist
 - [ ] Returns structured GDScript output with full static typing
 - [ ] Uses Godot 4 API only — no deprecated Godot 3 patterns (yield, connect with strings, etc.)
 - [ ] Flags features from 4.4 onward (4.4 just before the cutoff; 4.5, 4.6, 4.7 after it) and marks them as requiring doc verification

@@ -183,7 +183,6 @@ These skills always behave as `collaborative` regardless of the setting:
 |-------|--------------------------|
 | `hotfix` | Emergency decisions — user must approve scope and risk before any action |
 | `gate-check` | Results must be reviewed — a gate verdict without acknowledgement defeats the purpose |
-| `day-one-patch` | Release-critical — every action needs explicit sign-off |
 | `setup-engine` | One-time irreversible choice that affects the entire project |
 
 These skills do NOT add the automation prelude described above. They keep

@@ -595,10 +595,9 @@ Skill (Coordinator):
  [User approves or requests changes]
 
  **Phase 3: Parallel Implementation**
- I'll now coordinate 4 agents to implement in parallel:
+ I'll now coordinate 3 agents to implement in parallel:
  - gameplay-programmer: Core grapple physics
- - technical-artist: Cable VFX
- - sound-designer: Whoosh + impact SFX
+ - godot-specialist: Cable VFX
  - ai-programmer: Enemy reactions to being grappled
 
  Each will show you their work before writing files. Proceed?"

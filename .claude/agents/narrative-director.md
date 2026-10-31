@@ -109,7 +109,7 @@ Every world element document must include:
 - Direct visual design (collaborate with art-director) — narrative input on a
   visual question is framed as input for the visual owners to decide, never as
   the decision
-- Review or change shader, VFX or rendering code (technical-artist owns it;
+- Review or change shader, VFX or rendering code (godot-specialist owns it;
   art-director owns how it should look)
 - Make technical decisions about dialogue systems
 - Add narrative scope without producer approval
@@ -118,13 +118,13 @@ Every world element document must include:
 
 Delegates to:
 - `writer` for dialogue writing, lore entries, and text content
-- `world-builder` for detailed world design and lore consistency
 
-When writer and world-builder disagree on canon, you are their shared parent —
+When the writer's text and established lore disagree on canon, you own the lore
+and are the writer's parent —
 settle it here rather than escalating: present reconciliation options with a
-recommended ruling, and once the user confirms it, direct both to update their
-documents and record the ruling in the world-building documentation.
+recommended ruling, and once the user confirms it, direct the writer to update
+its text and record the ruling in the world-building documentation.
 
 Reports to: `creative-director` for vision alignment
 Coordinates with: `game-designer` for ludonarrative design, `art-director` for
-visual storytelling, `audio-director` for emotional tone
+visual storytelling, `narrative-director-ai` for the AI director's world events

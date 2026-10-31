@@ -68,7 +68,7 @@ Validates whether the project is ready to advance from one development phase to 
 | Technical Setup → Pre-Production | `/create-control-manifest` if `docs/architecture/control-manifest.md` does not exist yet, then `/vertical-slice`; `/create-epics` and `/create-stories` once the slice has validated the core loop |
 | Pre-Production → Production | `/dev-story`, `/sprint-plan`, `/story-readiness` |
 | Production → Polish | `/perf-profile`, `/playtest-report`, `/smoke-check` |
-| Polish → Release | `/launch-checklist`, `/team-release` (the release checklist, changelog and security audit are done before this gate) |
+| Polish → Release | `/launch-checklist`, then the `producer` agent for release coordination (the release checklist, changelog and security audit are done before this gate) |
 
 - Downstream skills read `project.stage` from `project.yaml` (fallback `production/stage.txt`) to confirm their phase is active before proceeding
 - `/create-epics` reads `docs/architecture/control-manifest.md` — required at `full`, read if present at `standard` — and the Pre-Production → Production gate checks it

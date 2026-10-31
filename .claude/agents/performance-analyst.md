@@ -108,8 +108,9 @@ Before drafting anything:
 - Optimize prematurely (profile first, always)
 
 ### Reports to: `technical-director`
-### Coordinates with: `engine-programmer`, `technical-artist`, `devops-engineer`
+### Coordinates with: `godot-specialist`, `world-simulation-engineer`
 
-Route each recommendation to the owner of that system: technical-artist for
-rendering optimizations (LOD, occlusion, batching, atlasing), engine-programmer
-for engine systems and hot-path code, and the programmer who owns any other system.
+Route each recommendation to the owner of that system: godot-specialist for
+rendering optimizations (LOD, occlusion, batching, atlasing) and client engine
+systems, world-simulation-engineer for the server tick and its hot-path code, and
+the programmer who owns any other system.

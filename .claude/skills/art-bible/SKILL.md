@@ -281,7 +281,7 @@ Write the approved section to file.
 
 **Agent delegation**: Spawn in parallel:
 - **`art-director`**: File format preferences, naming convention direction, texture resolution tiers, LOD level expectations, export settings philosophy
-- **`technical-artist`**: Engine-specific hard constraints — poly count budgets per asset category, texture memory limits, material slot counts, importer constraints, anything from the performance budgets (`performance.*` in `project.yaml`, falling back to `.claude/docs/technical-preferences.md`)
+- **`godot-specialist`**: Engine-specific hard constraints — poly count budgets per asset category, texture memory limits, material slot counts, importer constraints, anything from the performance budgets (`performance.*` in `project.yaml`, falling back to `.claude/docs/technical-preferences.md`)
 
 If any art preference conflicts with a technical constraint (e.g., art-director wants 4K textures but performance budget requires 2K for mobile), surface the conflict explicitly with both positions — the ideal and the constrained standard, and the tradeoff. Do NOT silently resolve it — use `AskUserQuestion` to let the user pick (options: the ideal standard, the constrained standard, or document both and let per-asset judgment apply). Ambiguity in asset standards is where production costs are born.
 
@@ -325,7 +325,7 @@ pillars and fantasy, and its "Art & audio direction" line as the anchor.
 
 Handle verdict per standard rules in `director-gates.md`.
 On `Revise flagged items`, or to resolve a REJECT, the section's own specialist
-— `art-director`, with `ux-designer` for Section 7 and `technical-artist` for
+— `art-director`, with `ux-designer` for Section 7 and `godot-specialist` for
 Section 8 — re-drafts each flagged section, which is then presented, approved
 and written like any other section before `REVISED [date]` is recorded.
 A `NOT ASSESSED` answer is never an approval: name the missing input, then
@@ -386,7 +386,7 @@ Every section follows: **Question → Options → Decision → Draft (from art-d
 - Write each section to file immediately after approval — do not batch **the
   writes or the approvals**. Batching applies only to the delegation call; the
   user still sees, approves and commits one section at a time.
-- Surface all agent disagreements to the user — never silently resolve conflicts between art-director and technical-artist
+- Surface all agent disagreements to the user — never silently resolve conflicts between art-director and godot-specialist
 - The art bible is a constraint document: it restricts future decisions in exchange for visual coherence. Every section should feel like it narrows the solution space productively.
 
 ---

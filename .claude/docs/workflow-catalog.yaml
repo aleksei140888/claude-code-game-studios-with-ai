@@ -399,7 +399,7 @@ phases:
         name: "Team Orchestration (optional)"
         required: false
         repeatable: true
-        description: "Coordinate multiple agents on a complex feature. Use: /team-combat, /team-narrative, /team-ui, /team-audio, /team-level, /team-live-ops, /team-qa. Run when a feature spans multiple agent domains."
+        description: "Coordinate multiple agents on a complex feature. Use: /team-combat, /team-narrative, /team-ui, /team-level, /team-qa. Run when a feature spans multiple agent domains."
 
       - id: scope-check
         name: "Scope Check"
@@ -464,12 +464,6 @@ phases:
           glob: "production/security/security-audit-*.md"
         description: "The Polish -> Release gate reads the newest `full`-scope report (plus any later `quick` re-run) at standard and full: no open CRITICAL or HIGH finding"
 
-      - id: localize-qa
-        name: "Localization QA"
-        command: /localize
-        required: false
-        description: "Run `/localize qa` for every language you ship; at full the release gate needs PASS or PASS WITH CONDITIONS for each (recommended at standard, dropped at minimal)"
-
       - id: release-checklist
         name: "Release Checklist"
         command: /release-checklist
@@ -480,13 +474,7 @@ phases:
         name: "Changelog"
         command: /changelog
         required: true
-        description: "Internal changelog from commits, sprints, and design docs. The release gate needs the changelog or the patch notes drafted"
-
-      - id: patch-notes
-        name: "Patch Notes"
-        command: /patch-notes
-        required: false
-        description: "Player-facing patch notes from git history and sprint data; /team-release finalizes them on a GO"
+        description: "Internal changelog from commits, sprints, and design docs. The release gate needs the changelog drafted"
 
   release:
     label: "Release"
@@ -498,9 +486,3 @@ phases:
         command: /launch-checklist
         required: true
         description: "Final launch readiness — last gate before shipping to players"
-
-      - id: team-release
-        name: "Coordinated Release"
-        command: /team-release
-        required: false
-        description: "Release candidate, quality gate, go/no-go and deployment, coordinated across release, QA and DevOps"

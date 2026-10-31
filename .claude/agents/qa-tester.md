@@ -244,8 +244,8 @@ After a bug fix or hotfix, produce a **targeted** regression checklist, not a fu
 ### Bug Report Format
 
 Write every bug in `/bug-report`'s template (`.claude/skills/bug-report/SKILL.md`,
-Phase 2A, "Draft the bug report"), not a format of your own. `/bug-triage`,
-`/day-one-patch` and `/milestone-review` parse these lines, and a bug without
+Phase 2A, "Draft the bug report"), not a format of your own. `/bug-triage`
+and `/milestone-review` parse these lines, and a bug without
 them is never counted:
 
 - ID `BUG-NNNN` — one past the highest number in `production/qa/bugs/`,

@@ -340,17 +340,15 @@ behavior: strict project defaults for CI, looser developer overrides for local w
 > other review-mode-aware skill, and with nothing set it follows `modes.rigor` like
 > them: `solo` at `minimal` (the default), `lean` at `standard`.
 
-> **Hotfix / day-one-patch exception:** These skills are emergency or release-critical
-> pipelines. They are never gated by `review_mode` — all agents always run.
+> **Hotfix exception:** This skill is an emergency
+> pipeline. It is never gated by `review_mode` — all agents always run.
 
-> **`review_mode` in the nine `team-*` orchestrators.** `review_mode` sets
+> **`review_mode` in the six `team-*` orchestrators.** `review_mode` sets
 > director-gate depth: `full` spawns every director gate a pipeline names, `lean`
 > skips director gates unless they are PHASE-GATE type, and `solo` skips gate
 > spawning entirely. No team pipeline spawns a PHASE-GATE (`/gate-check` is their
 > only spawner), so in the orchestrators
-> `lean` and `solo` behave the same, and `full` adds two things:
-> `/team-release`'s technical-director release sign-off, and, at
-> `team.size: small`, `/team-narrative`'s `localization-lead` and `world-builder`.
+> `lean`, `solo` and `full` select the same agents.
 >
 > Outside the orchestrators, the skills in the *Core skills* table below read
 > `review_mode` as that table documents.
@@ -415,9 +413,8 @@ pipeline's own review steps run in every mode.
 
 | Skill | full | lean | solo |
 |-------|------|------|------|
-| **All nine `team-*`** | Every director gate the pipeline names | PHASE-GATE-type gates only | No director gates |
-| **team-release** | + technical-director release sign-off before the go/no-go call | Sign-off not run — recorded as `not run (review_mode: lean)` | Sign-off not run — recorded as `not run (review_mode: solo)` |
-| **team-narrative** | ND-CONSISTENCY; at `team.size: small`, + `localization-lead` and `world-builder` | ND-CONSISTENCY; at `small`, `narrative-director` + `writer` only | ND-CONSISTENCY still runs when `narrative-director` is active |
+| **All six `team-*`** | Every director gate the pipeline names | PHASE-GATE-type gates only | No director gates |
+| **team-narrative** | ND-CONSISTENCY; at `small`, `narrative-director` + `writer` | ND-CONSISTENCY; at `small`, `narrative-director` + `writer` | ND-CONSISTENCY still runs when `narrative-director` is active |
 
 ---
 
@@ -447,7 +444,7 @@ pipeline's own review steps run in every mode.
 - **dev-story** core programmer routing (gameplay-programmer, ui-programmer, etc.)
   always runs regardless of mode — only the optional engine-specialist escalation
   for HIGH risk stories is gated.
-- **hotfix** and **day-one-patch** are exempt — all agents always run.
+- **hotfix** is exempt — all agents always run.
 - When a gate is skipped, skills emit: `"[GATE-ID] skipped — [mode] mode."` before
   proceeding. This is consistent across all skills.
 
@@ -634,7 +631,7 @@ checklists differ per phase per mode.
 | Technical Setup → Pre-Production | engine, art bible sections 1–4+, 3+ ADRs, architecture, UX specs started | engine, art bible only if visual assets, critical ADRs, architecture | engine configured (required floor) |
 | Pre-Production → Production | sprint plan, complete art bible, epics, UX specs, control manifest; Vertical Slice + its playtest recommended (absent → CONCERNS) | epics, sprint plan; complete art bible, UX specs, control manifest recommended; Vertical Slice recommended | the brief's Build order + stories under `production/epics/`; the Vertical Slice items drop — the core loop is fun and runs end to end, checked on the current build |
 | Production → Polish | core mechanics, tests, smoke check, QA sign-off, 3+ playtests | core mechanics, smoke check, playable end to end, 1+ playtest, no open S1 bugs | smoke check, playable end to end, no open S1 bugs |
-| Polish → Release | all features, content complete, localization (`/localize qa` per locale), QA, smoke, no open S1–S3 bugs, newest `/security-audit` with no open CRITICAL/HIGH | all features, smoke, no open S1 bugs, the security audit | smoke, no open S1 bugs |
+| Polish → Release | all features, content complete, QA, smoke, no open S1–S3 bugs, newest `/security-audit` with no open CRITICAL/HIGH | all features, smoke, no open S1 bugs, the security audit | smoke, no open S1 bugs |
 
 <!-- gate-check reconciliation: at `full` and `standard` the Vertical Slice
      keeps its long-standing "recommended, not blocking → CONCERNS if absent;
@@ -675,7 +672,6 @@ never softens a verdict — the strictest verdict from whoever ran still wins, a
 | **regression-suite** | Critical paths mapped from all sections including Edge Cases | Critical paths from required sections (including Edge Cases) | Smoke test coverage only |
 | **release-checklist** | Open S1, S2 or S3 bug in `production/qa/bugs/` fails its Quality Gates item | Open S1 fails; open S2/S3 listed as risks | Open S1 fails; open S2/S3 listed as risks |
 | **launch-checklist** | Zero open S1–S3 bugs, no exceptions | Zero open S1; S2 or a documented exception | Zero open S1; S2 or a documented exception |
-| **team-release** | qa-lead verifies no open S1–S3 bugs | qa-lead verifies no open S1 bugs | qa-lead verifies no open S1 bugs |
 
 ---
 
@@ -900,8 +896,8 @@ the recommended path is taken and logged.
 check-in. In `guided` the pipeline advances automatically unless BLOCKED. In
 `autonomous` the full pipeline runs end to end.
 
-`team-combat`, `team-ui`, `team-audio`, `team-qa`, `team-release`,
-`team-narrative`, `team-polish`, `team-level`, `team-live-ops`
+`team-combat`, `team-ui`, `team-qa`,
+`team-narrative`, `team-polish`, `team-level`
 
 **Implementation skills — lower impact.** Pause for architectural questions
 before writing code. In `guided` only genuinely ambiguous decisions stop. In
@@ -913,7 +909,7 @@ before writing code. In `guided` only genuinely ambiguous decisions stop. In
 or routing questions. In `guided` defaults are applied automatically. In
 `autonomous` recommended defaults are taken without prompting.
 
-`start`, `adopt`, `setup-engine`, `retrospective`, `localize`, `propagate-design-change`,
+`start`, `adopt`, `setup-engine`, `retrospective`, `propagate-design-change`,
 `asset-spec`, `smoke-check`, `qa-plan`, `story-readiness`
 
 ---
@@ -927,7 +923,6 @@ The reasons are noted.
 |-------|--------------------------|
 | **hotfix** | Emergency decisions — user must approve scope and risk before any action |
 | **gate-check** | Results must be reviewed — a gate verdict without user acknowledgement defeats the purpose |
-| **day-one-patch** | Release-critical — every action needs explicit sign-off |
 | **setup-engine** | One-time irreversible choice that affects the entire project |
 
 ---
@@ -1098,8 +1093,6 @@ The list is a YAML list of these strings. Skills check whether the current decis
 | Engine | Default test framework | Alternatives |
 |--------|------------------------|--------------|
 | Godot | `gdunit4` | `godot-test`, `WAT` |
-| Unity | `unity-test-framework` | `nunit`, custom |
-| Unreal | `unreal-automation` | Google Test, custom |
 
 ---
 
@@ -1110,7 +1103,7 @@ The list is a YAML list of these strings. Skills check whether the current decis
 | **qa-plan** | Test plan tailored to framework's idioms (assertion style, fixture pattern, parameterized tests) |
 | **dev-story** | Test framework name passed to programmer subagent in implementation brief |
 | **regression-suite** | Test file naming and discovery patterns match framework conventions |
-| **test-setup** | Scaffolds the right test layout for the engine (gdUnit4 under `addons/gdUnit4/` + `tests/` for Godot; `Assets/Tests/` asmdefs for Unity; `Source/<Module>/Private/Tests/` for Unreal) |
+| **test-setup** | Scaffolds the right test layout for the engine (gdUnit4 under `addons/gdUnit4/` + `tests/` for Godot) |
 | **smoke-check** | Invokes framework-appropriate test runner |
 
 ---
@@ -1235,8 +1228,6 @@ closing, or produces a warning and lets work continue — per test type
 
 > **Implementation is engine-specific.** Coverage measurement is different per engine:
 > - Godot: gdunit4 coverage report (markdown export)
-> - Unity: Unity Test Framework coverage (xml export)
-> - Unreal: gcov-style coverage from clang flags
 > CCGS does not unify these — gate-check reads the engine-appropriate report.
 
 ---
@@ -1300,7 +1291,7 @@ closing, or produces a warning and lets work continue — per test type
 
 > **Different axis from `workflow`.** `workflow` controls *what docs are required.*
 > `team.size` controls *which agents exist to make them.* A solo dev on
-> `workflow: full` still doesn't need all 49 agents — they need the same coverage
+> `workflow: full` still doesn't need all 25 agents — they need the same coverage
 > from a smaller active set.
 
 ---
@@ -1309,9 +1300,9 @@ closing, or produces a warning and lets work continue — per test type
 
 | Value | Active set | Notes |
 |-------|-----------|-------|
-| `individual` | Core 8: `producer`, `game-designer`, `gameplay-programmer`, engine-specialist (engine-driven), `technical-artist`, `sound-designer`, `qa-tester`, `writer`. **Default.** | Directors and lead-* run only on explicit invocation (e.g. via `/architecture-decision`). Specialists outside the core 8 routed through their nearest core agent. Each `team-*` skill names its own set per value, which can sit outside the core 8 (`team-release` runs `release-manager`); each skill's own `team.size` list is authoritative, and the Affected skills table below mirrors it. |
-| `small` | Core 15: directors (CD, TD, PR) + leads (LP, AD, QL, ND) + game-designer + systems-designer + engine-specialist + technical-artist + sound-designer + qa-tester + ux-designer + writer | `team-*` skills add their `small` set (below); most reach their full pipeline only at `studio`. |
-| `studio` | All 49 agents available. Engine sub-specialists (e.g. `unity-dots-specialist` separate from `unity-specialist`) routed when relevant. The adversarial review pass in `team-combat`, `team-ui` and `team-polish`. | Commercial titles, learning the full org chart, large teams with parallel work. |
+| `individual` | Core 7: `producer`, `game-designer`, `gameplay-programmer`, engine-specialist (engine-driven), `art-director`, `qa-tester`, `writer`. **Default.** | Directors and lead-* run only on explicit invocation (e.g. via `/architecture-decision`). Specialists outside the core 7 routed through their nearest core agent. Each `team-*` skill names its own set per value, which can sit outside the core 7 (`team-polish` runs `performance-analyst`); each skill's own `team.size` list is authoritative, and the Affected skills table below mirrors it. |
+| `small` | Core 13: directors (CD, TD, PR) + leads (LP, AD, QL, ND) + game-designer + systems-designer + engine-specialist + qa-tester + ux-designer + writer | `team-*` skills add their `small` set (below); most reach their full pipeline only at `studio`. |
+| `studio` | All 25 agents available. Engine sub-specialists (e.g. `godot-gdscript-specialist` separate from `godot-specialist`) routed when relevant. The adversarial review pass in `team-combat`, `team-ui` and `team-polish`. | Commercial titles, learning the full org chart, large teams with parallel work. |
 
 ---
 
@@ -1320,14 +1311,11 @@ closing, or produces a warning and lets work continue — per test type
 | Skill | individual | small | studio |
 |-------|------|-------|--------|
 | **team-combat** | Single agent (gameplay-programmer) runs the pipeline; ai-programmer escalated only if AI work flagged | Default pipeline as documented | Default + the primary engine specialist may use its sub-specialists + adversarial review pass (Phase 5's qa-tester looks for how it breaks) |
-| **team-narrative** | writer only; narrative-director invoked only on explicit pillar conflict | narrative-director + writer, + localization-lead and world-builder at `review_mode: full` | All six narrative agents, whatever the review mode |
-| **team-ui** | ui-programmer + ux-designer | + accessibility-specialist + art-director | + engine UI specialist + adversarial review pass (Phase 4's reviewers look for where it fails its spec) |
-| **team-audio** | sound-designer only | + audio-director + technical-artist + gameplay-programmer | + accessibility-specialist + the primary engine specialist |
-| **team-level** | level-designer only | + systems-designer + art-director + qa-tester | + narrative-director + world-builder + accessibility-specialist |
+| **team-narrative** | writer only; narrative-director invoked only on explicit pillar conflict | narrative-director + writer | All Team Composition agents, whatever the review mode |
+| **team-ui** | ui-programmer + ux-designer | + art-director | + engine UI specialist + adversarial review pass (Phase 4's reviewers look for where it fails its spec) |
+| **team-level** | game-designer only | + systems-designer + art-director + qa-tester | + narrative-director + ux-designer |
 | **team-qa** | qa-tester only; qa-lead invoked at phase gates only | qa-lead + qa-tester pipeline | qa-lead + per-story qa-tester spawn + sign-off |
-| **team-release** | release-manager only | + producer + devops-engineer + qa-lead + community-manager | + security-engineer + analytics-engineer + localization-lead + performance-analyst, and network-programmer when the game is multiplayer |
-| **team-polish** | performance-analyst + technical-artist; no programmer is active, so Phase 2's optimisation list is handed to `/dev-story` | + sound-designer + qa-tester + engine-programmer (implements Phase 2's optimisation list), and tools-programmer when Phase 1 traces a cause to a content authoring tool | engine-programmer, as at small, + adversarial review pass (Phase 5's qa-tester looks for how it breaks) |
-| **team-live-ops** | live-ops-designer + economy-designer | + analytics-engineer + community-manager | + writer + narrative-director |
+| **team-polish** | performance-analyst + godot-specialist; no programmer is active, so Phase 2's optimisation list is handed to `/dev-story` | + qa-tester, and lead-programmer when Phase 1 traces a cause to a content authoring tool | the `small` set + adversarial review pass (Phase 4's qa-tester looks for how it breaks) |
 | **gate-check** | Panel width is `modes.workflow`'s axis, not this one (gates always run) — `team.size` affects only specialist depth within each director's review | Same as individual for directors; specialists within directors' reviews use small set | Same plus engine sub-specialists |
 | **architecture-decision** | TD-ADR (in `full` review mode) + the primary engine specialist | Same | Same — no sub-specialist or adversarial reviewer at any size |
 
@@ -1348,9 +1336,9 @@ which specialists are routed and which architecture sections are required
 **Values:** `true` | `false`  
 **Default:** none — unset is not `false`  
 **Set by:** `/settings`  
-**Read by:** `security-audit`, `team-release` (and the `security-engineer` agent)
+**Read by:** `security-audit` (and the `security-engineer` agent)
 
-**Priority chain:** `platform.multiplayer` in `project.yaml` → unset (`platform.*` is locked to `project.yaml`, so `project.local.yaml` cannot set it). Nothing writes it except `/settings`, so on most projects it is unset: `/security-audit` and `/team-release` ask whether the game is multiplayer rather than reading unset as `false`.
+**Priority chain:** `platform.multiplayer` in `project.yaml` → unset (`platform.*` is locked to `project.yaml`, so `project.local.yaml` cannot set it). Nothing writes it except `/settings`, so on most projects it is unset: `/security-audit` asks whether the game is multiplayer rather than reading unset as `false`.
 
 > **Distinct from `platform.online`.** `multiplayer` is *real-time multiplayer
 > specifically* (network specialist, netcode review, replication architecture).
@@ -1367,8 +1355,8 @@ which specialists are routed and which architecture sections are required
 
 | Value | Meaning |
 |-------|---------|
-| `true` | Game has real-time online multiplayer. `/security-audit` runs its netcode category and rates a HIGH finding as release-blocking; `/team-release` adds `network-programmer`'s sign-off. |
-| `false` | No real-time multiplayer. `/security-audit` skips the netcode category and says so; `/team-release` does not spawn `network-programmer`. |
+| `true` | Game has real-time online multiplayer. `/security-audit` runs its netcode category and rates a HIGH finding as release-blocking. |
+| `false` | No real-time multiplayer. `/security-audit` skips the netcode category and says so. |
 
 ---
 
@@ -1377,7 +1365,6 @@ which specialists are routed and which architecture sections are required
 | Skill | multiplayer: true | multiplayer: false |
 |-------|------------------|-------------------|
 | **security-audit** | Includes netcode review — authentication, replication, cheat vectors | Netcode review skipped, and the report says so |
-| **team-release** | `network-programmer` included in release sign-off pipeline | `network-programmer` excluded |
 
 No other skill reads this key: `/dev-story`, `/create-architecture` and `/gate-check`
 decide networking scope from the story, GDD or architecture in front of them.
@@ -1390,9 +1377,9 @@ decide networking scope from the story, GDD or architecture in front of them.
 **Values:** `true` | `false`
 **Default:** none — unset is not `false`
 **Set by:** `/settings`
-**Read by:** `security-audit`, `team-release` (and the `security-engineer` agent)
+**Read by:** `security-audit` (and the `security-engineer` agent)
 
-**Priority chain:** `platform.online` in `project.yaml` → unset (`platform.*` is locked to `project.yaml`, so `project.local.yaml` cannot set it). Nothing writes it except `/settings`: `/security-audit` and `/team-release` ask rather than reading unset as `false`.
+**Priority chain:** `platform.online` in `project.yaml` → unset (`platform.*` is locked to `project.yaml`, so `project.local.yaml` cannot set it). Nothing writes it except `/settings`: `/security-audit` asks rather than reading unset as `false`.
 
 > **Independent of `platform.multiplayer`.** A single-player game with Steam
 > Cloud and leaderboards is `online: true, multiplayer: false`. The two settings
@@ -1404,7 +1391,7 @@ decide networking scope from the story, GDD or architecture in front of them.
 
 | Value | Meaning |
 |-------|---------|
-| `true` | Project includes online services (cloud saves, leaderboards, achievements, telemetry, IAP, anything calling external APIs at runtime). `/security-audit` runs Category 2 (network and multiplayer — including a plaintext-token check) when this or `platform.multiplayer` is true or unset; `/team-release` adds a `security-engineer` sign-off. |
+| `true` | Project includes online services (cloud saves, leaderboards, achievements, telemetry, IAP, anything calling external APIs at runtime). `/security-audit` runs Category 2 (network and multiplayer — including a plaintext-token check) when this or `platform.multiplayer` is true or unset. |
 | `false` | Project is fully offline. `/security-audit` skips Category 2 only when `platform.multiplayer` is also false. |
 
 ---
@@ -1414,9 +1401,8 @@ decide networking scope from the story, GDD or architecture in front of them.
 | Skill | online: true | online: false |
 |-------|--------------|---------------|
 | **security-audit** | Category 2 (network) runs — server authority, packet validation, rate limits, plaintext tokens | Category 2 skipped only when `platform.multiplayer` is also false |
-| **team-release** | `security-engineer` sign-off when the game is online or stores player data | No online-driven security sign-off |
 
-No other skill reads this key: `/create-architecture`, `/dev-story`, `/team-live-ops`
+No other skill reads this key: `/create-architecture`, `/dev-story`
 and `/gate-check` decide online scope from the documents in front of them.
 
 ---
@@ -1470,7 +1456,7 @@ must tell them apart)
 > below describes the intended design, not current behaviour.
 >
 > The value is checked for valid spelling when you set it, and then ignored.
-> The accessibility-specialist routing and the Polish-stage audit described
+> The ux-designer accessibility routing and the Polish-stage audit described
 > below **do not happen at any level** — `/team-ui`, `/team-level`,
 > `/team-polish` and `/gate-check` do not read this setting, and `/start`
 > does not ask for it.
@@ -1494,9 +1480,9 @@ must tell them apart)
 
 | Value | Required features | Specialist routing |
 |-------|-------------------|--------------------|
-| `none` | None enforced | `accessibility-specialist` not spawned |
-| `standard` | Colorblind-safe palette, subtitles for any voice content, key remapping | `accessibility-specialist` runs in team-ui, team-level |
-| `aaa` | Full Game Accessibility Guidelines: motor, vision, hearing, cognitive categories | `accessibility-specialist` runs in all team-* skills; mandatory audit at Polish stage |
+| `none` | None enforced | No accessibility review by `ux-designer` |
+| `standard` | Colorblind-safe palette, subtitles for any voice content, key remapping | `ux-designer` runs an accessibility review in team-ui, team-level |
+| `aaa` | Full Game Accessibility Guidelines: motor, vision, hearing, cognitive categories | `ux-designer` runs an accessibility review in all team-* skills; mandatory audit at Polish stage |
 
 ---
 
@@ -1504,8 +1490,8 @@ must tell them apart)
 
 | Skill | none | standard | aaa |
 |-------|------|----------|-----|
-| **team-ui** | accessibility-specialist not spawned | accessibility-specialist included for HUD/menu reviews | accessibility-specialist included for every screen + accessibility audit pass |
-| **team-level** | accessibility-specialist not spawned | accessibility-specialist reviews level for colorblind safety and signposting | accessibility-specialist reviews for full mobility/audio/cognitive considerations |
+| **team-ui** | No accessibility review | ux-designer reviews HUD/menus for accessibility | ux-designer reviews every screen + accessibility audit pass |
+| **team-level** | No accessibility review | ux-designer reviews level for colorblind safety and signposting | ux-designer reviews for full mobility/audio/cognitive considerations |
 | **team-polish** | No accessibility pass | Final accessibility pass added | Full accessibility audit required before completion |
 | **gate-check** | No accessibility check at any stage | Polish gate checks for the standard required features | Polish gate requires full Game Accessibility Guidelines compliance audit |
 
@@ -1611,7 +1597,7 @@ validates and what artifacts are expected to exist
 **Values:** `Concept` | `Systems Design` | `Technical Setup` | `Pre-Production` | `Production` | `Polish` | `Release`  
 **Default:** `Concept`  
 **Set by:** `/gate-check` on a PASS, or on a CONCERNS the user explicitly accepts (the accepted risks are recorded); a FAIL never advances it — never set manually  
-**Read by:** `gate-check`, `project-stage-detect`, `help`, `day-one-patch`, `team-release`, `launch-checklist`, `release-checklist`, `map-systems`, `team-qa`, `adopt`
+**Read by:** `gate-check`, `project-stage-detect`, `help`, `launch-checklist`, `release-checklist`, `map-systems`, `team-qa`, `adopt`
 
 > **Stage count:** This document uses the
 > 7-stage reality implemented by gate-check:
@@ -1658,8 +1644,6 @@ required at `standard` and `minimal` levels.
 | **project-stage-detect** | Reads `project.stage` first — if set, uses it as authoritative. Falls back to heuristic detection only if absent. |
 | **help** | Uses stage to determine "where are you in the pipeline" and surfaces the correct next steps. |
 | **sprint-status** | Displays current stage in status summary. |
-| **day-one-patch** | Proceeds only when the stage is `Release` or `Polish`; otherwise says it is not appropriate yet. |
-| **team-release** | Stops before Phase 1 unless the stage is `Release` ("run `/gate-check release` first"); proceeding takes an explicit override, recorded in the go/no-go record and the report. Never writes the stage. |
 
 ---
 
@@ -1710,10 +1694,10 @@ required at `standard` and `minimal` levels.
 
 **Controls:** Which engine-specific specialist agents are routed to for code
 implementation, review, and architecture validation  
-**Values:** `Godot` | `Unity` | `Unreal`  
+**Values:** `Godot`  
 **Default:** `[UNSET]` — must be configured via `/setup-engine`  
 **Set by:** `/setup-engine`  
-**Read by:** `dev-story`, `code-review`, `architecture-decision`, `create-architecture`, `team-combat`, `team-ui`, `team-audio`
+**Read by:** `dev-story`, `code-review`, `architecture-decision`, `create-architecture`, `team-combat`, `team-ui`
 
 > **Currently stored in `technical-preferences.md`**, not `project.yaml`. After
 > YAML expansion, `engine.name` and the specialist routing table move to
@@ -1730,9 +1714,7 @@ implementation, review, and architecture validation
 
 | Engine | Language/code specialist | Shader specialist | UI specialist | Additional specialists |
 |--------|--------------------------|-------------------|---------------|----------------------|
-| **Godot** | `godot-gdscript-specialist` (GDScript) or `godot-csharp-specialist` (C#) — driven by `engine.language` | `godot-shader-specialist` | `godot-specialist` | `godot-gdextension-specialist` |
-| **Unity** | `unity-specialist` | `unity-shader-specialist` | `unity-ui-specialist` | `unity-addressables-specialist`, `unity-dots-specialist` |
-| **Unreal** | `unreal-specialist` | `unreal-specialist` | `ue-umg-specialist` | `ue-gas-specialist`, `ue-blueprint-specialist`, `ue-replication-specialist` |
+| **Godot** | `godot-gdscript-specialist` (GDScript) | `godot-specialist` | `godot-specialist` | None |
 | **[UNSET]** | No specialist spawned — warning emitted | No specialist spawned | No specialist spawned | None |
 
 ---
@@ -1745,7 +1727,7 @@ implementation, review, and architecture validation
 | **code-review** | Routes review to language, shader, or UI specialist based on file type being reviewed. |
 | **architecture-decision** | Loads `docs/engine-reference/[engine]/VERSION.md` before authoring. Spawns engine specialist to validate ADR for API correctness and post-cutoff compatibility. |
 | **create-architecture** | Includes engine-specific constraints and patterns in architecture doc based on engine choice. |
-| **team-combat / team-ui / team-audio** | Spawn the engine specialist their pipeline names: team-combat the primary engine specialist (from `team.size: small`), team-ui the engine UI specialist (`specialists.ui`, at `studio`), team-audio the primary engine specialist (at `studio`). The other six `team-*` skills spawn none. |
+| **team-combat / team-ui** | Spawn the engine specialist their pipeline names: team-combat the primary engine specialist (from `team.size: small`), team-ui the engine UI specialist (`specialists.ui`, at `studio`). Of the other four `team-*` skills, only team-polish spawns one (`godot-specialist`). |
 
 ---
 
@@ -1762,7 +1744,7 @@ implementation, review, and architecture validation
 **Values:** strings — shell-executable commands
 **Default:** `[UNSET]` — populated by `/setup-engine` with engine-typical defaults
 **Set by:** `/setup-engine`, `/settings`
-**Written by:** `/setup-engine`, `/settings`. **Read by:** `test` — `/smoke-check`, `/hotfix` (narrowed to the affected suite), `/bug-report` (verify mode, narrowed to the affected suite), `/day-one-patch` (targeted fix and, when set, the broader regression — NOT ASSESSED if unset), `/dev-story` (Godot parse-check executable resolution), `/test-setup` (the `<Project>.` filter root on Unreal), `project-coherence.sh`; `smoke` — `/dev-story` (Unity parse check), `/smoke-check` (build check when tests are WAIVED); `build` — `/smoke-check` (build check when tests are WAIVED and `smoke` is unset), `project-coherence.sh`; `run` — `/dev-story` (Phase 6 step 4, the run-and-observe step). `/launch-checklist` and `/regression-suite` name these commands but do not run them.
+**Written by:** `/setup-engine`, `/settings`. **Read by:** `test` — `/smoke-check`, `/hotfix` (narrowed to the affected suite), `/bug-report` (verify mode, narrowed to the affected suite), `/dev-story` (Godot parse-check executable resolution), `project-coherence.sh`; `smoke` — `/smoke-check` (build check when tests are WAIVED); `build` — `/smoke-check` (build check when tests are WAIVED and `smoke` is unset), `project-coherence.sh`; `run` — `/dev-story` (Phase 6 step 4, the run-and-observe step). `/launch-checklist` and `/regression-suite` name these commands but do not run them.
   *(Derived by grep. A helper-based read would not show up, so treat this list as the verified floor, not a ceiling.)*
 
 **Priority chain:** `commands.*` in `project.yaml` → engine-typical default → no command available
@@ -1818,9 +1800,9 @@ keys are inside the locked file, not a local override).
 | Field | Purpose |
 |-------|---------|
 | `build` | Full project build for CI or release. `/smoke-check` runs it only as the WAIVED-path build check when `commands.smoke` is unset; `project-coherence.sh` (which `/smoke-check` runs first) checks the export preset it names, and `/launch-checklist` only asks whether the build produces a valid artifact. |
-| `test` | Run the full test suite. Run by `/smoke-check` and, narrowed to the affected suite, by `/hotfix`, `/bug-report` (verify mode) and `/day-one-patch`; `project-coherence.sh` checks the runner it names. `/regression-suite` does **not** run it. |
+| `test` | Run the full test suite. Run by `/smoke-check` and, narrowed to the affected suite, by `/hotfix` and `/bug-report` (verify mode); `project-coherence.sh` checks the runner it names. `/regression-suite` does **not** run it. |
 | `run` | Launch the **game** windowed at a fixed resolution — not the editor. Used by `/dev-story` Phase 6 step 4 to observe the feature and retain a screenshot; see `.claude/docs/run-and-observe.md` for the per-engine capture flags that are appended to it. |
-| `smoke` | Minimal "does it boot?" check. Run by `/dev-story` as the Unity parse check (Phase 6 step 2), and by `/smoke-check` as the build check when `qa.level: minimal` waives tests. |
+| `smoke` | Minimal "does it boot?" check. Run by `/smoke-check` as the build check when `qa.level: minimal` waives tests. |
 
 ---
 
@@ -1828,22 +1810,15 @@ keys are inside the locked file, not a local override).
 
 When `/setup-engine` runs, it populates `commands` based on engine choice — except
 the **build** row, which it must **ask** for. The build artifact is named by a
-project-defined string (a Godot export preset, a Unity build target), and no
+project-defined string (a Godot export preset), and no
 engine reference in this repo can source it. See `/setup-engine` §"The Godot
 `build` row must not hardcode `'Linux/X11'`".
 
 | Engine | build | test | run | smoke |
 |--------|-------|------|-----|-------|
 | Godot | `godot --headless --export-debug '<PRESET>'` | `godot --headless -s -d --remote-debug tcp://127.0.0.1:0 res://addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://tests --ignoreHeadlessMode` | `godot --path . --windowed --resolution 1280x720` | `godot --headless --quit-after 5` |
-| Unity | `"<Unity editor>" -batchmode -quit -projectPath . -buildTarget <TARGET> -build<PLATFORM>Player Builds/<Target>/<Game>.exe` | `"<Unity editor>" -batchmode -runTests -projectPath . -testPlatform EditMode -testResults test-results/editmode.xml` | `Builds/<Target>/<Game>.exe -screen-width 1280 -screen-height 720 -screen-fullscreen 0` | `"<Unity editor>" -batchmode -quit -projectPath . -logFile -` |
-| Unreal | `"<UE root>/Engine/Binaries/DotNET/AutomationTool/AutomationTool.exe" BuildCookRun -project="$(pwd -W 2>/dev/null || pwd)/<project>.uproject" -platform=Win64 -build -cook` (confirm per project) | `"<UE root>/Engine/Binaries/Win64/UnrealEditor-Cmd.exe" "$(pwd -W 2>/dev/null || pwd)/<project>.uproject" -ExecCmds="Automation RunTests <project>.; Quit" -unattended -nullrhi -stdout -FullStdOutLogOutput` | `"<UE root>/Engine/Binaries/Win64/UnrealEditor.exe" "$(pwd -W 2>/dev/null || pwd)/<project>.uproject" -game -windowed -ResX=1280 -ResY=720` | `"<UE root>/Engine/Binaries/Win64/UnrealEditor-Cmd.exe" "$(pwd -W 2>/dev/null || pwd)/<project>.uproject" -game -nullrhi -unattended -stdout -ExecCmds="Quit"` |
 
-The Unreal row is Windows'. `/setup-engine` writes the Linux block (`Engine/Build/BatchFiles/RunUAT.sh`,
-`Engine/Binaries/Linux/UnrealEditor`) on Linux, and on macOS only `build`, leaving `test`, `run` and
-`smoke` unset, with a comment in `project.yaml` asking you to set them via `/settings` — see
-`docs/engine-reference/unreal/current-best-practices.md`, "Command Line".
-
-> **`<PRESET>` and `<TARGET>` are placeholders, not values to copy.** A Godot
+> **`<PRESET>` is a placeholder, not a value to copy.** A Godot
 > export preset is whatever string the operator typed into `export_presets.cfg`;
 > the shipped defaults are per-platform (`Windows Desktop`, `macOS`, `Web`,
 > `Linux/X11`). Copying a preset name you do not have gives you a build command
@@ -1861,10 +1836,10 @@ Users override per-project as needed via `/settings commands.<field>=<value>` or
 
 | Skill | How `commands` is used |
 |-------|------------------------|
-| **smoke-check** | Runs `commands.test`, or the engine's default when it is unset; on Unreal it builds the editor target first. Critical path for QA hand-off. |
+| **smoke-check** | Runs `commands.test`, or the engine's default when it is unset. Critical path for QA hand-off. |
 | **launch-checklist** | Emits a checklist **item** asking whether the build produces a valid artifact. It does **not** run `commands.build`; the verification is a human step. |
 | **validate-push.sh** | Does **not** read `commands.*`. It warns on pushes to protected branches (`main`/`master`/`release/*`) and runs no build or smoke command — the block path in it is commented out, so it never fails a push. |
-| **dev-story** | Phase 6 step 2 is the parse check: `.claude/scripts/godot-parse-check.gd` on Godot, `commands.smoke` on Unity, the editor-target build on Unreal. Phase 6 step 4 runs `commands.run` — the windowed game launch — to observe the feature and retain a screenshot (`.claude/docs/run-and-observe.md`). |
+| **dev-story** | Phase 6 step 2 is the parse check: `.claude/scripts/godot-parse-check.gd`. Phase 6 step 4 runs `commands.run` — the windowed game launch — to observe the feature and retain a screenshot (`.claude/docs/run-and-observe.md`). |
 | **regression-suite** | Maps coverage by **globbing test filenames**. It does **not** invoke `commands.test`, so coverage here means "a test file exists", never "a test passed". |
 
 ---
@@ -1892,12 +1867,8 @@ conventions into a brief, manifest or spec. **NOT by `/code-review` and NOT by
 > **Asset filenames.** `validate-assets.sh` warns when a file under Godot's
 > `assets/` has an uppercase letter, a space or a hyphen in its name (it expects
 > lowercase with underscores), and it takes no config input. `/asset-spec`
-> specifies asset names from `naming.*`. Unity's `Assets/` and Unreal's `Content/`
-> are not naming-checked: those engines name assets in PascalCase. On Godot-C#,
-> where `/setup-engine` sets `naming.files: PascalCase`, the hook warns on assets
-> named exactly as `/asset-spec` specified them. `naming.files` describes
-> **source** files by its own examples (`PlayerController.cs`), and no key governs
-> asset filenames, so treat the hook's naming warning as advisory there.
+> specifies asset names from `naming.*`. No key governs asset filenames, so
+> treat the hook's naming warning as advisory.
 
 > **Moved from `technical-preferences.md`**, which is being deleted. Naming
 > conventions are project-level facts shared by everyone on the project, so they
@@ -1907,19 +1878,14 @@ conventions into a brief, manifest or spec. **NOT by `/code-review` and NOT by
 
 ### Fields
 
-| Field | Values | Godot default | Unity default | Unreal default |
-|-------|--------|---------------|---------------|----------------|
-| `classes` | `PascalCase` \| `snake_case` \| `camelCase` | PascalCase | PascalCase | PascalCase |
-| `variables` | `snake_case` \| `camelCase` | snake_case | camelCase | camelCase |
-| `constants` | `SCREAMING_SNAKE` \| `PascalCase` | SCREAMING_SNAKE | SCREAMING_SNAKE | SCREAMING_SNAKE |
-| `signals` (Godot) / `events` (Unity, Unreal) | `past_tense` \| `on_event_name` | past_tense | on_event_name | OnEventName |
-| `files` | `snake_case` \| `PascalCase` \| `kebab-case` | snake_case | PascalCase | PascalCase |
-| `scenes` / `prefabs` | `snake_case` \| `PascalCase` | snake_case | PascalCase | PascalCase |
-
-> **`signals` vs `events`:** Godot uses signals natively; Unity uses C# events
-> or UnityEvents; Unreal uses delegates and dynamic multicast. The field stays
-> named `signals` in project.yaml for consistency across engines — interpret as
-> "event-like callbacks" regardless of engine.
+| Field | Values | Godot default |
+|-------|--------|---------------|
+| `classes` | `PascalCase` \| `snake_case` \| `camelCase` | PascalCase |
+| `variables` | `snake_case` \| `camelCase` | snake_case |
+| `constants` | `SCREAMING_SNAKE` \| `PascalCase` | SCREAMING_SNAKE |
+| `signals` | `past_tense` \| `on_event_name` | past_tense |
+| `files` | `snake_case` \| `PascalCase` \| `kebab-case` | snake_case |
+| `scenes` | `snake_case` \| `PascalCase` | snake_case |
 
 ---
 
@@ -2054,7 +2020,7 @@ and resumes at the first `incomplete` section. No `active.md` needed.
 | **map-systems** | `design/gdd/systems-index.md` | Before system enumeration |
 | **brainstorm** | `design/gdd/game-concept.md` (`standard`/`full`) · `design/game-brief.md` (`minimal`) | Before concept discussion |
 
-> **Note on agents:** `world-builder` and `narrative-director` are agents, not
+> **Note on agents:** `narrative-director` and `narrative-director-ai` are agents, not
 > invocable skills — they do not have SKILL.md files. Long-form output from these
 > agents is produced via the skills above (design-system, art-bible, etc.) which
 > are responsible for skeleton-first enforcement.
@@ -2095,7 +2061,6 @@ rather than fail silently.
 |-------|----------------------------------|---------------------|
 | **dev-story** | Active story path (when no arg given) | Prompt user for story path |
 | **story-done** | In-progress story path (when no arg given) | Prompt user for story path |
-| **team-release** | Target version (when no arg given) | Prompt user for version |
 | **team-qa** | Active sprint (when no arg given) | Prompt user for sprint file |
 | **help** | Current task and STATUS block for context-aware suggestions | Responds without session context — surfaces next steps from sprint/epics only |
 
@@ -2456,17 +2421,17 @@ platform:
   cert_tier: none            # none | itch | steam | console
 
 engine:
-  name: "Godot"              # Godot | Unity | Unreal — set by /setup-engine
+  name: "Godot"              # Godot only — set by /setup-engine
   version: "4.7"
-  language: "GDScript"       # GDScript | C# | C++ | Blueprint
+  language: "GDScript"       # GDScript only
   rendering: "Forward+"
   physics: "Jolt"
 
 specialists:                 # auto-populated by /setup-engine
   code: "godot-gdscript-specialist"
-  shader: "godot-shader-specialist"
+  shader: "godot-specialist"
   ui: "godot-specialist"
-  additional: ["godot-gdextension-specialist"]
+  additional: []
 
 naming:
   classes: PascalCase        # PascalCase | snake_case | camelCase

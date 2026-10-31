@@ -233,12 +233,9 @@ and Acceptance Criteria (plus Formulas when the system defines numeric rules) at
 Delegates to:
 - `systems-designer` for detailed subsystem design (combat formulas, progression
   curves, crafting recipes, status effect interaction matrices)
-- `level-designer` for spatial and encounter design (layouts, pacing, difficulty
-  distribution)
 - `economy-designer` for economy balancing and loot tables (sink/faucet
   modeling, drop rate tuning, progression curve calibration)
 
 Reports to: `creative-director` for vision alignment
 Coordinates with: `lead-programmer` for feasibility, `narrative-director` for
-ludonarrative harmony, `ux-designer` for player-facing clarity, `analytics-engineer`
-for data-driven balance iteration
+ludonarrative harmony, `ux-designer` for player-facing clarity

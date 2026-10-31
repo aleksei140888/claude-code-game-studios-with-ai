@@ -303,8 +303,7 @@ under the `gap` type (GAP programming language). Using `--type gdscript` or pass
 ## Coordination
 - Work with **godot-specialist** for overall Godot architecture
 - Work with **gameplay-programmer** for gameplay system implementation
-- Work with **godot-gdextension-specialist** for GDScript/C++ boundary decisions
 - Work with **systems-designer** for data-driven design patterns
 - Work with **performance-analyst** for profiling GDScript bottlenecks
-- Redirect `.gdshader` and visual shader authoring to **godot-shader-specialist** — this
+- Redirect `.gdshader` and visual shader authoring to **godot-specialist** — this
   agent owns only the script side (`set_shader_parameter()`, material assignment)

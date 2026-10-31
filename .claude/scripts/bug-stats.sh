@@ -4,7 +4,7 @@
 # instead of grepping every BUG file for its Severity and Status lines.
 #
 # Replaces the hand-run bug counts in /release-checklist, /milestone-review,
-# /bug-triage, /team-qa, /day-one-patch, /regression-suite and /team-release,
+# /bug-triage, /team-qa and /regression-suite,
 # and the session-start note's open-bug count.
 #
 # EMITS OBSERVATIONS, NOT A VERDICT (CLAUDE.md, "Helpers in .claude/scripts/").

@@ -514,7 +514,7 @@ yaml_list() {
   #
   # Splits on top-level commas ONLY -- a comma inside parentheses stays part of
   # its element. These values come from a hand-written document, so an entry is
-  # routinely prose: `ue-gas-specialist (abilities, effects)` is ONE specialist,
+  # routinely prose: `godot-specialist (shaders, effects)` is ONE specialist,
   # not two, and splitting it produced entries like `attributes` that read as
   # real agent names. Every element is quoted for the same reason: prose carries
   # colons, dashes and brackets, all of which make a bare YAML scalar ambiguous

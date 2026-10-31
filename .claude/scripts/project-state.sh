@@ -6,7 +6,7 @@
 #
 # Replaces the hand-run checks in /help (stage to phase, the artifact ladder),
 # /start (engine, concept, code root, counts, origin), /adopt, /onboard,
-# /day-one-patch, /project-stage-detect and /gate-check's read-back of the stage.
+# /project-stage-detect and /gate-check's read-back of the stage.
 #
 # EMITS OBSERVATIONS, NOT A VERDICT (CLAUDE.md, "Helpers in .claude/scripts/").
 # `phase_inferred` is help's artifact ladder applied to the counts, printed with
@@ -160,7 +160,7 @@ fi
 # The code root each engine's own toolchain builds from
 # (.claude/docs/directory-structure.md): Godot src/, Unity Assets/, Unreal Source/.
 case "$(printf '%s' "$ENGINE" | tr '[:upper:]' '[:lower:]')" in
-  godot) CODE_ROOT="src" ;;
+  godot) CODE_ROOT="client" ;;
   unity) CODE_ROOT="Assets" ;;
   unreal*) CODE_ROOT="Source" ;;
 esac

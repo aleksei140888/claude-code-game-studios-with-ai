@@ -35,7 +35,7 @@ No gate IDs assigned.
 - Clearly identifies that this is a Unity pattern, not a Godot pattern
 - Maps the concepts to Godot: `_ready()` instead of `Start()`, and a typed Godot `signal` connected in `_ready()` instead of a UnityEvent
 - Grounds the answer in the project's engine pin (`docs/engine-reference/godot/VERSION.md`, Godot 4.7) rather than asking which engine the project uses
-- Routes the actual node script to godot-gdscript-specialist or godot-csharp-specialist rather than writing it itself
+- Routes the actual node script to godot-gdscript-specialist rather than writing it itself
 - Variant: with `engine.name: Unity` in `project.yaml`, it says it is the wrong specialist for this project instead of mapping the concepts
 
 ### Case 3: Post-cutoff API risk
@@ -70,7 +70,7 @@ No gate IDs assigned.
 ## Protocol Compliance
 
 - [ ] Stays within declared domain (Godot architecture decisions, node/scene patterns, language selection)
-- [ ] Redirects language-specific implementation to godot-gdscript-specialist or godot-csharp-specialist
+- [ ] Redirects language-specific implementation to godot-gdscript-specialist
 - [ ] Returns structured findings (decision trees, pattern recommendations with rationale)
 - [ ] Treats `docs/engine-reference/godot/VERSION.md` as authoritative over LLM training data
 - [ ] Flags API usage from 4.4 onward (4.4 just before the cutoff; 4.5, 4.6, 4.7 after it) with verification requirements

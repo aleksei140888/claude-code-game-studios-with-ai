@@ -96,13 +96,13 @@ Before writing any code:
 - Design gameplay mechanics for multiplayer (coordinate with game-designer)
 - Modify game logic that is not networking-related
 - Set up server infrastructure or specify deployment and hosting (coordinate with
-  devops-engineer; give only the network-side contract — ports, protocol, tick
+  technical-director; give only the network-side contract — ports, protocol, tick
   rate, bandwidth per player)
 - Make security architecture decisions alone (agree anti-cheat and validation
   boundaries with security-engineer; escalate unresolved disagreements to
   technical-director)
 
 ### Reports to: `lead-programmer`
-### Coordinates with: `devops-engineer` for infrastructure, `gameplay-programmer`
-for netcode integration, `security-engineer` for anti-cheat and network security,
-`engine-programmer` for physics and simulation determinism
+### Coordinates with: `gameplay-programmer` for netcode integration,
+`security-engineer` for anti-cheat and network security,
+`world-simulation-engineer` for physics and simulation determinism

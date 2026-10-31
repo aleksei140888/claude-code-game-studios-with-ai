@@ -1,6 +1,6 @@
 # Available Skills (Slash Commands)
 
-74 slash commands organized by phase. Type `/` in Claude Code to access any of them.
+68 slash commands organized by phase. Type `/` in Claude Code to access any of them.
 
 ## Onboarding & Navigation
 
@@ -109,9 +109,7 @@
 | `/release-checklist` | Generate and validate a pre-release checklist for the current build |
 | `/launch-checklist` | Complete launch readiness validation across all departments |
 | `/changelog` | Auto-generate changelog from git commits and sprint data |
-| `/patch-notes` | Generate player-facing patch notes from git history and internal data |
 | `/hotfix` | Emergency fix workflow with audit trail, bypassing normal sprint process |
-| `/day-one-patch` | Prepare a focused day-one patch for known issues discovered after gold master but before or at public launch |
 
 ## Creative & Content
 
@@ -120,7 +118,6 @@
 | `/prototype` | Concept prototype — throwaway build right after brainstorm to validate core idea (Phase 1) |
 | `/vertical-slice` | Pre-Production validation — production-quality end-to-end build before committing to Production (Phase 4) |
 | `/onboard` | Generate contextual onboarding document for a new contributor or agent |
-| `/localize` | Localization workflow: string extraction, validation, translation readiness |
 
 ## Team Orchestration
 
@@ -128,14 +125,11 @@ Coordinate multiple agents on a single feature area:
 
 | Command | Coordinates |
 |---------|-------------|
-| `/team-combat` | game-designer + gameplay-programmer + ai-programmer + technical-artist + sound-designer + qa-tester |
-| `/team-narrative` | narrative-director + writer + world-builder + level-designer |
-| `/team-ui` | ux-designer + ui-programmer + art-director + accessibility-specialist |
-| `/team-release` | release-manager + qa-lead + devops-engineer + producer |
-| `/team-polish` | performance-analyst + technical-artist + sound-designer + qa-tester |
-| `/team-audio` | audio-director + sound-designer + technical-artist + gameplay-programmer |
-| `/team-level` | level-designer + narrative-director + world-builder + art-director + systems-designer + qa-tester |
-| `/team-live-ops` | live-ops-designer + economy-designer + community-manager + analytics-engineer |
+| `/team-combat` | game-designer + gameplay-programmer + ai-programmer + godot-specialist + qa-tester |
+| `/team-narrative` | narrative-director + writer + game-designer |
+| `/team-ui` | ux-designer + ui-programmer + art-director + godot-specialist |
+| `/team-polish` | performance-analyst + godot-specialist + qa-tester |
+| `/team-level` | game-designer + narrative-director + art-director + systems-designer + qa-tester |
 | `/team-qa` | qa-lead + qa-tester + gameplay-programmer + producer |
 
 ## Overlap with Claude Code's bundled skills

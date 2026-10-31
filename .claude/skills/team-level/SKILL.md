@@ -1,6 +1,6 @@
 ---
 name: team-level
-description: "Orchestrate the level team — level-designer, narrative-director, world-builder, art-director, systems-designer, qa-tester — for complete area creation."
+description: "Orchestrate the level team — game-designer, narrative-director, art-director, systems-designer, ux-designer, qa-tester — for complete area creation."
 argument-hint: "[level name or area to design] [--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Agent, AskUserQuestion, TaskCreate, TaskGet, TaskList, TaskUpdate, Bash(bash "*/.claude/skills/team-level/../../hooks/yaml-helper.sh" resolve_config *)
@@ -40,9 +40,9 @@ below), and the agents that work at them are team members, not director gates.
 `.claude/docs/automation-modes.md` for how each mode changes pipeline behavior.
 
 **`team.size`**: which agents are active (orthogonal to review_mode gate-depth and workflow docs).
-- **`individual`** (default): `level-designer` only. Other agents consulted via the level-designer, not spawned separately.
+- **`individual`** (default): `game-designer` only. Other agents consulted via the game-designer, not spawned separately.
 - **`small`**: + `systems-designer` + `art-director` + `qa-tester`.
-- **`studio`**: + `narrative-director` + `world-builder` + `accessibility-specialist` (the full pipeline as documented).
+- **`studio`**: + `narrative-director` + `ux-designer` (the full pipeline as documented).
 A non-core agent needed at `individual` routes through the nearest active core agent with an informational note. **"Phase gate" means any phase that ends in an `AskUserQuestion` decision point this pipeline itself lists** — a transition under Decision Points above, or a **Gate** step written into the pipeline below — **whatever the `automation` mode.** `guided` and `autonomous` change how a gate is passed (it auto-advances, or is recorded with `log_decision`), not whether it is one, so bounded-exception condition (3) below holds at it in every mode. An agent restricted to "phase gates only" is spawned at those points and no others. This active-set scoping applies throughout the pipeline below: any phase that names an agent outside the active set routes through the nearest core agent rather than spawning it.
 
 **Announce the active set before Step 1 — never let the collapse be silent.**
@@ -58,8 +58,8 @@ Fill it from the `team.size` list directly above and the agents this file's own
 pipeline names — not from an example. Both sets differ per orchestrator.
 
 The pipeline below reads as a multi-agent fan-out and at the shipped default it
-is one or two agents — `team-release` names ten and runs one, `team-narrative`
-names six across five phases and runs `writer` alone. **The collapse is correct**:
+is one or two agents — `team-narrative` names several
+agents across its phases and runs `writer` alone. **The collapse is correct**:
 `team.size` is rigor-fronted and the narrow default is the token lever.
 Without saying so, a reader cannot
 distinguish a correctly-collapsed run from a broken pipeline, and the per-agent
@@ -86,12 +86,11 @@ enforced.**
 ## How to Delegate
 
 Use the `Agent` tool to spawn each team member as a subagent:
-- `subagent_type: narrative-director` — Narrative purpose, characters, emotional arc
-- `subagent_type: world-builder` — Lore context, environmental storytelling, world rules
-- `subagent_type: level-designer` — Spatial layout, pacing, encounters, navigation
+- `subagent_type: narrative-director` — Narrative purpose, characters, emotional arc, lore context, world rules
+- `subagent_type: game-designer` — Spatial layout, pacing, encounters, navigation
 - `subagent_type: systems-designer` — Enemy compositions, loot tables, difficulty balance
 - `subagent_type: art-director` — Visual theme, color palette, lighting, asset requirements
-- `subagent_type: accessibility-specialist` — Navigation clarity, colorblind safety, cognitive load
+- `subagent_type: ux-designer` — Accessibility review: navigation clarity, colorblind safety, cognitive load
 - `subagent_type: qa-tester` — Test cases, boundary testing, playtest checklist
 
 **Brief each agent — do not dump context.** Read the shared inputs **once** and pass a distilled brief inline: the lines each agent actually needs, never a file path for a document you have already read (an agent handed a path re-reads the whole file). Pass a path only for a document you have not read and only that agent needs.
@@ -104,13 +103,12 @@ file per agent, so the parallel steps never share one:
 
 | Step / agent | Writes to |
 |---|---|
-| 1 narrative-director | `production/levels/[level-name]/narrative.md` |
-| 1 world-builder | `production/levels/[level-name]/lore.md` |
+| 1 narrative-director | `production/levels/[level-name]/narrative.md` — narrative brief and lore foundation |
 | 1 art-director | `production/levels/[level-name]/visual-direction.md` |
-| 2 level-designer | `production/levels/[level-name]/layout.md` |
+| 2 game-designer | `production/levels/[level-name]/layout.md` |
 | 3 systems-designer | `production/levels/[level-name]/systems.md` |
 | 4 art-director | `production/levels/[level-name]/production-concepts.md` |
-| 4 accessibility-specialist | `production/levels/[level-name]/accessibility.md` |
+| 4 ux-designer | `production/levels/[level-name]/accessibility.md` |
 | 5 qa-tester | `production/qa/test-cases/[level-name]-cases.md` — test cases, edge cases, playtest checklist, acceptance criteria |
 
 These are working drafts; the durable record is the level design document you
@@ -120,16 +118,14 @@ compile from them (`design/levels/[level-name].md`).
 
 3. **Orchestrate the level design team** in sequence:
 
-### Step 1: Narrative + Visual Direction (narrative-director + world-builder + art-director, parallel)
+### Step 1: Narrative + Visual Direction (narrative-director + art-director, parallel)
 
-Spawn all three agents simultaneously — issue all three `Agent` calls before waiting for any result.
+Spawn both agents simultaneously — issue both `Agent` calls before waiting for either result.
 
 Spawn the `narrative-director` agent to:
 - Define the narrative purpose of this area (what story beats happen here?)
 - Identify key characters, dialogue triggers, and lore elements
 - Specify emotional arc (how should the player feel entering, during, leaving?)
-
-Spawn the `world-builder` agent to:
 - Provide lore context for the area (history, faction presence, ecology)
 - Define environmental storytelling opportunities
 - Specify any world rules that affect gameplay in this area
@@ -141,17 +137,16 @@ Spawn the `art-director` agent to:
 - Name the primary visual landmarks that will orient the player
 - Read `design/art/art-bible.md` if it exists — anchor all direction in the established art bible. Read it by section: find the headings you need with the Grep tool (pattern `^#`, content mode) and Read those ranges with offset and limit.
 
-**The art-director's visual targets from Step 1 must be passed to the level-designer in Step 2** as explicit constraints. Layout decisions happen within the visual direction, not before it.
+**The art-director's visual targets from Step 1 must be passed to the game-designer in Step 2** as explicit constraints. Layout decisions happen within the visual direction, not before it.
 
-**Gate**: Use `AskUserQuestion` to present all three Step 1 outputs (narrative brief, lore foundation, visual direction targets) and confirm before proceeding to Step 2.
+**Gate**: Use `AskUserQuestion` to present both Step 1 outputs (narrative brief with lore foundation, visual direction targets) and confirm before proceeding to Step 2.
 
-### Step 2: Layout and Encounter Design (level-designer)
-Spawn the `level-designer` agent with the full Step 1 output as context:
-- Narrative brief (from narrative-director)
-- Lore foundation (from world-builder)
+### Step 2: Layout and Encounter Design (game-designer)
+Spawn the `game-designer` agent with the full Step 1 output as context:
+- Narrative brief and lore foundation (from narrative-director)
 - **Visual direction targets (from art-director)** — layout must work within these targets, not contradict them
 
-The level-designer should:
+The game-designer should:
 - Design the spatial layout (critical path, optional paths, secrets) — ensuring primary routes align with the visual landmark targets from Step 1
 - Define pacing curve (tension peaks, rest areas, exploration zones) — coordinated with the emotional arc from narrative-director
 - Place encounters with difficulty progression
@@ -159,7 +154,7 @@ The level-designer should:
 - Define points of interest and landmarks for wayfinding — these must match the visual landmarks the art-director specified
 - Specify entry/exit points and connections to adjacent areas
 
-**Adjacent area dependency check**: After the layout is produced, check `design/levels/` for each adjacent area referenced by the level-designer. If any referenced area's `.md` file does not exist, surface the gap:
+**Adjacent area dependency check**: After the layout is produced, check `design/levels/` for each adjacent area referenced by the game-designer. If any referenced area's `.md` file does not exist, surface the gap:
 > "Level references [area-name] as an adjacent area but `design/levels/[area-name].md` does not exist."
 
 Use `AskUserQuestion` with options:
@@ -180,7 +175,7 @@ Spawn the `systems-designer` agent to:
 
 **Gate**: Use `AskUserQuestion` to present Step 3 outputs and confirm before proceeding to Step 4.
 
-### Step 4: Production Concepts + Accessibility (art-director + accessibility-specialist, parallel)
+### Step 4: Production Concepts + Accessibility (art-director + ux-designer, parallel)
 
 **Note**: The art-director's directional pass (visual theme, color targets, mood) happened in Step 1. This pass is location-specific production concepts — given the finalized layout, what does each specific space look like?
 
@@ -191,7 +186,7 @@ Spawn the `art-director` agent with the finalized layout from Step 2:
 - Specify VFX needs that are specific to this area's layout (weather volumes, particles, atmospheric effects)
 - Flag any locations where the layout creates visual direction conflicts with the Step 1 targets — surface these as production risks
 
-Spawn the `accessibility-specialist` agent in parallel to:
+Spawn the `ux-designer` agent in parallel for an accessibility review to:
 - Review the level layout for navigation clarity (can players orient themselves without relying on color alone?)
 - Check that critical path signposting uses shape/icon/sound cues in addition to color
 - Review any puzzle mechanics for cognitive load — flag anything that requires holding more than 3 simultaneous states
@@ -200,8 +195,8 @@ Spawn the `accessibility-specialist` agent in parallel to:
 
 Wait for both agents to return before proceeding.
 
-**Gate**: Use `AskUserQuestion` to present both Step 4 results. If the accessibility-specialist returned any BLOCKING concerns, highlight them prominently and offer:
-- (a) Return to level-designer and art-director to redesign the flagged elements before Step 5
+**Gate**: Use `AskUserQuestion` to present both Step 4 results. If the ux-designer returned any BLOCKING accessibility concerns, highlight them prominently and offer:
+- (a) Return to game-designer and art-director to redesign the flagged elements before Step 5
 - (b) Document as a known accessibility gap and proceed to Step 5 with the concern explicitly logged in the final report
 
 Do NOT proceed to Step 5 without the user acknowledging any BLOCKING accessibility concerns.
@@ -217,7 +212,7 @@ Spawn the `qa-tester` agent to:
    level design template format.
 
 The orchestrator already holds every sub-agent's output — **compile the document
-itself; do not re-spawn `level-designer` and re-send all outputs verbatim.** That
+itself; do not re-spawn `game-designer` and re-send all outputs verbatim.** That
 second spawn pays a fresh agent's overhead plus a full re-transmission of context
 the orchestrator already has, to move text it is already holding. After compiling
 into the level-design template format, ask the user directly via

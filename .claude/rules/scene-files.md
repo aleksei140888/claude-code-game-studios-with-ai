@@ -2,9 +2,6 @@
 paths:
   - "**/*.tscn"
   - "**/*.tres"
-  - "**/*.unity"
-  - "**/*.prefab"
-  - "Assets/**/*.asset"
 ---
 
 # Scene and Asset File Rules

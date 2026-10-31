@@ -45,9 +45,9 @@ model ships.
 Skills with `model: haiku` (5): `/help`, `/onboard`, `/project-stage-detect`,
 `/scope-check`, `/sprint-status`
 
-> `/patch-notes` and `/changelog` are `sonnet`, not `haiku`: both produce
-> **player-facing** copy and need judgement the cheapest tier is defined as not
-> doing. Full reasoning in each skill's own header.
+> `/changelog` is `sonnet`, not `haiku`: it produces copy that needs
+> judgement the cheapest tier is defined as not doing. Full reasoning in the
+> skill's own header.
 >
 > `/settings` was moved off `haiku` for the same reason. It does not only read
 > and format — it resolves every leaf with provenance and then compares the
@@ -62,29 +62,21 @@ high-stakes output; otherwise write `model: sonnet` explicitly. Every skill
 declares a tier. Whether the tier takes effect depends on how the skill starts
 (see the table at the top of this file).
 
-**Agent model tiers.** 30 agents use `model: inherit` and run on the session's
-model. 19 are pinned:
+**Agent model tiers.** 19 agents use `model: inherit` and run on the session's
+model. 6 are pinned:
 
 - **opus (3):** `creative-director`, `producer`, `technical-director`. Under an
   Opus session an `opus` pin runs on the session's exact model, `[1m]` included,
   so it never gets a smaller window than its parent.
-- **sonnet (16):** `lead-programmer`, `prototyper`, `devops-engineer`,
-  `community-manager` and the 12 engine sub-specialists:
-  `godot-csharp-specialist`, `godot-gdextension-specialist`,
-  `godot-gdscript-specialist`, `godot-shader-specialist`,
-  `ue-blueprint-specialist`, `ue-gas-specialist`, `ue-replication-specialist`,
-  `ue-umg-specialist`, `unity-addressables-specialist`,
-  `unity-dots-specialist`, `unity-shader-specialist`, `unity-ui-specialist`.
-  `/dev-story` and `/code-review` spawn the sub-specialists named in
-  `project.yaml`'s `specialists` block (which `/setup-engine` writes); `/team-ui` spawns
-  `unity-ui-specialist` and `ue-umg-specialist`; `/team-release` spawns
-  `devops-engineer` and `community-manager`, and `/team-live-ops` spawns
-  `community-manager`.
+- **sonnet (3):** `lead-programmer`, `prototyper` and the engine sub-specialist
+  `godot-gdscript-specialist`. `/dev-story` and `/code-review` spawn the
+  sub-specialists named in `project.yaml`'s `specialists` block (which
+  `/setup-engine` writes).
 - **haiku (0):** no agent. The Haiku row above is for read-only lookups and
-  formatting; every agent drafts, writes or judges. Building CI pipelines and
-  writing player-facing text are Sonnet work, as they are for `/patch-notes`.
+  formatting; every agent drafts, writes or judges.
 
-Every agent not named above is `inherit`. The `model:` line in the agent's own
+The world-server agents `llm-agent-architect`, `world-simulation-engineer` and
+`narrative-director-ai` are `inherit`, like every agent not named above. The `model:` line in the agent's own
 file is what runs.
 
 A pin gets that model's context window, whatever the session runs. On the
